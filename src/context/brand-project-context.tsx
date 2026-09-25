@@ -394,6 +394,10 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         }
 
         case 'launch': {
+          if (!project.selectedDirection || (!project.shapeData && !project.personality)) {
+            throw new Error('Positioning and shaped brand identity required before generating Launch Kit.');
+          }
+
           setProject((prev) => ({
             ...prev,
             stageStatus: { ...prev.stageStatus, launch: 'in_progress' },
@@ -429,6 +433,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
               ? Boolean(prev.visualDirection)
               : activeStage === 'consistency'
               ? Boolean(prev.consistency)
+              : activeStage === 'launch'
+              ? Boolean(prev.launchKit)
               : false;
           return {
             ...prev,

@@ -64,7 +64,7 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
                                 │
                                 ▼
                     ┌────────────────────────┐
-                    │       7. LAUNCH        │ [MOCK -> AI MIGRATION]
+                    │       7. LAUNCH        │ [REAL GEMINI]
                     │ GTM Campaign & Assets  │
                     └───────────┬────────────┘
                                 │
@@ -198,7 +198,7 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
   - `pressRelease`: Formal launch announcement release
   - `launchChecklist`: Chronological GTM milestone tasks (pre-launch, launch day, post-launch)
   - `exportableBrandSystem`: Complete unified JSON data export
-- **Implementation Status:** **MOCK / SAMPLE** (`MockLaunchService`). *Scheduled for real Gemini migration.*
+- **Implementation Status:** **REAL AI** via Google Gemini (`/api/ai/launch`, `ApiLaunchService`).
 
 ---
 
@@ -262,7 +262,8 @@ nexus-pre-hackathon/
 │   │       ├── position/route.ts      # [REAL AI] Gemini Positioning directions endpoint
 │   │       ├── shape/route.ts         # [REAL AI] Gemini Shape identity endpoint
 │   │       ├── visualize/route.ts     # [REAL AI] Gemini Visual design brief endpoint
-│   │       └── guardian/route.ts      # [REAL AI] Gemini Consistency Guardian audit endpoint
+│   │       ├── guardian/route.ts      # [REAL AI] Gemini Consistency Guardian audit endpoint
+│   │       └── launch/route.ts        # [REAL AI] Gemini Launch Kit generation endpoint
 │   │
 │   ├── types/                         # TypeScript interfaces
 │   │   ├── index.ts                   # Unified type exports
@@ -283,6 +284,7 @@ nexus-pre-hackathon/
 │   │   ├── api-shape-service.ts       # [REAL] Shape client service calling /api/ai/shape
 │   │   ├── api-visualize-service.ts   # [REAL] Visual client service calling /api/ai/visualize
 │   │   ├── api-guardian-service.ts    # [REAL] Guardian client service calling /api/ai/guardian
+│   │   ├── api-launch-service.ts      # [REAL] Launch client service calling /api/ai/launch
 │   │   └── mock/
 │   │       └── mock-services.ts       # [MOCK] Aether OS mock services for remaining stages
 │   │
@@ -291,7 +293,8 @@ nexus-pre-hackathon/
 │   │   ├── positioning-validator.ts   # Validates and sanitizes PositioningData (3 vectors)
 │   │   ├── shape-validator.ts         # Validates and sanitizes ShapeData from Gemini
 │   │   ├── visualize-validator.ts     # Validates and sanitizes VisualDirection from Gemini
-│   │   └── guardian-validator.ts      # Validates and sanitizes ConsistencyReport from Gemini
+│   │   ├── guardian-validator.ts      # Validates and sanitizes ConsistencyReport from Gemini
+│   │   └── launch-validator.ts        # Validates and sanitizes LaunchKit from Gemini
 │   │
 │   ├── context/
 │   │   └── brand-project-context.tsx  # Central BrandProjectProvider & useBrandProject() hook
