@@ -3,7 +3,7 @@ import { IDiscoveryService, AIExecutionOptions } from './types';
 
 export class ApiDiscoveryService implements IDiscoveryService {
   async analyzeIdea(idea: InitialIdea, options?: AIExecutionOptions): Promise<DiscoveryData> {
-    options?.onProgress?.('Synthesizing structured strategic intelligence via Google Gemini...');
+    options?.onProgress?.('NEXUS is synthesizing structured strategic intelligence...');
 
     let response: Response;
     try {
@@ -22,7 +22,7 @@ export class ApiDiscoveryService implements IDiscoveryService {
       });
     } catch (networkErr: any) {
       if (networkErr?.name === 'AbortError') {
-        throw new Error('Discovery analysis was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the server. Please check your connection and retry.'

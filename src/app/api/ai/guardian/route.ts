@@ -184,7 +184,7 @@ export async function POST(req: Request) {
         {
           success: false,
           error:
-            'Google Gemini API key is not configured. Please set GEMINI_API_KEY in .env.local on the server.',
+            'AI API key is not configured. Please set GEMINI_API_KEY in .env.local on the server.',
         },
         { status: 500 }
       );
@@ -332,7 +332,7 @@ Inspect every sentence of the submitted content against these active guardrails.
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned an empty consistency audit response. Please retry.',
+          error: 'NEXUS AI returned an empty consistency audit response. Please retry.',
         },
         { status: 502 }
       );
@@ -346,7 +346,7 @@ Inspect every sentence of the submitted content against these active guardrails.
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned malformed JSON for consistency audit. Please retry.',
+          error: 'NEXUS AI returned an unparseable response for consistency audit. Please retry.',
         },
         { status: 502 }
       );
@@ -380,7 +380,7 @@ Inspect every sentence of the submitted content against these active guardrails.
       return NextResponse.json(
         {
           success: false,
-          error: 'Authentication failed. Please check your GEMINI_API_KEY.',
+          error: 'AI authentication failed. Please check your GEMINI_API_KEY in .env.local.',
         },
         { status: 401 }
       );
@@ -390,7 +390,7 @@ Inspect every sentence of the submitted content against these active guardrails.
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini rate limit exceeded. Please wait a moment before auditing again.',
+          error: 'NEXUS AI rate limit exceeded. Please wait a moment before auditing again.',
         },
         { status: 429 }
       );
@@ -400,16 +400,17 @@ Inspect every sentence of the submitted content against these active guardrails.
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini is currently experiencing high demand. Please retry your audit.',
+          error: 'NEXUS AI is currently experiencing high demand. Please retry your audit.',
         },
         { status: 503 }
       );
     }
 
+    const sanitizedMsg = errorMsg.replace(/google\s*gemini/gi, 'NEXUS AI').replace(/gemini/gi, 'AI');
     return NextResponse.json(
       {
         success: false,
-        error: `Guardian audit failed: ${errorMsg}. Please retry.`,
+        error: `Guardian audit failed: ${sanitizedMsg}. Please retry.`,
       },
       { status: 500 }
     );

@@ -7,7 +7,7 @@ export class ApiPositioningService implements IPositioningService {
     discovery: DiscoveryData,
     options?: AIExecutionOptions
   ): Promise<PositioningData> {
-    options?.onProgress?.('Synthesizing 3 divergent market vectors via Google Gemini...');
+    options?.onProgress?.('NEXUS is synthesizing 3 divergent market vectors...');
 
     let response: Response;
     try {
@@ -24,7 +24,7 @@ export class ApiPositioningService implements IPositioningService {
       });
     } catch (networkErr: any) {
       if (networkErr?.name === 'AbortError') {
-        throw new Error('Positioning synthesis was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the server. Please check your connection and retry.'

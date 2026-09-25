@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import {
   BrandProject,
   WorkflowStage,
@@ -32,6 +32,7 @@ interface BrandProjectContextValue {
   selectNameCandidate: (candidateId: string) => void;
   runCurrentStageAction: () => Promise<void>;
   auditContent: (content: string, contentType?: string) => Promise<ConsistencyReport>;
+  cancelActiveGeneration: () => void;
   resetToEmptyProject: () => void;
   loadSampleProject: () => void;
   canAdvanceToStage: (stage: WorkflowStage) => boolean;
@@ -140,17 +141,47 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
     });
   }, []);
 
+  // Active generation identity & cancellation trackers to protect against race conditions and stale responses
+  const activeGenerationIdRef = useRef<number>(0);
+  const activeAbortControllerRef = useRef<AbortController | null>(null);
+
+  const cancelActiveGeneration = useCallback(() => {
+    // 1. Invalidate active generation ID so any pending response is discarded
+    activeGenerationIdRef.current += 1;
+
+    // 2. Abort client-side fetch request
+    if (activeAbortControllerRef.current) {
+      activeAbortControllerRef.current.abort();
+      activeAbortControllerRef.current = null;
+    }
+
+    // 3. Reset loading state and progress immediately
+    setIsExecutingStage(false);
+    setExecutionProgress('');
+  }, []);
+
+  // Cancel any running request on component unmount
+  useEffect(() => {
+    return () => {
+      if (activeAbortControllerRef.current) {
+        activeAbortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   const resetToEmptyProject = useCallback(() => {
+    cancelActiveGeneration();
     setProject(INITIAL_EMPTY_PROJECT);
     setActiveStage('discover');
     setError(null);
-  }, []);
+  }, [cancelActiveGeneration]);
 
   const loadSampleProject = useCallback(() => {
+    cancelActiveGeneration();
     setProject(SAMPLE_PROJECT);
     setActiveStage('discover');
     setError(null);
-  }, []);
+  }, [cancelActiveGeneration]);
 
   const canAdvanceToStage = useCallback(
     (stage: WorkflowStage): boolean => {
@@ -180,9 +211,17 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
 
   // Orchestrate the execution of the active stage using the AI service container
   const runCurrentStageAction = useCallback(async () => {
+    // Cancel any previous in-flight generation
+    cancelActiveGeneration();
+
+    // Assign a new generation ID for this run
+    const currentGenerationId = activeGenerationIdRef.current;
+    const abortController = new AbortController();
+    activeAbortControllerRef.current = abortController;
+
     setIsExecutingStage(true);
     setError(null);
-    setExecutionProgress('Initializing AI workflow agent...');
+    setExecutionProgress('Initializing NEXUS AI workflow agent...');
 
     try {
       switch (activeStage) {
@@ -202,8 +241,15 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           }));
 
           const discovery = await aiServices.discovery.analyzeIdea(project.idea, {
-            onProgress: (p) => setExecutionProgress(p),
+            signal: abortController.signal,
+            onProgress: (p) => {
+              if (activeGenerationIdRef.current === currentGenerationId) {
+                setExecutionProgress(p);
+              }
+            },
           });
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -227,8 +273,17 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const positioning = await aiServices.positioning.generateDirections(
             project.idea,
             project.discovery,
-            { onProgress: (p) => setExecutionProgress(p) }
+            {
+              signal: abortController.signal,
+              onProgress: (p) => {
+                if (activeGenerationIdRef.current === currentGenerationId) {
+                  setExecutionProgress(p);
+                }
+              },
+            }
           );
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -252,8 +307,17 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const challenged = await aiServices.challenge.stressTestDirections(
             project.positioning.directions,
             project.discovery,
-            { onProgress: (p) => setExecutionProgress(p) }
+            {
+              signal: abortController.signal,
+              onProgress: (p) => {
+                if (activeGenerationIdRef.current === currentGenerationId) {
+                  setExecutionProgress(p);
+                }
+              },
+            }
           );
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -282,12 +346,21 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const shape = await aiServices.shape.shapeBrandIdentity(
             project.selectedDirection,
             project.discovery,
-            { onProgress: (p) => setExecutionProgress(p) },
+            {
+              signal: abortController.signal,
+              onProgress: (p) => {
+                if (activeGenerationIdRef.current === currentGenerationId) {
+                  setExecutionProgress(p);
+                }
+              },
+            },
             {
               idea: project.idea,
               positioning: project.positioning,
             }
           );
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           // Find candidate name for initial selection
           const defaultCandidateId =
@@ -339,7 +412,14 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const visual = await aiServices.visual.synthesizeVisualBrief(
             project.selectedDirection,
             project.shapeData,
-            { onProgress: (p) => setExecutionProgress(p) },
+            {
+              signal: abortController.signal,
+              onProgress: (p) => {
+                if (activeGenerationIdRef.current === currentGenerationId) {
+                  setExecutionProgress(p);
+                }
+              },
+            },
             {
               idea: project.idea,
               discovery: project.discovery,
@@ -347,6 +427,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
               selectedName: project.selectedName || project.name,
             }
           );
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -376,13 +458,20 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const report = await aiServices.consistency.auditBrandSystem(
             project,
             {
-              onProgress: (p) => setExecutionProgress(p),
+              signal: abortController.signal,
+              onProgress: (p) => {
+                if (activeGenerationIdRef.current === currentGenerationId) {
+                  setExecutionProgress(p);
+                }
+              },
             },
             {
               contentToAudit: defaultDraft,
               contentType: project.consistency?.contentType || 'Landing Page Copy',
             }
           );
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -404,8 +493,15 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           }));
 
           const kit = await aiServices.launch.generateLaunchKit(project, {
-            onProgress: (p) => setExecutionProgress(p),
+            signal: abortController.signal,
+            onProgress: (p) => {
+              if (activeGenerationIdRef.current === currentGenerationId) {
+                setExecutionProgress(p);
+              }
+            },
           });
+
+          if (activeGenerationIdRef.current !== currentGenerationId) return;
 
           setProject((prev) => ({
             ...prev,
@@ -417,6 +513,25 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         }
       }
     } catch (err: unknown) {
+      // If this generation is no longer active (aborted or superseded by a new generation/reset), ignore completely
+      if (activeGenerationIdRef.current !== currentGenerationId) {
+        return;
+      }
+
+      // Check if this error was due to intentional abort
+      const isAbort =
+        (err as { name?: string })?.name === 'AbortError' ||
+        (err instanceof Error &&
+          (err.name === 'AbortError' ||
+            err.message.toLowerCase().includes('abort') ||
+            err.message.toLowerCase().includes('cancelled') ||
+            err.message.toLowerCase().includes('canceled')));
+
+      if (isAbort) {
+        // Intentionally aborted - silently stop without error banner
+        return;
+      }
+
       const message = err instanceof Error ? err.message : 'An error occurred during stage execution.';
       setError(message);
       // Reset in_progress status so the workflow does not get stuck
@@ -447,16 +562,26 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         return prev;
       });
     } finally {
-      setIsExecutingStage(false);
-      setExecutionProgress('');
+      // Only clear executing stage if this is still the active generation
+      if (activeGenerationIdRef.current === currentGenerationId) {
+        setIsExecutingStage(false);
+        setExecutionProgress('');
+        activeAbortControllerRef.current = null;
+      }
     }
-  }, [activeStage, project]);
+  }, [activeStage, cancelActiveGeneration, project]);
 
   const auditContent = useCallback(
     async (content: string, contentType?: string): Promise<ConsistencyReport> => {
+      cancelActiveGeneration();
+
+      const currentGenerationId = activeGenerationIdRef.current;
+      const abortController = new AbortController();
+      activeAbortControllerRef.current = abortController;
+
       setIsExecutingStage(true);
       setError(null);
-      setExecutionProgress('Initializing Consistency Guardian...');
+      setExecutionProgress('Initializing NEXUS Consistency Guardian...');
 
       try {
         if (!project.selectedDirection || (!project.shapeData && !project.personality)) {
@@ -471,13 +596,22 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         const report = await aiServices.consistency.auditBrandSystem(
           project,
           {
-            onProgress: (p) => setExecutionProgress(p),
+            signal: abortController.signal,
+            onProgress: (p) => {
+              if (activeGenerationIdRef.current === currentGenerationId) {
+                setExecutionProgress(p);
+              }
+            },
           },
           {
             contentToAudit: content,
             contentType: contentType || 'Marketing Copy',
           }
         );
+
+        if (activeGenerationIdRef.current !== currentGenerationId) {
+          throw new DOMException('Aborted', 'AbortError');
+        }
 
         setProject((prev) => ({
           ...prev,
@@ -488,6 +622,22 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
 
         return report;
       } catch (err: unknown) {
+        if (activeGenerationIdRef.current !== currentGenerationId) {
+          throw err;
+        }
+
+        const isAbort =
+          (err as { name?: string })?.name === 'AbortError' ||
+          (err instanceof Error &&
+            (err.name === 'AbortError' ||
+              err.message.toLowerCase().includes('abort') ||
+              err.message.toLowerCase().includes('cancelled') ||
+              err.message.toLowerCase().includes('canceled')));
+
+        if (isAbort) {
+          throw err;
+        }
+
         const message = err instanceof Error ? err.message : 'Consistency audit failed.';
         setError(message);
         setProject((prev) => ({
@@ -499,11 +649,14 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         }));
         throw err;
       } finally {
-        setIsExecutingStage(false);
-        setExecutionProgress('');
+        if (activeGenerationIdRef.current === currentGenerationId) {
+          setIsExecutingStage(false);
+          setExecutionProgress('');
+          activeAbortControllerRef.current = null;
+        }
       }
     },
-    [project]
+    [cancelActiveGeneration, project]
   );
 
   const clearError = useCallback(() => {
@@ -525,6 +678,7 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         selectNameCandidate,
         runCurrentStageAction,
         auditContent,
+        cancelActiveGeneration,
         resetToEmptyProject,
         loadSampleProject,
         canAdvanceToStage,

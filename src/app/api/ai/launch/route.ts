@@ -308,7 +308,7 @@ export async function POST(req: Request) {
         {
           success: false,
           error:
-            'Google Gemini API key is not configured. Please set GEMINI_API_KEY in .env.local on the server.',
+            'AI API key is not configured. Please set GEMINI_API_KEY in .env.local on the server.',
         },
         { status: 500 }
       );
@@ -448,7 +448,7 @@ Ensure:
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned an empty Launch Kit response. Please retry.',
+          error: 'NEXUS AI returned an empty Launch Kit response. Please retry.',
         },
         { status: 502 }
       );
@@ -462,7 +462,7 @@ Ensure:
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned malformed JSON for Launch Kit. Please retry.',
+          error: 'NEXUS AI returned an unparseable response for Launch Kit. Please retry.',
         },
         { status: 502 }
       );
@@ -492,7 +492,7 @@ Ensure:
       return NextResponse.json(
         {
           success: false,
-          error: 'Authentication failed. Please check your GEMINI_API_KEY.',
+          error: 'AI authentication failed. Please check your GEMINI_API_KEY in .env.local.',
         },
         { status: 401 }
       );
@@ -502,7 +502,7 @@ Ensure:
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini rate limit exceeded. Please wait a moment before generating launch assets again.',
+          error: 'NEXUS AI rate limit exceeded. Please wait a moment before generating launch assets again.',
         },
         { status: 429 }
       );
@@ -512,16 +512,17 @@ Ensure:
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini is currently experiencing high demand. Please retry your Launch Kit generation.',
+          error: 'NEXUS AI is currently experiencing high demand. Please retry your Launch Kit generation.',
         },
         { status: 503 }
       );
     }
 
+    const sanitizedMsg = errorMsg.replace(/google\s*gemini/gi, 'NEXUS AI').replace(/gemini/gi, 'AI');
     return NextResponse.json(
       {
         success: false,
-        error: `Launch Kit generation failed: ${errorMsg}. Please retry.`,
+        error: `Launch Kit generation failed: ${sanitizedMsg}. Please retry.`,
       },
       { status: 500 }
     );

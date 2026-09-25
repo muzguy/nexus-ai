@@ -211,7 +211,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Gemini API key is missing. Please configure GEMINI_API_KEY in your .env.local file.',
+          error: 'AI API key is missing. Please configure GEMINI_API_KEY in your .env.local file.',
         },
         { status: 500 }
       );
@@ -317,7 +317,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned an empty response for visual brief. Please retry.',
+          error: 'NEXUS AI returned an empty response for visual brief. Please retry.',
         },
         { status: 502 }
       );
@@ -331,7 +331,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini returned malformed JSON for visual brief. Please retry.',
+          error: 'NEXUS AI returned an unparseable response for visual brief. Please retry.',
         },
         { status: 502 }
       );
@@ -368,7 +368,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Gemini authentication failed. Please verify that your GEMINI_API_KEY in .env.local is valid.',
+          error: 'AI authentication failed. Please verify that your GEMINI_API_KEY in .env.local is valid.',
         },
         { status: 401 }
       );
@@ -383,7 +383,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Access denied by Google Gemini API. Please check your API key permissions and enabled services.',
+          error: 'Access denied by AI service. Please check your API key permissions and enabled services.',
         },
         { status: 403 }
       );
@@ -399,7 +399,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini rate limit or quota exceeded. Please wait a moment and click Retry.',
+          error: 'NEXUS AI rate limit or quota exceeded. Please wait a moment and click Retry.',
         },
         { status: 429 }
       );
@@ -414,7 +414,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'Google Gemini is currently experiencing temporary high demand. Please click Retry in a moment.',
+          error: 'NEXUS AI is currently experiencing temporary high demand. Please click Retry in a moment.',
         },
         { status: 503 }
       );
@@ -430,7 +430,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'The request to Google Gemini timed out. Please check your network and click Retry.',
+          error: 'The request to NEXUS AI timed out. Please check your network and click Retry.',
         },
         { status: 504 }
       );
@@ -445,7 +445,7 @@ Generate the complete structured JSON response complying strictly with the provi
       return NextResponse.json(
         {
           success: false,
-          error: 'The configured Gemini model is unavailable for this key. Please use gemini-3.5-flash-lite in .env.local.',
+          error: 'The configured AI model is unavailable for this key. Please use gemini-3.5-flash-lite in .env.local.',
         },
         { status: 404 }
       );
@@ -454,7 +454,7 @@ Generate the complete structured JSON response complying strictly with the provi
     return NextResponse.json(
       {
         success: false,
-        error: 'An unexpected error occurred while communicating with Google Gemini. Please retry.',
+        error: 'An unexpected error occurred while communicating with NEXUS AI. Please retry.',
       },
       { status: 500 }
     );

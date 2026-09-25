@@ -278,7 +278,7 @@ export function validateAndSanitizeGuardianData(
     verifiedBy:
       rawStamp && typeof rawStamp.verifiedBy === 'string' && rawStamp.verifiedBy.trim()
         ? rawStamp.verifiedBy.trim()
-        : 'NEXUS Consistency Guardian (Gemini)',
+        : 'NEXUS Consistency Guardian',
   };
 
   const sanitized: ConsistencyReport = {

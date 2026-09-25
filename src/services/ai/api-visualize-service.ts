@@ -20,7 +20,7 @@ export class ApiVisualizeService implements IVisualService {
       selectedName?: string;
     }
   ): Promise<VisualDirection> {
-    options?.onProgress?.('Synthesizing aesthetic thesis and color mood architecture...');
+    options?.onProgress?.('NEXUS is synthesizing aesthetic thesis and color mood architecture...');
 
     let response: Response;
     try {
@@ -41,14 +41,14 @@ export class ApiVisualizeService implements IVisualService {
       });
     } catch (networkErr: any) {
       if (networkErr?.name === 'AbortError') {
-        throw new Error('Visual brief synthesis was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the server. Please check your connection and retry.'
       );
     }
 
-    options?.onProgress?.('Establishing typography hierarchy and geometric signatures...');
+    options?.onProgress?.('NEXUS is establishing typography hierarchy and geometric signatures...');
 
     let result: any;
     try {

@@ -17,7 +17,7 @@ export class ApiShapeService implements IShapeService {
       positioning?: PositioningData;
     }
   ): Promise<ShapeData> {
-    options?.onProgress?.('Formulating brand personality archetypes and behavioral boundaries...');
+    options?.onProgress?.('NEXUS is formulating brand personality archetypes and behavioral boundaries...');
 
     let response: Response;
     try {
@@ -36,14 +36,14 @@ export class ApiShapeService implements IShapeService {
       });
     } catch (networkErr: any) {
       if (networkErr?.name === 'AbortError') {
-        throw new Error('Brand identity shaping was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the server. Please check your connection and retry.'
       );
     }
 
-    options?.onProgress?.('Synthesizing naming territories, linguistic roots, and voice rules...');
+    options?.onProgress?.('NEXUS is synthesizing naming territories, linguistic roots, and voice rules...');
 
     let result: any;
     try {

@@ -10,7 +10,7 @@ export class ApiGuardianService implements IConsistencyService {
       contentType?: string;
     }
   ): Promise<ConsistencyReport> {
-    options?.onProgress?.('Extracting brand rules, tone attributes, and taboo constraints...');
+    options?.onProgress?.('NEXUS is extracting brand rules, tone attributes, and taboo constraints...');
 
     let response: Response;
     try {
@@ -37,14 +37,14 @@ export class ApiGuardianService implements IConsistencyService {
     } catch (networkErr: unknown) {
       const err = networkErr as { name?: string };
       if (err?.name === 'AbortError') {
-        throw new Error('Consistency Guardian audit was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the Consistency Guardian service. Please check your connection and retry.'
       );
     }
 
-    options?.onProgress?.('Evaluating content for tone mismatch, negative boundaries, and buzzwords...');
+    options?.onProgress?.('NEXUS is evaluating content for tone mismatch, negative boundaries, and buzzwords...');
 
     let result: { success?: boolean; data?: ConsistencyReport; error?: string };
     try {

@@ -6,7 +6,7 @@ export class ApiLaunchService implements ILaunchService {
     project: BrandProject,
     options?: AIExecutionOptions
   ): Promise<LaunchKit> {
-    options?.onProgress?.('Extracting cumulative brand intelligence and positioning anchors...');
+    options?.onProgress?.('NEXUS is compiling cumulative brand intelligence and positioning anchors...');
 
     let response: Response;
     try {
@@ -32,14 +32,14 @@ export class ApiLaunchService implements ILaunchService {
     } catch (networkErr: unknown) {
       const err = networkErr as { name?: string };
       if (err?.name === 'AbortError') {
-        throw new Error('Launch Kit generation was cancelled.');
+        throw networkErr;
       }
       throw new Error(
         'Network error: Unable to reach the Launch Kit service. Please check your connection and retry.'
       );
     }
 
-    options?.onProgress?.('Formulating landing page hierarchy, value pillars, and headline architecture...');
+    options?.onProgress?.('NEXUS is formulating landing page hierarchy, value pillars, and headline architecture...');
 
     let result: { success?: boolean; data?: LaunchKit; error?: string };
     try {
@@ -55,7 +55,7 @@ export class ApiLaunchService implements ILaunchService {
       throw new Error(message);
     }
 
-    options?.onProgress?.('Drafting multichannel social campaigns, launch sequence, and first-week plan...');
+    options?.onProgress?.('NEXUS is drafting multichannel social campaigns, launch sequence, and first-week plan...');
 
     return result.data as LaunchKit;
   }
