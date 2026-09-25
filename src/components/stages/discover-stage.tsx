@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
   Users,
@@ -15,10 +16,11 @@ import {
   ShieldAlert,
   Compass,
   CheckCircle2,
+  ArrowRight,
 } from 'lucide-react';
 
 export function DiscoverStage() {
-  const { project, updateIdea, runCurrentStageAction, isExecutingStage } = useBrandProject();
+  const { project, updateIdea, runCurrentStageAction, isExecutingStage, setActiveStage } = useBrandProject();
   const discovery = project.discovery;
 
   return (
@@ -81,7 +83,7 @@ export function DiscoverStage() {
           icon={<Compass className="w-8 h-8 text-indigo-400" />}
           title="Discovery Intelligence Uninitialized"
           description="Click 'Synthesize Discovery Intelligence' above or below to deconstruct your raw concept into target audience profiles, problem space dynamics, and strategic constraints."
-          actionLabel="Run Discovery Agent"
+          actionLabel="Synthesize Discovery Intelligence"
           onAction={runCurrentStageAction}
           isLoading={isExecutingStage}
         />
@@ -327,6 +329,32 @@ export function DiscoverStage() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Stage Completion & Advance Banner */}
+          <div className="p-4 sm:p-5 rounded-xl bg-nexus-900/90 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 text-emerald-400">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+              <div>
+                <h4 className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
+                  Discovery Phase Validated
+                </h4>
+                <p className="text-xs text-nexus-300">
+                  Core concept and audience parameters synthesized. Ready to generate 3 strategic positioning directions.
+                </p>
+              </div>
+            </div>
+            <Button
+              variant="glow"
+              size="md"
+              onClick={() => setActiveStage('position')}
+              rightIcon={<ArrowRight className="w-4 h-4" />}
+              className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
+            >
+              Continue to Position Stage
+            </Button>
+          </div>
         </div>
       )}
     </div>

@@ -24,6 +24,7 @@ interface BrandProjectContextValue {
   isExecutingStage: boolean;
   executionProgress: string;
   error: string | null;
+  clearError: () => void;
 
   // Actions
   updateIdea: (fields: Partial<InitialIdea>) => void;
@@ -164,6 +165,15 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
     try {
       switch (activeStage) {
         case 'discover': {
+          const title = project.idea.title?.trim();
+          const rawConcept = project.idea.rawConcept?.trim();
+
+          if (!title || !rawConcept) {
+            throw new Error(
+              'Please provide both a Product / Concept Name and a Raw Concept & Value Proposition before synthesizing discovery intelligence.'
+            );
+          }
+
           setProject((prev) => ({
             ...prev,
             stageStatus: { ...prev.stageStatus, discover: 'in_progress' },
@@ -331,11 +341,34 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'An error occurred during stage execution.';
       setError(message);
+      // Reset in_progress status so the workflow does not get stuck
+      setProject((prev) => {
+        if (prev.stageStatus[activeStage] === 'in_progress') {
+          const hasExistingArtifact =
+            activeStage === 'discover'
+              ? Boolean(prev.discovery)
+              : activeStage === 'position'
+              ? Boolean(prev.positioning)
+              : false;
+          return {
+            ...prev,
+            stageStatus: {
+              ...prev.stageStatus,
+              [activeStage]: hasExistingArtifact ? 'completed' : 'idle',
+            },
+          };
+        }
+        return prev;
+      });
     } finally {
       setIsExecutingStage(false);
       setExecutionProgress('');
     }
   }, [activeStage, project]);
+
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
 
   return (
     <BrandProjectContext.Provider
@@ -346,6 +379,7 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         isExecutingStage,
         executionProgress,
         error,
+        clearError,
         updateIdea,
         selectPositioningDirection,
         selectNameCandidate,

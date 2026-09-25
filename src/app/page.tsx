@@ -16,7 +16,7 @@ import { LaunchStage } from '@/components/stages/launch-stage';
 import { AlertBanner } from '@/components/ui/alert-banner';
 
 export default function NexusWorkspacePage() {
-  const { activeStage, error } = useBrandProject();
+  const { activeStage, error, clearError, runCurrentStageAction } = useBrandProject();
 
   const renderActiveStageWorkspace = () => {
     switch (activeStage) {
@@ -62,6 +62,11 @@ export default function NexusWorkspacePage() {
                 variant="danger"
                 title="Stage Execution Error"
                 message={error}
+                action={{
+                  label: 'Retry',
+                  onClick: runCurrentStageAction,
+                }}
+                onDismiss={clearError}
               />
             </div>
           )}

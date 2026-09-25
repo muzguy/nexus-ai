@@ -71,15 +71,26 @@ export function PositionStage() {
             </p>
           </div>
         </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => setActiveStage('challenge')}
-          rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
-          className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
-        >
-          Challenge Stage
-        </Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={runCurrentStageAction}
+            isLoading={isExecutingStage}
+            className="w-full sm:w-auto text-xs min-h-[44px] sm:min-h-[36px]"
+          >
+            Re-synthesize
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setActiveStage('challenge')}
+            rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+            className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
+          >
+            Challenge Stage
+          </Button>
+        </div>
       </div>
 
       {/* 3 Strategically Divergent Directions */}
