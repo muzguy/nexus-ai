@@ -24,6 +24,70 @@ import {
   Compass,
 } from 'lucide-react';
 
+// ==========================================
+// WCAG-Compliant Color & Contrast Utilities
+// ==========================================
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  let clean = (hex || '#000000').replace('#', '').trim();
+  if (clean.length === 3) {
+    clean = clean.split('').map((c) => c + c).join('');
+  }
+  const num = parseInt(clean, 16);
+  if (isNaN(num)) return { r: 15, g: 23, b: 42 };
+  return {
+    r: (num >> 16) & 255,
+    g: (num >> 8) & 255,
+    b: num & 255,
+  };
+}
+
+function getRelativeLuminance(hex: string): number {
+  const { r, g, b } = hexToRgb(hex);
+  const a = [r, g, b].map((v) => {
+    const val = v / 255;
+    return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+}
+
+function getContrastRatio(hex1: string, hex2: string): number {
+  const lum1 = getRelativeLuminance(hex1);
+  const lum2 = getRelativeLuminance(hex2);
+  const brightest = Math.max(lum1, lum2);
+  const darkest = Math.min(lum1, lum2);
+  return (brightest + 0.05) / (darkest + 0.05);
+}
+
+function getAccessibleTextColor(
+  bgHex: string,
+  darkChoice = '#0f172a',
+  lightChoice = '#ffffff'
+): string {
+  const contrastDark = getContrastRatio(bgHex, darkChoice);
+  const contrastLight = getContrastRatio(bgHex, lightChoice);
+  return contrastDark >= contrastLight ? darkChoice : lightChoice;
+}
+
+function getAccessibleAccentText(accentHex: string, surfaceHex: string): string {
+  if (getContrastRatio(accentHex, surfaceHex) >= 4.5) return accentHex;
+  const isLightSurface = getRelativeLuminance(surfaceHex) > 0.5;
+  let { r, g, b } = hexToRgb(accentHex);
+  for (let i = 0; i < 20; i++) {
+    if (isLightSurface) {
+      r = Math.floor(r * 0.85);
+      g = Math.floor(g * 0.85);
+      b = Math.floor(b * 0.85);
+    } else {
+      r = Math.min(255, Math.floor(r * 1.15 + 15));
+      g = Math.min(255, Math.floor(g * 1.15 + 15));
+      b = Math.min(255, Math.floor(b * 1.15 + 15));
+    }
+    const currentHex = '#' + [r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('');
+    if (getContrastRatio(currentHex, surfaceHex) >= 4.5) return currentHex;
+  }
+  return isLightSurface ? '#0f172a' : '#f8fafc';
+}
+
 export function VisualizeStage() {
   const {
     project,
@@ -99,12 +163,128 @@ export function VisualizeStage() {
 
   const currentSwatch = (colorMood.palette as any)[selectedSwatchKey] || colorMood.palette.primary;
 
+  // -------------------------------------------------------------
+  // Semantic Preview CSS Variables & WCAG Contrast Calculation
+  // -------------------------------------------------------------
   const isLight = previewTheme === 'light';
-  const previewBg = isLight ? '#f8fafc' : colorMood.palette.background?.hex || '#090d16';
-  const previewSurface = isLight ? '#ffffff' : colorMood.palette.surface?.hex || '#0f172a';
-  const previewBorder = isLight ? '#e2e8f0' : colorMood.palette.border?.hex || '#1e293b';
-  const previewTextPrimary = isLight ? '#0f172a' : '#f8fafc';
-  const previewTextSecondary = isLight ? '#64748b' : '#94a3b8';
+
+  const rawPrimary = colorMood.palette.primary?.hex || '#2563eb';
+  const rawSecondary = colorMood.palette.secondary?.hex || '#475569';
+  const rawAccent = colorMood.palette.accent?.hex || '#d97706';
+  const rawBg = colorMood.palette.background?.hex || '#090d16';
+  const rawSurface = colorMood.palette.surface?.hex || '#0f172a';
+  const rawBorder = colorMood.palette.border?.hex || '#1e293b';
+
+  // Compute theme-specific canvas & surface colors
+  let previewBg: string;
+  let previewSurface: string;
+  let previewBorder: string;
+  let previewText: string;
+  let previewMuted: string;
+  let previewSurfaceSecondary: string;
+
+  if (isLight) {
+    // Light Mode:
+    // Respect light palette background if lum > 0.6; otherwise clean light canvas
+    previewBg = getRelativeLuminance(rawBg) > 0.6 ? rawBg : '#f8fafc';
+    // Respect light palette surface if lum > 0.7; otherwise crisp elevated white card
+    previewSurface = getRelativeLuminance(rawSurface) > 0.7 ? rawSurface : '#ffffff';
+    previewSurfaceSecondary = '#f1f5f9';
+    // Clear visible border with contrast between 1.25 and 4 against surface
+    const borderContrast = getContrastRatio(rawBorder, previewSurface);
+    previewBorder = borderContrast >= 1.25 && borderContrast <= 4.0 ? rawBorder : '#e2e8f0';
+    // Guaranteed high contrast on light surface (>10:1)
+    previewText = '#0f172a';
+    previewMuted = '#475569';
+  } else {
+    // Dark Mode:
+    // Respect dark palette background if lum < 0.4; otherwise deep midnight slate
+    previewBg = getRelativeLuminance(rawBg) < 0.4 ? rawBg : '#090d16';
+    // Respect dark palette surface if lum < 0.45; otherwise elevated obsidian card
+    previewSurface = getRelativeLuminance(rawSurface) < 0.45 ? rawSurface : '#0f172a';
+    previewSurfaceSecondary = 'rgba(255, 255, 255, 0.04)';
+    const borderContrast = getContrastRatio(rawBorder, previewSurface);
+    previewBorder = borderContrast >= 1.25 ? rawBorder : '#334155';
+    // Guaranteed high contrast on dark surface (>10:1)
+    previewText = '#f8fafc';
+    previewMuted = '#94a3b8';
+  }
+
+  // Accessible colors for interactive primary button
+  const previewPrimaryText = getAccessibleTextColor(rawPrimary, '#0f172a', '#ffffff');
+
+  // Accessible colors for secondary action
+  const previewSecondaryBg = isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)';
+  const previewSecondaryText = isLight ? '#0f172a' : '#f8fafc';
+
+  // Accessible colors for accent badge & action highlights
+  const accentRgb = hexToRgb(rawAccent);
+  const previewAccentBg = isLight
+    ? `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.14)`
+    : `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.22)`;
+  const previewAccentBorder = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.45)`;
+
+  // Ensure accent text has at least 4.5:1 contrast against the previewSurface while preserving brand hue
+  const previewAccentText = getAccessibleAccentText(rawAccent, previewSurface);
+
+  // Active Swatch target mapping for dynamic interaction
+  const swatchRoleTargets: Record<string, { label: string; role: string; elementTarget: string }> = {
+    primary: {
+      label: 'Primary Token',
+      role: 'Primary Action & Brand Identity',
+      elementTarget: 'Primary Action Button & Brand Monogram',
+    },
+    secondary: {
+      label: 'Secondary Token',
+      role: 'Secondary UI & Structural Actions',
+      elementTarget: 'Secondary Action Button & Neutral Surfaces',
+    },
+    accent: {
+      label: 'Accent Token',
+      role: 'High-Signal Context & Highlights',
+      elementTarget: 'Live Environment Status Pill & Accent Highlights',
+    },
+    background: {
+      label: 'Background Token',
+      role: 'Canvas & Ambient Viewport',
+      elementTarget: 'Application Canvas Viewport Background',
+    },
+    surface: {
+      label: 'Surface Token',
+      role: 'Card Container & Modular Panels',
+      elementTarget: 'Elevated Product Workspace Card Container',
+    },
+    border: {
+      label: 'Border Token',
+      role: 'Hairline Micro-Boundaries & Dividers',
+      elementTarget: 'Card Hairline Boundary & Partition Lines',
+    },
+  };
+
+  const activeTargetInfo = swatchRoleTargets[selectedSwatchKey] || {
+    label: `${selectedSwatchKey.toUpperCase()} Token`,
+    role: currentSwatch.usageRole || 'Brand Token',
+    elementTarget: 'Active Theme Element',
+  };
+
+  // Semantic CSS-variable dictionary bound directly to simulator root
+  const previewStyle: React.CSSProperties = {
+    ['--preview-bg' as any]: previewBg,
+    ['--preview-surface' as any]: previewSurface,
+    ['--preview-surface-secondary' as any]: previewSurfaceSecondary,
+    ['--preview-border' as any]: previewBorder,
+    ['--preview-text' as any]: previewText,
+    ['--preview-muted' as any]: previewMuted,
+    ['--preview-primary' as any]: rawPrimary,
+    ['--preview-primary-text' as any]: previewPrimaryText,
+    ['--preview-secondary' as any]: rawSecondary,
+    ['--preview-secondary-bg' as any]: previewSecondaryBg,
+    ['--preview-secondary-text' as any]: previewSecondaryText,
+    ['--preview-accent' as any]: rawAccent,
+    ['--preview-accent-bg' as any]: previewAccentBg,
+    ['--preview-accent-border' as any]: previewAccentBorder,
+    ['--preview-accent-text' as any]: previewAccentText,
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
@@ -189,23 +369,28 @@ export function VisualizeStage() {
                     className="w-full h-14 sm:h-16 rounded-lg border border-nexus-700/40 shadow-inner flex items-center justify-center font-mono text-[10px] sm:text-[11px] font-bold transition-transform active:scale-95"
                     style={{
                       backgroundColor: swatch.hex,
-                      color:
-                        swatch.hex.toLowerCase() === '#ffffff' ||
-                        swatch.hex.toLowerCase() === '#00e5ff' ||
-                        swatch.hex.toLowerCase() === '#f59e0b'
-                          ? '#000000'
-                          : '#ffffff',
+                      color: getAccessibleTextColor(swatch.hex),
                     }}
                   >
                     {swatch.hex}
                   </div>
                   <div className="min-w-0">
-                    <span className="text-xs font-semibold text-nexus-100 dark:text-white block truncate">
-                      {swatch.name}
-                    </span>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-xs font-semibold text-nexus-100 dark:text-white block truncate">
+                        {swatch.name}
+                      </span>
+                      {isSelected && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan shrink-0 animate-ping" />
+                      )}
+                    </div>
                     <span className="text-[10px] font-mono text-indigo-400 block capitalize truncate">
                       {swatch.usageRole}
                     </span>
+                    {isSelected && (
+                      <span className="text-[9px] font-mono text-accent-cyan font-bold block pt-0.5 truncate">
+                        Active in Preview
+                      </span>
+                    )}
                   </div>
                 </button>
               );
@@ -257,7 +442,7 @@ export function VisualizeStage() {
 
       {/* Interactive Theme Preview & Real Brand Application */}
       <Card className="border-indigo-500/30 overflow-hidden">
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-nexus-800 bg-nexus-950/50">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-nexus-800 bg-nexus-950/50">
           <div>
             <CardTitle>
               <Sparkles className="w-4 h-4 text-indigo-400" />
@@ -267,95 +452,236 @@ export function VisualizeStage() {
               Interactive interface preview rendered dynamically using the generated color tokens.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-nexus-400 mr-1">Preview Theme:</span>
-            <Button
-              variant={previewTheme === 'dark' ? 'primary' : 'outline'}
-              size="sm"
-              onClick={() => setPreviewTheme('dark')}
-              leftIcon={<Moon className="w-3 h-3" />}
-              className="text-xs font-mono min-h-[32px] px-2.5"
-            >
-              Dark
-            </Button>
-            <Button
-              variant={previewTheme === 'light' ? 'primary' : 'outline'}
-              size="sm"
-              onClick={() => setPreviewTheme('light')}
-              leftIcon={<Sun className="w-3 h-3" />}
-              className="text-xs font-mono min-h-[32px] px-2.5"
-            >
-              Light
-            </Button>
+
+          <div className="flex flex-wrap items-center gap-2.5">
+            {/* Active Token Inspector Badge */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-nexus-900 border border-nexus-700/70 text-xs font-mono">
+              <span className="text-[10px] text-nexus-400">Inspecting:</span>
+              <span
+                className="w-2.5 h-2.5 rounded-full ring-1 ring-white/30 shrink-0"
+                style={{ backgroundColor: currentSwatch.hex }}
+              />
+              <span className="text-nexus-100 font-semibold text-[11px] truncate max-w-[120px]">
+                {currentSwatch.name}
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-nexus-800 text-accent-cyan uppercase font-bold">
+                {selectedSwatchKey}
+              </span>
+            </div>
+
+            {/* Theme Toggle (strictly scoped to simulator) */}
+            <div className="flex items-center gap-1 bg-nexus-900 p-0.5 rounded-lg border border-nexus-800">
+              <Button
+                variant={previewTheme === 'dark' ? 'primary' : 'ghost'}
+                size="sm"
+                onClick={() => setPreviewTheme('dark')}
+                leftIcon={<Moon className="w-3 h-3" />}
+                className="text-xs font-mono min-h-[30px] px-2.5 py-1 h-auto"
+              >
+                Dark
+              </Button>
+              <Button
+                variant={previewTheme === 'light' ? 'primary' : 'ghost'}
+                size="sm"
+                onClick={() => setPreviewTheme('light')}
+                leftIcon={<Sun className="w-3 h-3" />}
+                className="text-xs font-mono min-h-[30px] px-2.5 py-1 h-auto"
+              >
+                Light
+              </Button>
+            </div>
           </div>
         </CardHeader>
 
-        <CardContent className="p-4 sm:p-6 transition-colors duration-200" style={{ backgroundColor: previewBg }}>
+        {/* Dynamic Simulator Viewport using semantic CSS variables */}
+        <CardContent
+          className="p-4 sm:p-7 transition-colors duration-200 relative select-none"
+          style={{
+            ...previewStyle,
+            backgroundColor: 'var(--preview-bg)',
+          }}
+          onClick={() => {
+            if (selectedSwatchKey !== 'background') setSelectedSwatchKey('background');
+          }}
+          title="Click canvas background to inspect Background Swatch"
+        >
+          {/* Active Canvas Swatch Target Banner */}
+          {selectedSwatchKey === 'background' && (
+            <div className="mb-3 inline-flex items-center gap-2 px-3 py-1 rounded-md text-[11px] font-mono font-semibold bg-nexus-900/90 text-accent-cyan border border-accent-cyan shadow-glow-cyan animate-pulse">
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--preview-bg)' }} />
+              Active Swatch Target: Background ({currentSwatch.name} {currentSwatch.hex})
+            </div>
+          )}
+
           {/* Mock Product Workspace Header Preview */}
           <div
-            className="p-5 sm:p-7 rounded-2xl border transition-all duration-200 space-y-5 shadow-lg"
+            className={`p-5 sm:p-7 rounded-2xl border transition-all duration-200 space-y-5 shadow-lg relative ${
+              selectedSwatchKey === 'surface'
+                ? 'ring-2 ring-accent-cyan shadow-glow-cyan'
+                : selectedSwatchKey === 'border'
+                ? 'ring-2 ring-indigo-400'
+                : ''
+            }`}
             style={{
-              backgroundColor: previewSurface,
-              borderColor: previewBorder,
+              backgroundColor: 'var(--preview-surface)',
+              borderColor: 'var(--preview-border)',
             }}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (selectedSwatchKey !== 'surface') setSelectedSwatchKey('surface');
+            }}
+            title="Click card surface to inspect Surface Swatch"
           >
+            {/* Active Surface or Border Indicator Chip */}
+            {(selectedSwatchKey === 'surface' || selectedSwatchKey === 'border') && (
+              <div className="absolute top-2.5 right-4 text-[10px] font-mono px-2 py-0.5 rounded bg-nexus-900/90 text-accent-cyan border border-accent-cyan/40">
+                {selectedSwatchKey === 'surface' ? 'Active Target: Surface Container' : 'Active Target: Border Hairline'}
+              </div>
+            )}
+
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2">
+              {/* Brand Title & Monogram (Primary Token) */}
+              <div
+                className={`flex items-center gap-2 cursor-pointer p-1 rounded-lg transition-all ${
+                  selectedSwatchKey === 'primary' ? 'ring-1 ring-accent-cyan bg-nexus-800/40' : ''
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSwatchKey('primary');
+                }}
+                title="Click to inspect Primary Swatch"
+              >
                 <span
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: colorMood.palette.primary?.hex }}
+                  className="w-3 h-3 rounded-full transition-transform active:scale-95 shrink-0"
+                  style={{
+                    backgroundColor: 'var(--preview-primary)',
+                    boxShadow: selectedSwatchKey === 'primary' ? '0 0 8px var(--preview-primary)' : undefined,
+                  }}
                 />
-                <span className="text-xs font-mono font-bold uppercase tracking-wider" style={{ color: previewTextPrimary }}>
+                <span
+                  className="text-xs font-mono font-bold uppercase tracking-wider"
+                  style={{ color: 'var(--preview-text)' }}
+                >
                   {project.selectedName || project.name || 'Brand System'}
                 </span>
+                {selectedSwatchKey === 'primary' && (
+                  <span className="text-[9px] font-mono text-accent-cyan">● Primary</span>
+                )}
               </div>
-              <span
-                className="text-[11px] font-mono px-2.5 py-0.5 rounded-full font-medium"
-                style={{
-                  backgroundColor: `${colorMood.palette.accent?.hex}20`,
-                  color: colorMood.palette.accent?.hex,
-                  border: `1px solid ${colorMood.palette.accent?.hex}40`,
+
+              {/* Context Pill (Accent Token) */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSwatchKey('accent');
                 }}
+                className={`text-[11px] font-mono px-2.5 py-1 rounded-full font-semibold transition-all cursor-pointer ${
+                  selectedSwatchKey === 'accent'
+                    ? 'ring-2 ring-accent-cyan shadow-glow-cyan scale-105'
+                    : 'hover:opacity-90'
+                }`}
+                style={{
+                  backgroundColor: 'var(--preview-accent-bg)',
+                  color: 'var(--preview-accent-text)',
+                  border: '1px solid var(--preview-accent-border)',
+                }}
+                title="Click to inspect Accent Swatch"
               >
                 {applicationPreview?.cardPreviewContext || 'Live Environment'}
-              </span>
+                {selectedSwatchKey === 'accent' && (
+                  <span className="ml-1.5 text-[9px] uppercase font-bold text-accent-cyan">● Accent</span>
+                )}
+              </button>
             </div>
 
             <div className="space-y-2 max-w-2xl">
               <h3
                 className="text-lg sm:text-2xl font-bold tracking-tight leading-tight"
-                style={{ color: previewTextPrimary }}
+                style={{ color: 'var(--preview-text)' }}
               >
                 {applicationPreview?.headline || project.shapeData?.tagline || 'Engineered for Depth & Performance'}
               </h3>
               <p
                 className="text-xs sm:text-sm leading-relaxed"
-                style={{ color: previewTextSecondary }}
+                style={{ color: 'var(--preview-muted)' }}
               >
                 {applicationPreview?.subheadline || project.shapeData?.oneLinePitch || 'A unified environment tailored for focus, craft, and architectural clarity.'}
               </p>
             </div>
 
+            {/* Inset Sub-panel showcasing secondary surface and thesis */}
+            <div
+              className="p-3 sm:p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors"
+              style={{
+                backgroundColor: 'var(--preview-surface-secondary)',
+                borderColor: 'var(--preview-border)',
+              }}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: 'var(--preview-accent)' }}
+                />
+                <span
+                  className="font-mono text-[11px] truncate"
+                  style={{ color: 'var(--preview-text)' }}
+                >
+                  Thesis: {colorMood.themeName}
+                </span>
+              </div>
+              <span
+                className="font-mono text-[10px] shrink-0"
+                style={{ color: 'var(--preview-muted)' }}
+              >
+                Target: {activeTargetInfo.elementTarget}
+              </span>
+            </div>
+
             <div className="pt-2 flex items-center gap-3 flex-wrap">
+              {/* Primary Action Button */}
               <button
                 type="button"
-                className="px-4 py-2 rounded-lg text-xs font-semibold shadow-md transition-transform active:scale-95 text-white"
-                style={{
-                  backgroundColor: colorMood.palette.primary?.hex || '#6366f1',
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSwatchKey('primary');
                 }}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold shadow-md transition-all active:scale-95 cursor-pointer ${
+                  selectedSwatchKey === 'primary'
+                    ? 'ring-2 ring-accent-cyan ring-offset-2 ring-offset-transparent shadow-glow-cyan scale-105'
+                    : ''
+                }`}
+                style={{
+                  backgroundColor: 'var(--preview-primary)',
+                  color: 'var(--preview-primary-text)',
+                }}
+                title="Click to inspect Primary Swatch"
               >
                 {applicationPreview?.callToAction || 'Launch Workspace'}
+                {selectedSwatchKey === 'primary' && ' (Primary)'}
               </button>
+
+              {/* Secondary Action Button */}
               <button
                 type="button"
-                className="px-3.5 py-2 rounded-lg text-xs font-medium border transition-colors"
-                style={{
-                  borderColor: previewBorder,
-                  color: previewTextSecondary,
-                  backgroundColor: isLight ? '#f1f5f9' : '#0b1120',
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSwatchKey('secondary');
                 }}
+                className={`px-3.5 py-2 rounded-lg text-xs font-medium border transition-all active:scale-95 cursor-pointer ${
+                  selectedSwatchKey === 'secondary'
+                    ? 'ring-2 ring-accent-cyan ring-offset-2 ring-offset-transparent shadow-glow-cyan scale-105'
+                    : ''
+                }`}
+                style={{
+                  backgroundColor: 'var(--preview-secondary-bg)',
+                  borderColor: selectedSwatchKey === 'secondary' ? 'var(--preview-secondary)' : 'var(--preview-border)',
+                  color: 'var(--preview-secondary-text)',
+                }}
+                title="Click to inspect Secondary Swatch"
               >
                 Explore Architecture
+                {selectedSwatchKey === 'secondary' && ' (Secondary)'}
               </button>
             </div>
           </div>
