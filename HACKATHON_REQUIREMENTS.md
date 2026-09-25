@@ -32,7 +32,7 @@ A primary directive of the hackathon is to strictly avoid building a "single pro
 | — | **3. Challenge & Select** *(Mock → Gemini)* | Adversarial stress-test exposing clichés and weak assumptions, followed by **human strategic selection**. |
 | **3. Shape** | **4. Shape** *(Real Gemini)* | Develops personality, voice boundaries, naming territories, and name candidate selection. |
 | **4. Visualize** | **5. Visualize** *(Real Gemini)* | Translates shaped brand identity into an executive visual design brief. |
-| **5. Challenge** | **6. Consistency Guardian** *(Mock → Gemini)* | System-wide audit evaluating alignment across all stages to score brand integrity. |
+| **5. Challenge** | **6. Consistency Guardian** *(Real Gemini)* | System-wide audit evaluating alignment across all stages to score brand integrity. |
 | **6. Deliver** | **7. Launch Kit** *(Mock → Gemini)* | Generates production-ready copy, social launch decks, checklists, and exportable brand JSON. |
 
 ---

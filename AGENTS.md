@@ -64,7 +64,7 @@ This document defines the strict operating rules, architectural invariants, and 
 | **Challenge** | 3 | **MOCK** | `MockChallengeService` (Awaiting migration) |
 | **Shape** | 4 | **REAL AI** | Gemini (`/api/ai/shape` + `ApiShapeService`) |
 | **Visualize** | 5 | **REAL AI** | Gemini (`/api/ai/visualize` + `ApiVisualizeService`) |
-| **Consistency** | 6 | **MOCK** | `MockConsistencyService` (Awaiting migration) |
+| **Consistency** | 6 | **REAL AI** | Gemini (`/api/ai/guardian` + `ApiGuardianService`) |
 | **Launch** | 7 | **MOCK** | `MockLaunchService` (Awaiting migration) |
 
 > **Rule:** Never claim a stage is "AI-powered" unless it actively executes a server-side Gemini call and writes validated output to `BrandProject`.

@@ -58,7 +58,7 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
                                 │
                                 ▼
                     ┌────────────────────────┐
-                    │ 6. CONSISTENCY GUARDIAN│ [MOCK -> AI MIGRATION]
+                    │ 6. CONSISTENCY GUARDIAN│ [REAL GEMINI]
                     │ Holistic Audit & Score │
                     └───────────┬────────────┘
                                 │
@@ -183,7 +183,7 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
   - `recommendations`: Actionable steps to tighten brand coherence
   - `strengths`: Verified high-defensibility traits
   - `vulnerabilities`: Identified risks of brand dilution
-- **Implementation Status:** **MOCK / SAMPLE** (`MockConsistencyService`). *Scheduled for real Gemini migration.*
+- **Implementation Status:** **REAL AI** via Google Gemini (`/api/ai/guardian`, `ApiGuardianService`).
 
 ---
 
@@ -261,7 +261,8 @@ nexus-pre-hackathon/
 │   │       ├── discover/route.ts      # [REAL AI] Gemini Discovery analysis endpoint
 │   │       ├── position/route.ts      # [REAL AI] Gemini Positioning directions endpoint
 │   │       ├── shape/route.ts         # [REAL AI] Gemini Shape identity endpoint
-│   │       └── visualize/route.ts     # [REAL AI] Gemini Visual design brief endpoint
+│   │       ├── visualize/route.ts     # [REAL AI] Gemini Visual design brief endpoint
+│   │       └── guardian/route.ts      # [REAL AI] Gemini Consistency Guardian audit endpoint
 │   │
 │   ├── types/                         # TypeScript interfaces
 │   │   ├── index.ts                   # Unified type exports
@@ -281,6 +282,7 @@ nexus-pre-hackathon/
 │   │   ├── api-positioning-service.ts # [REAL] Positioning client service calling /api/ai/position
 │   │   ├── api-shape-service.ts       # [REAL] Shape client service calling /api/ai/shape
 │   │   ├── api-visualize-service.ts   # [REAL] Visual client service calling /api/ai/visualize
+│   │   ├── api-guardian-service.ts    # [REAL] Guardian client service calling /api/ai/guardian
 │   │   └── mock/
 │   │       └── mock-services.ts       # [MOCK] Aether OS mock services for remaining stages
 │   │
@@ -288,7 +290,8 @@ nexus-pre-hackathon/
 │   │   ├── discovery-validator.ts     # Validates and sanitizes DiscoveryData from Gemini
 │   │   ├── positioning-validator.ts   # Validates and sanitizes PositioningData (3 vectors)
 │   │   ├── shape-validator.ts         # Validates and sanitizes ShapeData from Gemini
-│   │   └── visualize-validator.ts     # Validates and sanitizes VisualDirection from Gemini
+│   │   ├── visualize-validator.ts     # Validates and sanitizes VisualDirection from Gemini
+│   │   └── guardian-validator.ts      # Validates and sanitizes ConsistencyReport from Gemini
 │   │
 │   ├── context/
 │   │   └── brand-project-context.tsx  # Central BrandProjectProvider & useBrandProject() hook

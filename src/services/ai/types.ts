@@ -65,7 +65,11 @@ export interface IVisualService {
 export interface IConsistencyService {
   auditBrandSystem(
     project: BrandProject,
-    options?: AIExecutionOptions
+    options?: AIExecutionOptions,
+    auditPayload?: {
+      contentToAudit?: string;
+      contentType?: string;
+    }
   ): Promise<ConsistencyReport>;
 }
 

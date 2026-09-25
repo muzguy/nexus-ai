@@ -31,6 +31,7 @@ interface BrandProjectContextValue {
   selectPositioningDirection: (direction: PositioningDirection) => void;
   selectNameCandidate: (candidateId: string) => void;
   runCurrentStageAction: () => Promise<void>;
+  auditContent: (content: string, contentType?: string) => Promise<ConsistencyReport>;
   resetToEmptyProject: () => void;
   loadSampleProject: () => void;
   canAdvanceToStage: (stage: WorkflowStage) => boolean;
@@ -357,14 +358,31 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         }
 
         case 'consistency': {
+          if (!project.selectedDirection || (!project.shapeData && !project.personality)) {
+            throw new Error('Positioning and shaped brand identity required before running Consistency Guardian.');
+          }
+
           setProject((prev) => ({
             ...prev,
             stageStatus: { ...prev.stageStatus, consistency: 'in_progress' },
           }));
 
-          const report = await aiServices.consistency.auditBrandSystem(project, {
-            onProgress: (p) => setExecutionProgress(p),
-          });
+          const defaultDraft =
+            project.consistency?.auditedContent ||
+            (project.shapeData?.tagline && project.shapeData?.oneLinePitch
+              ? `${project.shapeData.tagline} — ${project.shapeData.oneLinePitch}`
+              : project.idea.rawConcept || project.selectedDirection.valueProposition);
+
+          const report = await aiServices.consistency.auditBrandSystem(
+            project,
+            {
+              onProgress: (p) => setExecutionProgress(p),
+            },
+            {
+              contentToAudit: defaultDraft,
+              contentType: project.consistency?.contentType || 'Landing Page Copy',
+            }
+          );
 
           setProject((prev) => ({
             ...prev,
@@ -409,6 +427,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
               ? Boolean(prev.shapeData)
               : activeStage === 'visualize'
               ? Boolean(prev.visualDirection)
+              : activeStage === 'consistency'
+              ? Boolean(prev.consistency)
               : false;
           return {
             ...prev,
@@ -425,6 +445,60 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
       setExecutionProgress('');
     }
   }, [activeStage, project]);
+
+  const auditContent = useCallback(
+    async (content: string, contentType?: string): Promise<ConsistencyReport> => {
+      setIsExecutingStage(true);
+      setError(null);
+      setExecutionProgress('Initializing Consistency Guardian...');
+
+      try {
+        if (!project.selectedDirection || (!project.shapeData && !project.personality)) {
+          throw new Error('Positioning and shaped brand identity required before running Consistency Guardian.');
+        }
+
+        setProject((prev) => ({
+          ...prev,
+          stageStatus: { ...prev.stageStatus, consistency: 'in_progress' },
+        }));
+
+        const report = await aiServices.consistency.auditBrandSystem(
+          project,
+          {
+            onProgress: (p) => setExecutionProgress(p),
+          },
+          {
+            contentToAudit: content,
+            contentType: contentType || 'Marketing Copy',
+          }
+        );
+
+        setProject((prev) => ({
+          ...prev,
+          consistency: report,
+          updatedAt: new Date().toISOString(),
+          stageStatus: { ...prev.stageStatus, consistency: 'completed' },
+        }));
+
+        return report;
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Consistency audit failed.';
+        setError(message);
+        setProject((prev) => ({
+          ...prev,
+          stageStatus: {
+            ...prev.stageStatus,
+            consistency: prev.consistency ? 'completed' : 'idle',
+          },
+        }));
+        throw err;
+      } finally {
+        setIsExecutingStage(false);
+        setExecutionProgress('');
+      }
+    },
+    [project]
+  );
 
   const clearError = useCallback(() => {
     setError(null);
@@ -444,6 +518,7 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         selectPositioningDirection,
         selectNameCandidate,
         runCurrentStageAction,
+        auditContent,
         resetToEmptyProject,
         loadSampleProject,
         canAdvanceToStage,
