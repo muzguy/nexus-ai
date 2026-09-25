@@ -22,7 +22,7 @@ export function DiscoverStage() {
   const discovery = project.discovery;
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Step 1: Raw Idea Input Section */}
       <Card>
         <CardHeader>
@@ -118,7 +118,7 @@ export function DiscoverStage() {
                   <span className="text-[11px] font-mono text-nexus-400 uppercase tracking-wider block mb-1">
                     Primary Persona
                   </span>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-nexus-100 dark:text-white">
                     {discovery.audience.primarySegment}
                   </p>
                   {discovery.audience.secondarySegment && (
@@ -306,7 +306,7 @@ export function DiscoverStage() {
                     className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-800 space-y-2"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <p className="text-xs font-semibold text-white leading-snug">
+                      <p className="text-xs font-semibold text-nexus-100 dark:text-white leading-snug">
                         {q.question}
                       </p>
                       <Badge

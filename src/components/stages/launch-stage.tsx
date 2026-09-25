@@ -63,14 +63,14 @@ export function LaunchStage() {
 
   if (!hasConsistency) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <AlertBanner
           variant="warning"
           title="Prerequisite Incomplete"
           message="Launch kit generation requires passing the Consistency Guardian audit to ensure zero strategic drift."
         />
         <EmptyState
-          icon={<Rocket className="w-8 h-8 text-amber-400" />}
+          icon={<Rocket className="w-8 h-8 text-amber-500" />}
           title="Guardian Verification Required"
           description="Return to Stage 6 (Consistency Guardian) to audit and verify your brand system integrity."
           actionLabel="Go to Guardian Audit"
@@ -82,7 +82,7 @@ export function LaunchStage() {
 
   if (!launchKit) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <EmptyState
           icon={<Rocket className="w-8 h-8 text-indigo-400" />}
           title="Launch Kit Uncompiled"
@@ -98,17 +98,17 @@ export function LaunchStage() {
   const { landingPage, socialLaunch, oneLinePitch, elevatorPitch, pressSnippet } = launchKit;
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Launch Control Header */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-nexus-900 via-nexus-850 to-nexus-900 border border-indigo-500/40 shadow-glow flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-indigo-500/40 shadow-glow flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-glow" />
-            <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 shadow-glow shrink-0" />
+            <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
               Launch Kit Compiled & Verified
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-nexus-100 dark:text-white tracking-tight">
             Go-To-Market Brand Intelligence
           </h2>
           <p className="text-xs sm:text-sm text-nexus-300 mt-1">
@@ -116,12 +116,13 @@ export function LaunchStage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
           <Button
             variant="glow"
             size="md"
             onClick={exportProjectJSON}
             leftIcon={<Download className="w-4 h-4 text-white" />}
+            className="w-full md:w-auto min-h-[44px] sm:min-h-[36px]"
           >
             Export Complete Brand JSON
           </Button>
@@ -156,45 +157,46 @@ export function LaunchStage() {
                 <Copy className="w-3.5 h-3.5" />
               )
             }
+            className="h-8 text-xs shrink-0"
           >
-            {copiedKey === 'hero' ? 'Copied Hero Copy' : 'Copy Copy'}
+            {copiedKey === 'hero' ? 'Copied' : 'Copy'}
           </Button>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Simulated Hero Box */}
-          <div className="p-8 sm:p-12 rounded-xl bg-nexus-950/80 border border-nexus-800 text-center space-y-4 relative overflow-hidden">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-300">
-              <Sparkles className="w-3.5 h-3.5 text-accent-cyan" />
-              <span>{landingPage.announcementPill}</span>
+          <div className="p-4 sm:p-8 md:p-12 rounded-xl bg-nexus-950/80 border border-nexus-800 text-center space-y-4 relative overflow-hidden">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-400 max-w-full">
+              <Sparkles className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+              <span className="truncate">{landingPage.announcementPill}</span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight max-w-3xl mx-auto leading-tight">
+            <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-nexus-100 dark:text-white tracking-tight max-w-3xl mx-auto leading-tight break-words">
               {landingPage.headline}
             </h1>
 
-            <p className="text-sm sm:text-base text-nexus-300 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xs sm:text-base text-nexus-300 max-w-2xl mx-auto leading-relaxed">
               {landingPage.subheadline}
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <Button variant="glow" size="lg">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2 w-full sm:w-auto">
+              <Button variant="glow" size="lg" className="w-full sm:w-auto min-h-[44px]">
                 {landingPage.primaryCta}
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto min-h-[44px]">
                 {landingPage.secondaryCta}
               </Button>
             </div>
           </div>
 
           {/* 3 Value Pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-2">
             {landingPage.valuePillars.map((pillar, i) => (
               <div
                 key={i}
                 className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-white text-sm">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-semibold text-nexus-100 dark:text-white text-sm">
                     {pillar.title}
                   </span>
                   <Badge variant="cyan" className="text-[10px] font-mono">
@@ -204,7 +206,7 @@ export function LaunchStage() {
                 <p className="text-nexus-300 leading-relaxed">
                   {pillar.description}
                 </p>
-                <div className="pt-2 border-t border-nexus-850 text-emerald-400 font-mono text-[11px]">
+                <div className="pt-2 border-t border-nexus-850 text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">
                   Proof: {pillar.proofPoint}
                 </div>
               </div>
@@ -214,7 +216,7 @@ export function LaunchStage() {
       </Card>
 
       {/* Pitches & Press Snippet */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Core Pitches */}
         <Card>
           <CardHeader>
@@ -223,6 +225,7 @@ export function LaunchStage() {
               variant="ghost"
               size="sm"
               onClick={() => copyToClipboard(`${oneLinePitch}\n\n${elevatorPitch}`, 'pitches')}
+              className="h-8 px-2"
             >
               {copiedKey === 'pitches' ? 'Copied' : <Copy className="w-3.5 h-3.5" />}
             </Button>
@@ -232,7 +235,7 @@ export function LaunchStage() {
               <span className="text-[10px] font-mono text-nexus-400 uppercase tracking-wider block mb-1">
                 One-Line Pitch (Twitter Bio / Subtitle)
               </span>
-              <p className="text-sm font-semibold text-white leading-snug bg-nexus-950/60 p-3 rounded-lg border border-nexus-850">
+              <p className="text-xs sm:text-sm font-semibold text-nexus-100 dark:text-white leading-snug bg-nexus-950/60 p-3 rounded-lg border border-nexus-850 break-words">
                 {oneLinePitch}
               </p>
             </div>
@@ -256,6 +259,7 @@ export function LaunchStage() {
               variant="ghost"
               size="sm"
               onClick={() => copyToClipboard(pressSnippet, 'press')}
+              className="h-8 px-2"
             >
               {copiedKey === 'press' ? 'Copied' : <Copy className="w-3.5 h-3.5" />}
             </Button>
@@ -269,7 +273,7 @@ export function LaunchStage() {
       </div>
 
       {/* Social Launch Campaigns */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* X / Twitter Thread */}
         <Card className="flex flex-col">
           <CardHeader>
@@ -283,6 +287,7 @@ export function LaunchStage() {
               onClick={() =>
                 copyToClipboard(socialLaunch.xTwitterThread.join('\n\n---\n\n'), 'xthread')
               }
+              className="h-8 px-2"
             >
               {copiedKey === 'xthread' ? 'Copied' : <Copy className="w-3.5 h-3.5" />}
             </Button>
@@ -293,7 +298,7 @@ export function LaunchStage() {
                 key={i}
                 className="p-3 rounded-lg bg-nexus-950/60 border border-nexus-850 space-y-1"
               >
-                <span className="text-[10px] font-mono text-nexus-500 block">
+                <span className="text-[10px] font-mono text-nexus-400 block">
                   Tweet 0{i + 1}
                 </span>
                 <p className="text-nexus-200 whitespace-pre-line leading-relaxed">
@@ -315,6 +320,7 @@ export function LaunchStage() {
               variant="ghost"
               size="sm"
               onClick={() => copyToClipboard(socialLaunch.linkedInPost, 'linkedin')}
+              className="h-8 px-2"
             >
               {copiedKey === 'linkedin' ? 'Copied' : <Copy className="w-3.5 h-3.5" />}
             </Button>
@@ -332,7 +338,7 @@ export function LaunchStage() {
         <Card className="flex flex-col">
           <CardHeader>
             <CardTitle className="text-sm">
-              <Sparkles className="w-4 h-4 text-amber-400" />
+              <Sparkles className="w-4 h-4 text-amber-500" />
               Product Hunt Launch Card
             </CardTitle>
             <Button
@@ -344,22 +350,23 @@ export function LaunchStage() {
                   'ph'
                 )
               }
+              className="h-8 px-2"
             >
               {copiedKey === 'ph' ? 'Copied' : <Copy className="w-3.5 h-3.5" />}
             </Button>
           </CardHeader>
           <CardContent className="space-y-3 flex-1 text-xs">
             <div className="p-3 rounded-lg bg-nexus-950/60 border border-nexus-850 space-y-1">
-              <span className="text-[10px] font-mono text-nexus-500 uppercase block">
+              <span className="text-[10px] font-mono text-nexus-400 uppercase block">
                 Product Name
               </span>
-              <p className="text-white font-bold text-sm">
+              <p className="text-nexus-100 dark:text-white font-bold text-sm">
                 {socialLaunch.productHuntCard.name}
               </p>
             </div>
 
             <div className="p-3 rounded-lg bg-nexus-950/60 border border-nexus-850 space-y-1">
-              <span className="text-[10px] font-mono text-nexus-500 uppercase block">
+              <span className="text-[10px] font-mono text-nexus-400 uppercase block">
                 Tagline (under 60 chars)
               </span>
               <p className="text-nexus-200 font-medium">
@@ -368,7 +375,7 @@ export function LaunchStage() {
             </div>
 
             <div className="p-3 rounded-lg bg-nexus-950/60 border border-nexus-850 space-y-1">
-              <span className="text-[10px] font-mono text-nexus-500 uppercase block">
+              <span className="text-[10px] font-mono text-nexus-400 uppercase block">
                 Maker First Comment
               </span>
               <p className="text-nexus-300 leading-relaxed">
@@ -383,10 +390,10 @@ export function LaunchStage() {
       <Card>
         <CardHeader>
           <CardTitle>
-            <CheckSquare className="w-4 h-4 text-emerald-400" />
+            <CheckSquare className="w-4 h-4 text-emerald-500" />
             Launch Readiness Checklist
           </CardTitle>
-          <span className="text-xs font-mono text-emerald-400">
+          <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
             {checklist.filter((c) => c.done).length} / {checklist.length} Verified
           </span>
         </CardHeader>
@@ -396,19 +403,19 @@ export function LaunchStage() {
               <div
                 key={i}
                 onClick={() => toggleChecklist(i)}
-                className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between gap-3 text-xs ${
+                className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between gap-3 text-xs min-h-[44px] ${
                   item.done
-                    ? 'bg-nexus-900/60 border-emerald-500/30 text-white'
-                    : 'bg-nexus-950/60 border-nexus-800 text-nexus-400 hover:text-white'
+                    ? 'bg-nexus-900/60 border-emerald-500/30 text-nexus-100 dark:text-white'
+                    : 'bg-nexus-950/60 border-nexus-800 text-nexus-400 hover:text-nexus-100 dark:hover:text-white'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 min-w-0">
                   {item.done ? (
-                    <CheckSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <CheckSquare className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
                   ) : (
-                    <Square className="w-4 h-4 text-nexus-500 shrink-0" />
+                    <Square className="w-4 h-4 text-nexus-400 shrink-0" />
                   )}
-                  <span className={item.done ? 'line-through text-nexus-300' : ''}>
+                  <span className={`truncate ${item.done ? 'line-through text-nexus-400' : ''}`}>
                     {item.item}
                   </span>
                 </div>

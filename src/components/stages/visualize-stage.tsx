@@ -15,7 +15,6 @@ import {
   Image as ImageIcon,
   AlertTriangle,
   ArrowRight,
-  ShieldCheck,
 } from 'lucide-react';
 
 export function VisualizeStage() {
@@ -31,14 +30,14 @@ export function VisualizeStage() {
 
   if (!hasShape) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <AlertBanner
           variant="warning"
           title="Prerequisite Missing"
           message="Visual brief generation requires defined brand personality, naming, and voice. Please complete the Shape stage first."
         />
         <EmptyState
-          icon={<Palette className="w-8 h-8 text-amber-400" />}
+          icon={<Palette className="w-8 h-8 text-amber-500" />}
           title="Brand Shape Required"
           description="Return to Stage 4 (Shape) to synthesize your brand identity, personality traits, and naming."
           actionLabel="Go to Shape Stage"
@@ -50,7 +49,7 @@ export function VisualizeStage() {
 
   if (!visual) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <EmptyState
           icon={<Palette className="w-8 h-8 text-indigo-400" />}
           title="Visual Design Brief Uninitialized"
@@ -67,11 +66,11 @@ export function VisualizeStage() {
     visual;
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Aesthetic Thesis Header */}
-      <div className="p-5 rounded-xl bg-nexus-900/90 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-glow">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+        <div className="space-y-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono text-accent-cyan uppercase tracking-wider">
               Aesthetic Thesis & Creative Direction
             </span>
@@ -79,7 +78,7 @@ export function VisualizeStage() {
               {colorMood.themeName}
             </Badge>
           </div>
-          <p className="text-sm text-nexus-100 font-medium leading-relaxed">
+          <p className="text-xs sm:text-sm text-nexus-200 font-medium leading-relaxed">
             {visual.aestheticThesis}
           </p>
         </div>
@@ -89,7 +88,7 @@ export function VisualizeStage() {
           size="sm"
           onClick={() => setActiveStage('consistency')}
           rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
-          className="shrink-0"
+          className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
         >
           Run Guardian Audit
         </Button>
@@ -110,15 +109,15 @@ export function VisualizeStage() {
           </span>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {Object.entries(colorMood.palette).map(([key, swatch]) => (
               <div
                 key={key}
-                className="p-3 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-2.5"
+                className="p-3 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-2.5 min-w-0"
               >
                 {/* Visual Swatch */}
                 <div
-                  className="w-full h-16 rounded-lg border border-white/10 shadow-inner flex items-center justify-center font-mono text-[11px] font-bold"
+                  className="w-full h-14 sm:h-16 rounded-lg border border-nexus-700/40 shadow-inner flex items-center justify-center font-mono text-[10px] sm:text-[11px] font-bold"
                   style={{
                     backgroundColor: swatch.hex,
                     color:
@@ -131,11 +130,11 @@ export function VisualizeStage() {
                 >
                   {swatch.hex}
                 </div>
-                <div>
-                  <span className="text-xs font-semibold text-white block truncate">
+                <div className="min-w-0">
+                  <span className="text-xs font-semibold text-nexus-100 dark:text-white block truncate">
                     {swatch.name}
                   </span>
-                  <span className="text-[10px] font-mono text-indigo-400 block capitalize">
+                  <span className="text-[10px] font-mono text-indigo-400 block capitalize truncate">
                     {swatch.usageRole}
                   </span>
                   <p className="text-[11px] text-nexus-400 mt-1 leading-snug line-clamp-2">
@@ -171,7 +170,7 @@ export function VisualizeStage() {
                 key={i}
                 className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-800 space-y-2"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-mono font-bold uppercase text-accent-cyan tracking-wider">
                     {spec.role}
                   </span>
@@ -179,13 +178,13 @@ export function VisualizeStage() {
                     Weights: {spec.recommendedWeights}
                   </span>
                 </div>
-                <div className="text-sm font-semibold text-white">
+                <div className="text-sm font-semibold text-nexus-100 dark:text-white">
                   {spec.fontFamily}
                 </div>
                 <p className="text-xs text-nexus-300 leading-relaxed">
                   {spec.usageRule}
                 </p>
-                <div className="pt-2 border-t border-nexus-850 flex items-center justify-between text-[11px] font-mono text-nexus-500">
+                <div className="pt-2 border-t border-nexus-850 flex items-center justify-between text-[11px] font-mono text-nexus-400">
                   <span>Tracking: {spec.letterSpacing}</span>
                   <span>Line Height: {spec.lineHeight}</span>
                 </div>
@@ -196,12 +195,12 @@ export function VisualizeStage() {
       </Card>
 
       {/* Composition, Shapes & Imagery */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Composition & Grid */}
         <Card>
           <CardHeader>
             <CardTitle>
-              <LayoutGrid className="w-4 h-4 text-emerald-400" />
+              <LayoutGrid className="w-4 h-4 text-emerald-500" />
               Composition & Layout
             </CardTitle>
           </CardHeader>
@@ -242,7 +241,7 @@ export function VisualizeStage() {
               <span className="text-[10px] font-mono text-nexus-400 uppercase tracking-wider block mb-1">
                 Corner Radii
               </span>
-              <p className="text-white font-mono font-medium">
+              <p className="text-nexus-100 dark:text-white font-mono font-medium">
                 {shapesAndGeometry.cornerRadii}
               </p>
             </div>
@@ -271,10 +270,10 @@ export function VisualizeStage() {
         </Card>
 
         {/* Imagery Principles */}
-        <Card>
+        <Card className="md:col-span-2 lg:col-span-1">
           <CardHeader>
             <CardTitle>
-              <ImageIcon className="w-4 h-4 text-amber-400" />
+              <ImageIcon className="w-4 h-4 text-amber-500" />
               Imagery Principles
             </CardTitle>
           </CardHeader>
@@ -292,7 +291,7 @@ export function VisualizeStage() {
               <ul className="space-y-1 text-nexus-300">
                 {imageryPrinciples.approvedMotifs.map((motif, i) => (
                   <li key={i} className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-cyan shrink-0" />
                     <span>{motif}</span>
                   </li>
                 ))}
@@ -306,7 +305,7 @@ export function VisualizeStage() {
       <Card className="border-rose-500/20 bg-rose-950/10">
         <CardHeader>
           <CardTitle>
-            <AlertTriangle className="w-4 h-4 text-rose-400" />
+            <AlertTriangle className="w-4 h-4 text-rose-500 dark:text-rose-400" />
             Visual Anti-Patterns (Things We Deliberately Avoid)
           </CardTitle>
           <Badge variant="rose" className="text-[10px] font-mono">
@@ -314,14 +313,14 @@ export function VisualizeStage() {
           </Badge>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-rose-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-rose-700 dark:text-rose-200">
             {visualAvoids.map((avoid, i) => (
               <div
                 key={i}
                 className="p-3 rounded-lg bg-rose-500/5 border border-rose-500/20 flex items-start gap-2.5"
               >
-                <span className="text-rose-400 font-bold shrink-0">✕</span>
-                <span>{avoid}</span>
+                <span className="text-rose-500 dark:text-rose-400 font-bold shrink-0">✕</span>
+                <span className="break-words">{avoid}</span>
               </div>
             ))}
           </div>

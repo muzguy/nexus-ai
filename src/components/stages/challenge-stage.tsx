@@ -13,8 +13,6 @@ import {
   AlertTriangle,
   ArrowRight,
   Sparkles,
-  Flame,
-  Scale,
   Crosshair,
 } from 'lucide-react';
 
@@ -23,8 +21,6 @@ export function ChallengeStage() {
     project,
     setActiveStage,
     selectPositioningDirection,
-    runCurrentStageAction,
-    isExecutingStage,
   } = useBrandProject();
 
   const positioning = project.positioning;
@@ -32,14 +28,14 @@ export function ChallengeStage() {
 
   if (!positioning || positioning.directions.length === 0) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <AlertBanner
           variant="warning"
           title="Prerequisite Missing"
           message="No positioning directions have been generated yet. Please generate positioning directions first."
         />
         <EmptyState
-          icon={<Crosshair className="w-8 h-8 text-amber-400" />}
+          icon={<Crosshair className="w-8 h-8 text-amber-500" />}
           title="Generate Positions First"
           description="Positioning directions must be synthesized before the Adversarial Critic can challenge and stress-test them."
           actionLabel="Go to Positioning Stage"
@@ -50,16 +46,16 @@ export function ChallengeStage() {
   }
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Overview & Human Decision Notice */}
-      <div className="p-5 rounded-xl bg-nexus-900/90 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-glow">
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-glow">
         <div className="flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0 text-rose-400">
+          <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0 text-rose-500 dark:text-rose-400 mt-0.5 sm:mt-0">
             <ShieldAlert className="w-5 h-5" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-xs font-mono font-semibold text-rose-300 uppercase tracking-wider">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-xs font-mono font-semibold text-rose-500 dark:text-rose-300 uppercase tracking-wider">
                 Adversarial Stress-Test & Human Decision Node
               </h3>
               <Badge variant="rose" className="text-[10px] font-mono">
@@ -78,7 +74,7 @@ export function ChallengeStage() {
             size="md"
             onClick={() => setActiveStage('shape')}
             rightIcon={<ArrowRight className="w-4 h-4" />}
-            className="shrink-0"
+            className="w-full md:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
           >
             Advance to Shape Stage
           </Button>
@@ -87,19 +83,19 @@ export function ChallengeStage() {
 
       {/* Selected Direction Callout (if already selected) */}
       {selectedDirection && (
-        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 text-emerald-500 dark:text-emerald-400 shrink-0" />
             <div>
-              <span className="text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider block">
+              <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider block">
                 Human Selection Locked
               </span>
-              <p className="text-sm font-bold text-white">
+              <p className="text-sm font-bold text-nexus-100 dark:text-white">
                 {selectedDirection.name} — &ldquo;{selectedDirection.taglineConcept}&rdquo;
               </p>
             </div>
           </div>
-          <Badge variant="emerald" dot className="text-xs font-mono">
+          <Badge variant="emerald" dot className="text-xs font-mono shrink-0">
             Active Strategic Anchor
           </Badge>
         </div>
@@ -122,8 +118,8 @@ export function ChallengeStage() {
             >
               {/* Header */}
               <CardHeader className="bg-nexus-950/70 pb-3">
-                <div className="w-full">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="w-full min-w-0">
+                  <div className="flex items-center justify-between mb-2 gap-2">
                     <span className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">
                       Vector 0{idx + 1}
                     </span>
@@ -140,7 +136,7 @@ export function ChallengeStage() {
                       {critique?.strategicViability.replace('_', ' ') || 'Audited'}
                     </Badge>
                   </div>
-                  <CardTitle className="text-base text-white">
+                  <CardTitle className="text-base sm:text-lg text-nexus-100 dark:text-white">
                     {direction.name}
                   </CardTitle>
                   <CardDescription className="text-nexus-400 text-xs mt-1">
@@ -166,15 +162,15 @@ export function ChallengeStage() {
                         <span
                           className={`text-base font-bold font-mono ${
                             critique.clicheRiskScore <= 3
-                              ? 'text-emerald-400'
+                              ? 'text-emerald-500 dark:text-emerald-400'
                               : critique.clicheRiskScore <= 6
-                              ? 'text-amber-400'
-                              : 'text-rose-400'
+                              ? 'text-amber-500 dark:text-amber-400'
+                              : 'text-rose-500 dark:text-rose-400'
                           }`}
                         >
                           {critique.clicheRiskScore}
                         </span>
-                        <span className="text-[10px] text-nexus-500 font-mono">/ 10</span>
+                        <span className="text-[10px] text-nexus-400 font-mono">/ 10</span>
                       </div>
                     </div>
 
@@ -186,15 +182,15 @@ export function ChallengeStage() {
                         <span
                           className={`text-base font-bold font-mono ${
                             critique.differentiationScore >= 7
-                              ? 'text-emerald-400'
+                              ? 'text-emerald-500 dark:text-emerald-400'
                               : critique.differentiationScore >= 5
-                              ? 'text-amber-400'
-                              : 'text-rose-400'
+                              ? 'text-amber-500 dark:text-amber-400'
+                              : 'text-rose-500 dark:text-rose-400'
                           }`}
                         >
                           {critique.differentiationScore}
                         </span>
-                        <span className="text-[10px] text-nexus-500 font-mono">/ 10</span>
+                        <span className="text-[10px] text-nexus-400 font-mono">/ 10</span>
                       </div>
                     </div>
                   </div>
@@ -216,14 +212,14 @@ export function ChallengeStage() {
                     {/* Weak Assumptions */}
                     {critique.weakAssumptions.length > 0 && (
                       <div>
-                        <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider block mb-1 flex items-center gap-1">
-                          <AlertTriangle className="w-3 h-3 text-amber-400" />
+                        <span className="text-[10px] font-mono text-amber-500 dark:text-amber-400 uppercase tracking-wider block mb-1 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3 text-amber-500" />
                           Weak Assumptions
                         </span>
                         <ul className="space-y-1 text-nexus-300">
                           {critique.weakAssumptions.map((wa, i) => (
                             <li key={i} className="flex items-start gap-1.5">
-                              <span className="text-amber-400 font-bold">•</span>
+                              <span className="text-amber-500 font-bold">•</span>
                               <span>{wa}</span>
                             </li>
                           ))}
@@ -233,7 +229,7 @@ export function ChallengeStage() {
 
                     {/* Overall Verdict */}
                     <div className="p-3 rounded-lg bg-nexus-850/80 border border-nexus-800">
-                      <span className="text-[10px] font-mono text-indigo-300 uppercase tracking-wider block mb-1">
+                      <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block mb-1">
                         Adversarial Verdict
                       </span>
                       <p className="text-nexus-200 leading-relaxed font-medium">
@@ -249,7 +245,7 @@ export function ChallengeStage() {
                 <Button
                   variant={isSelected ? 'primary' : 'outline'}
                   size="md"
-                  className="w-full text-xs"
+                  className="w-full text-xs min-h-[44px]"
                   onClick={() => selectPositioningDirection(direction)}
                   leftIcon={
                     isSelected ? (

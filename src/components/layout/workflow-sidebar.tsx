@@ -37,12 +37,12 @@ export function WorkflowSidebar() {
   const progressPercentage = Math.round((completedCount / WORKFLOW_STAGES.length) * 100);
 
   return (
-    <aside className="w-72 border-r border-nexus-800 bg-nexus-950/60 flex flex-col shrink-0">
+    <aside className="hidden md:flex w-72 border-r border-nexus-800 bg-nexus-950/60 flex-col shrink-0">
       {/* Workflow Progress Header */}
       <div className="p-5 border-b border-nexus-800/80">
         <div className="flex items-center justify-between text-xs font-mono text-nexus-400 mb-2">
           <span>PIPELINE PROGRESS</span>
-          <span className="text-white font-semibold">{progressPercentage}%</span>
+          <span className="text-nexus-100 dark:text-white font-semibold">{progressPercentage}%</span>
         </div>
         <div className="w-full h-1.5 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
           <div
@@ -71,8 +71,8 @@ export function WorkflowSidebar() {
               className={cn(
                 'w-full text-left p-3 rounded-xl transition-all duration-200 flex items-start gap-3 group relative select-none',
                 isActive
-                  ? 'bg-nexus-850 border border-indigo-500/50 shadow-sm text-white'
-                  : 'hover:bg-nexus-900/60 text-nexus-300 hover:text-white border border-transparent'
+                  ? 'bg-nexus-850 border border-indigo-500/50 shadow-sm text-nexus-100 dark:text-white'
+                  : 'hover:bg-nexus-900/60 text-nexus-400 hover:text-nexus-100 dark:hover:text-white border border-transparent'
               )}
             >
               {/* Step indicator circle */}
@@ -101,7 +101,7 @@ export function WorkflowSidebar() {
                   <span
                     className={cn(
                       'text-xs font-semibold tracking-tight truncate',
-                      isActive ? 'text-white' : 'text-nexus-200'
+                      isActive ? 'text-nexus-100 dark:text-white font-bold' : 'text-nexus-300'
                     )}
                   >
                     {stage.shortLabel}

@@ -3,27 +3,27 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   darkMode: ["class"],
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
         nexus: {
-          950: "#06080e",
-          900: "#0b0f19",
-          850: "#101625",
-          800: "#161e31",
-          750: "#1d273e",
-          700: "#25314d",
-          600: "#364568",
-          500: "#4e6088",
-          400: "#7487ad",
-          300: "#9fb0d0",
-          200: "#cbd6eb",
-          100: "#e7edf8",
-          50: "#f4f7fc",
+          950: "rgb(var(--nexus-950) / <alpha-value>)",
+          900: "rgb(var(--nexus-900) / <alpha-value>)",
+          850: "rgb(var(--nexus-850) / <alpha-value>)",
+          800: "rgb(var(--nexus-800) / <alpha-value>)",
+          750: "rgb(var(--nexus-750) / <alpha-value>)",
+          700: "rgb(var(--nexus-700) / <alpha-value>)",
+          600: "rgb(var(--nexus-600) / <alpha-value>)",
+          500: "rgb(var(--nexus-500) / <alpha-value>)",
+          400: "rgb(var(--nexus-400) / <alpha-value>)",
+          300: "rgb(var(--nexus-300) / <alpha-value>)",
+          200: "rgb(var(--nexus-200) / <alpha-value>)",
+          100: "rgb(var(--nexus-100) / <alpha-value>)",
+          50: "rgb(var(--nexus-50) / <alpha-value>)",
         },
         accent: {
           indigo: "#6366f1",
@@ -39,9 +39,9 @@ const config: Config = {
         mono: ["var(--font-jetbrains-mono)", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 24px -4px rgba(99, 102, 241, 0.25)",
-        "glow-cyan": "0 0 24px -4px rgba(6, 182, 212, 0.25)",
-        "glow-violet": "0 0 24px -4px rgba(139, 92, 246, 0.25)",
+        glow: "var(--shadow-glow)",
+        "glow-cyan": "var(--shadow-glow-cyan)",
+        "glow-violet": "var(--shadow-glow-violet)",
       },
       backgroundImage: {
         "radial-gradient": "radial-gradient(circle at center, var(--tw-gradient-stops))",

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
-import { Crosshair, ArrowRight, ShieldCheck, Scale, Zap, Compass } from 'lucide-react';
+import { Crosshair, ArrowRight, Scale, Zap, Compass } from 'lucide-react';
 
 export function PositionStage() {
   const {
@@ -22,14 +22,14 @@ export function PositionStage() {
 
   if (!hasDiscovery) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <AlertBanner
           variant="warning"
           title="Prerequisite Missing"
           message="Positioning directions must be synthesized from structured discovery data. Please complete the Discover stage first."
         />
         <EmptyState
-          icon={<Compass className="w-8 h-8 text-amber-400" />}
+          icon={<Compass className="w-8 h-8 text-amber-500" />}
           title="Discovery Data Required"
           description="Return to Stage 1 (Discover) to define your core product concept and audience dynamics."
           actionLabel="Go to Discover Stage"
@@ -41,7 +41,7 @@ export function PositionStage() {
 
   if (!positioning || positioning.directions.length === 0) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <EmptyState
           icon={<Crosshair className="w-8 h-8 text-indigo-400" />}
           title="Positioning Directions Uninitialized"
@@ -55,25 +55,28 @@ export function PositionStage() {
   }
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Strategic Rationale Banner */}
-      <div className="p-5 rounded-xl bg-nexus-900/90 border border-indigo-500/30 flex items-start gap-4 shadow-glow">
-        <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0 text-accent-cyan">
-          <Crosshair className="w-5 h-5" />
-        </div>
-        <div className="flex-1">
-          <h3 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider mb-1">
-            Strategic Divergence Thesis
-          </h3>
-          <p className="text-sm text-nexus-200 leading-relaxed font-sans">
-            {positioning.rationale}
-          </p>
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+        <div className="flex items-start gap-3.5">
+          <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0 text-accent-cyan mt-0.5 sm:mt-0">
+            <Crosshair className="w-5 h-5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider mb-1">
+              Strategic Divergence Thesis
+            </h3>
+            <p className="text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
+              {positioning.rationale}
+            </p>
+          </div>
         </div>
         <Button
           variant="secondary"
           size="sm"
           onClick={() => setActiveStage('challenge')}
           rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+          className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
         >
           Challenge Stage
         </Button>
@@ -92,8 +95,8 @@ export function PositionStage() {
               }`}
             >
               <CardHeader className="bg-nexus-950/60 pb-4">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
+                <div className="w-full min-w-0">
+                  <div className="flex items-center justify-between mb-2 gap-2">
                     <span className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">
                       Vector 0{idx + 1}
                     </span>
@@ -103,7 +106,7 @@ export function PositionStage() {
                       </Badge>
                     )}
                   </div>
-                  <CardTitle className="text-lg text-white">
+                  <CardTitle className="text-base sm:text-lg text-nexus-100 dark:text-white">
                     {direction.name}
                   </CardTitle>
                   <CardDescription className="text-nexus-400 font-mono text-[11px] mt-1">
@@ -118,7 +121,7 @@ export function PositionStage() {
                   <span className="text-[10px] font-mono text-nexus-400 uppercase tracking-wider block mb-1">
                     Concept Tagline
                   </span>
-                  <p className="text-xs font-medium text-white italic">
+                  <p className="text-xs font-medium text-nexus-100 dark:text-white italic">
                     &ldquo;{direction.taglineConcept}&rdquo;
                   </p>
                 </div>
@@ -156,11 +159,11 @@ export function PositionStage() {
 
                 {/* Strategic Trade-Off */}
                 <div className="p-3 rounded-lg bg-rose-500/5 border border-rose-500/20">
-                  <span className="text-[10px] font-mono text-rose-300 uppercase tracking-wider block mb-1 flex items-center gap-1.5">
-                    <Scale className="w-3 h-3 text-rose-400" />
+                  <span className="text-[10px] font-mono text-rose-500 dark:text-rose-300 uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+                    <Scale className="w-3 h-3 text-rose-500 dark:text-rose-400" />
                     Strategic Sacrifice / Trade-off
                   </span>
-                  <p className="text-xs text-rose-200/90 leading-relaxed">
+                  <p className="text-xs text-rose-700 dark:text-rose-200/90 leading-relaxed">
                     {direction.strategicTradeoff}
                   </p>
                 </div>
@@ -170,7 +173,7 @@ export function PositionStage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full text-xs"
+                  className="w-full text-xs min-h-[44px] sm:min-h-[36px]"
                   onClick={() => setActiveStage('challenge')}
                   rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
                 >

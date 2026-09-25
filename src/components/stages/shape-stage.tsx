@@ -10,7 +10,6 @@ import { AlertBanner } from '@/components/ui/alert-banner';
 import {
   Flame,
   Volume2,
-  CheckCircle2,
   XCircle,
   Sparkles,
   ArrowRight,
@@ -36,14 +35,14 @@ export function ShapeStage() {
 
   if (!selectedDirection) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <AlertBanner
           variant="warning"
           title="Prerequisite Missing"
           message="Brand shaping requires a selected strategic positioning direction. Please make a selection in Stage 3."
         />
         <EmptyState
-          icon={<ShieldCheck className="w-8 h-8 text-amber-400" />}
+          icon={<ShieldCheck className="w-8 h-8 text-amber-500" />}
           title="Strategic Direction Required"
           description="Return to Stage 3 (Challenge & Selection) to select your winning positioning direction."
           actionLabel="Go to Challenge Stage"
@@ -55,7 +54,7 @@ export function ShapeStage() {
 
   if (!personality || !naming || !voice) {
     return (
-      <div className="p-6 sm:p-8 max-w-4xl mx-auto space-y-6">
+      <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <EmptyState
           icon={<Flame className="w-8 h-8 text-indigo-400" />}
           title="Brand Identity & Voice Unshaped"
@@ -69,14 +68,14 @@ export function ShapeStage() {
   }
 
   return (
-    <div className="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Strategic Anchor Callout */}
-      <div className="p-4 rounded-xl bg-nexus-900/90 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-glow">
-        <div>
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+        <div className="min-w-0">
           <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block">
             Grounded in Strategic Direction
           </span>
-          <h2 className="text-sm font-bold text-white mt-0.5">
+          <h2 className="text-xs sm:text-sm font-bold text-nexus-100 dark:text-white mt-0.5 break-words">
             {selectedDirection.name} — &ldquo;{selectedDirection.taglineConcept}&rdquo;
           </h2>
         </div>
@@ -85,13 +84,14 @@ export function ShapeStage() {
           size="sm"
           onClick={() => setActiveStage('visualize')}
           rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+          className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
         >
           Proceed to Visualize
         </Button>
       </div>
 
       {/* Tagline & Pitch Snapshot */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <Card className="border-indigo-500/40">
           <CardHeader>
             <CardTitle>
@@ -103,7 +103,7 @@ export function ShapeStage() {
             </Badge>
           </CardHeader>
           <CardContent>
-            <p className="text-lg font-bold text-white italic tracking-tight">
+            <p className="text-base sm:text-lg font-bold text-nexus-100 dark:text-white italic tracking-tight break-words">
               &ldquo;{shapeData?.tagline || selectedDirection.taglineConcept}&rdquo;
             </p>
           </CardContent>
@@ -132,7 +132,7 @@ export function ShapeStage() {
         <CardHeader>
           <div>
             <CardTitle>
-              <Flame className="w-4 h-4 text-accent-amber" />
+              <Flame className="w-4 h-4 text-amber-500" />
               Brand Personality & Archetypes
             </CardTitle>
             <CardDescription>
@@ -149,20 +149,20 @@ export function ShapeStage() {
             <h4 className="text-xs font-mono uppercase text-nexus-400 tracking-wider mb-3">
               Core Personality Traits (In Action)
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {personality.coreTraits.map((trait, i) => (
                 <div
                   key={i}
                   className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-800 space-y-2"
                 >
-                  <span className="text-xs font-bold text-white block">
+                  <span className="text-xs font-bold text-nexus-100 dark:text-white block">
                     {trait.name}
                   </span>
                   <p className="text-xs text-nexus-300 leading-relaxed">
                     {trait.description}
                   </p>
                   <div className="pt-2 border-t border-nexus-850 text-[11px] text-accent-cyan font-mono">
-                    <span className="text-nexus-500">In Action: </span>
+                    <span className="text-nexus-400">In Action: </span>
                     {trait.inAction}
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export function ShapeStage() {
 
           {/* Traits to Avoid */}
           <div>
-            <h4 className="text-xs font-mono uppercase text-rose-400 tracking-wider mb-3 flex items-center gap-1.5">
+            <h4 className="text-xs font-mono uppercase text-rose-500 dark:text-rose-400 tracking-wider mb-3 flex items-center gap-1.5">
               <XCircle className="w-3.5 h-3.5" />
               Strict Negative Boundaries (What We Never Do)
             </h4>
@@ -182,8 +182,8 @@ export function ShapeStage() {
                   key={i}
                   className="p-4 rounded-xl bg-rose-500/5 border border-rose-500/20 space-y-2"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-rose-300">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-rose-700 dark:text-rose-300">
                       {avoid.name}
                     </span>
                     <Badge variant="rose" className="text-[10px]">
@@ -191,7 +191,7 @@ export function ShapeStage() {
                     </Badge>
                   </div>
                   <p className="text-xs text-nexus-300">{avoid.reason}</p>
-                  <p className="text-xs font-mono text-rose-300/80 bg-rose-950/30 p-2 rounded border border-rose-500/20 italic">
+                  <p className="text-xs font-mono text-rose-700 dark:text-rose-300/80 bg-rose-950/20 dark:bg-rose-950/30 p-2 rounded border border-rose-500/20 italic break-words">
                     Bad Example: {avoid.badExample}
                   </p>
                 </div>
@@ -206,7 +206,7 @@ export function ShapeStage() {
         <CardHeader>
           <div>
             <CardTitle>
-              <BookmarkCheck className="w-4 h-4 text-emerald-400" />
+              <BookmarkCheck className="w-4 h-4 text-emerald-500" />
               Naming Territories & Candidates
             </CardTitle>
             <CardDescription>
@@ -222,14 +222,14 @@ export function ShapeStage() {
             <div key={territory.id} className="space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-white">
+                  <h4 className="text-sm font-semibold text-nexus-100 dark:text-white">
                     {territory.name}
                   </h4>
                   <p className="text-xs text-nexus-400">{territory.premise}</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {territory.candidates.map((cand) => {
                   const isSelected = naming.selectedCandidateId === cand.id;
 
@@ -243,26 +243,26 @@ export function ShapeStage() {
                       }`}
                     >
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-base font-bold text-white tracking-wide">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-base font-bold text-nexus-100 dark:text-white tracking-wide">
                             {cand.name}
                           </span>
-                          <span className="text-xs font-mono font-semibold text-emerald-400">
+                          <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
                             {cand.score} / 10
                           </span>
                         </div>
-                        <p className="text-xs font-medium text-nexus-300 italic">
+                        <p className="text-xs font-medium text-nexus-200 italic">
                           &ldquo;{cand.tagline}&rdquo;
                         </p>
                         <p className="text-xs text-nexus-400 leading-relaxed">
                           {cand.rationale}
                         </p>
-                        <div className="text-[11px] font-mono text-nexus-500">
+                        <div className="text-[11px] font-mono text-nexus-400">
                           Root: {cand.linguisticRoot}
                         </div>
-                        <div className="text-[11px] font-mono text-accent-cyan flex items-center gap-1">
-                          <Globe className="w-3 h-3" />
-                          {cand.domainFeasibility}
+                        <div className="text-[11px] font-mono text-accent-cyan flex items-center gap-1 break-all">
+                          <Globe className="w-3 h-3 shrink-0" />
+                          <span>{cand.domainFeasibility}</span>
                         </div>
                       </div>
 
@@ -270,7 +270,7 @@ export function ShapeStage() {
                         <Button
                           variant={isSelected ? 'primary' : 'outline'}
                           size="sm"
-                          className="w-full text-xs"
+                          className="w-full text-xs min-h-[44px] sm:min-h-[36px]"
                           onClick={() => selectNameCandidate(cand.id)}
                         >
                           {isSelected ? 'Selected Brand Name' : 'Select Name'}
@@ -300,7 +300,7 @@ export function ShapeStage() {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Tone Attributes & Vocabulary */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-800 space-y-3">
               <span className="text-xs font-mono uppercase text-nexus-400 tracking-wider block">
                 Tone Signature
@@ -322,14 +322,14 @@ export function ShapeStage() {
                 Core Vocabulary vs Taboo Words
               </span>
               <div>
-                <span className="text-[10px] font-mono text-emerald-400 block mb-1">
+                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 block mb-1">
                   Key Vocabulary
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {voice.keyVocabulary.map((kw, i) => (
                     <span
                       key={i}
-                      className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-mono"
+                      className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono"
                     >
                       {kw}
                     </span>
@@ -337,14 +337,14 @@ export function ShapeStage() {
                 </div>
               </div>
               <div className="pt-2 border-t border-nexus-850">
-                <span className="text-[10px] font-mono text-rose-400 block mb-1">
+                <span className="text-[10px] font-mono text-rose-600 dark:text-rose-400 block mb-1">
                   Forbidden / Taboo Words
                 </span>
                 <div className="flex flex-wrap gap-1.5">
                   {voice.tabooTerms.map((tw, i) => (
                     <span
                       key={i}
-                      className="text-xs px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 text-rose-300 font-mono line-through"
+                      className="text-xs px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300 font-mono line-through"
                     >
                       {tw}
                     </span>
@@ -364,29 +364,29 @@ export function ShapeStage() {
                 {voice.rules.map((rule, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs"
+                    className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs"
                   >
                     <div>
-                      <span className="text-[10px] font-mono text-nexus-500 uppercase block mb-1">
+                      <span className="text-[10px] font-mono text-nexus-400 uppercase block mb-1">
                         Context
                       </span>
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-nexus-100 dark:text-white">
                         {rule.context}
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono text-emerald-400 uppercase block mb-1">
+                      <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase block mb-1">
                         Say This
                       </span>
-                      <p className="text-emerald-200 bg-emerald-500/10 p-2 rounded border border-emerald-500/20">
+                      <p className="text-emerald-900 dark:text-emerald-200 bg-emerald-500/10 p-2 rounded border border-emerald-500/20">
                         {rule.sayThis}
                       </p>
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono text-rose-400 uppercase block mb-1">
+                      <span className="text-[10px] font-mono text-rose-600 dark:text-rose-400 uppercase block mb-1">
                         Avoid This
                       </span>
-                      <p className="text-rose-200 bg-rose-500/10 p-2 rounded border border-rose-500/20">
+                      <p className="text-rose-900 dark:text-rose-200 bg-rose-500/10 p-2 rounded border border-rose-500/20">
                         {rule.avoidThis}
                       </p>
                     </div>
