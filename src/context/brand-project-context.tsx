@@ -106,14 +106,35 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
 
   const selectNameCandidate = useCallback((candidateId: string) => {
     setProject((prev) => {
-      if (!prev.naming) return prev;
+      const namingSystem = prev.naming || prev.shapeData?.naming;
+      if (!namingSystem) return prev;
+
+      let candidateName = prev.name;
+      for (const t of namingSystem.territories || []) {
+        const found = t.candidates?.find((c) => c.id === candidateId);
+        if (found) {
+          candidateName = found.name;
+          break;
+        }
+      }
+
+      const updatedNaming = {
+        ...namingSystem,
+        selectedCandidateId: candidateId,
+      };
+
       return {
         ...prev,
+        name: candidateName,
+        selectedName: candidateName,
         updatedAt: new Date().toISOString(),
-        naming: {
-          ...prev.naming,
-          selectedCandidateId: candidateId,
-        },
+        naming: updatedNaming,
+        shapeData: prev.shapeData
+          ? {
+              ...prev.shapeData,
+              naming: updatedNaming,
+            }
+          : undefined,
       };
     });
   }, []);
@@ -260,14 +281,43 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const shape = await aiServices.shape.shapeBrandIdentity(
             project.selectedDirection,
             project.discovery,
-            { onProgress: (p) => setExecutionProgress(p) }
+            { onProgress: (p) => setExecutionProgress(p) },
+            {
+              idea: project.idea,
+              positioning: project.positioning,
+            }
           );
+
+          // Find candidate name for initial selection
+          const defaultCandidateId =
+            shape.naming.selectedCandidateId ||
+            shape.naming.territories[0]?.candidates[0]?.id;
+          let candidateName = project.name;
+          if (defaultCandidateId) {
+            for (const t of shape.naming.territories) {
+              const c = t.candidates?.find((x) => x.id === defaultCandidateId);
+              if (c) {
+                candidateName = c.name;
+                break;
+              }
+            }
+          }
+
+          const updatedNaming = {
+            ...shape.naming,
+            selectedCandidateId: defaultCandidateId,
+          };
 
           setProject((prev) => ({
             ...prev,
-            shapeData: shape,
+            name: candidateName,
+            selectedName: candidateName,
+            shapeData: {
+              ...shape,
+              naming: updatedNaming,
+            },
             personality: shape.personality,
-            naming: shape.naming,
+            naming: updatedNaming,
             voice: shape.voice,
             updatedAt: new Date().toISOString(),
             stageStatus: { ...prev.stageStatus, shape: 'completed' },
@@ -349,6 +399,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
               ? Boolean(prev.discovery)
               : activeStage === 'position'
               ? Boolean(prev.positioning)
+              : activeStage === 'shape'
+              ? Boolean(prev.shapeData)
               : false;
           return {
             ...prev,

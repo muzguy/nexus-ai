@@ -79,15 +79,26 @@ export function ShapeStage() {
             {selectedDirection.name} — &ldquo;{selectedDirection.taglineConcept}&rdquo;
           </h2>
         </div>
-        <Button
-          variant="glow"
-          size="sm"
-          onClick={() => setActiveStage('visualize')}
-          rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
-          className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
-        >
-          Proceed to Visualize
-        </Button>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0 w-full sm:w-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={runCurrentStageAction}
+            isLoading={isExecutingStage}
+            className="w-full sm:w-auto text-xs min-h-[44px] sm:min-h-[36px]"
+          >
+            Re-synthesize
+          </Button>
+          <Button
+            variant="glow"
+            size="sm"
+            onClick={() => setActiveStage('visualize')}
+            rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+            className="w-full sm:w-auto shrink-0 min-h-[44px] sm:min-h-[36px]"
+          >
+            Proceed to Visualize
+          </Button>
+        </div>
       </div>
 
       {/* Tagline & Pitch Snapshot */}

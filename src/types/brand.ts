@@ -29,6 +29,7 @@ export interface BrandProject {
   naming?: NamingSystem;
   voice?: BrandVoice;
   shapeData?: ShapeData;
+  selectedName?: string;
 
   // Stage 6: Visualize
   visualDirection?: VisualDirection;

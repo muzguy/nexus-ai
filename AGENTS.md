@@ -62,7 +62,7 @@ This document defines the strict operating rules, architectural invariants, and 
 | **Discover** | 1 | **REAL AI** | Gemini (`/api/ai/discover` + `ApiDiscoveryService`) |
 | **Position** | 2 | **REAL AI** | Gemini (`/api/ai/position` + `ApiPositioningService`) |
 | **Challenge** | 3 | **MOCK** | `MockChallengeService` (Awaiting migration) |
-| **Shape** | 4 | **MOCK** | `MockShapeService` (Awaiting migration) |
+| **Shape** | 4 | **REAL AI** | Gemini (`/api/ai/shape` + `ApiShapeService`) |
 | **Visualize** | 5 | **MOCK** | `MockVisualService` (Awaiting migration) |
 | **Consistency** | 6 | **MOCK** | `MockConsistencyService` (Awaiting migration) |
 | **Launch** | 7 | **MOCK** | `MockLaunchService` (Awaiting migration) |

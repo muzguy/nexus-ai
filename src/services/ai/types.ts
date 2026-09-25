@@ -40,7 +40,11 @@ export interface IShapeService {
   shapeBrandIdentity(
     selectedDirection: PositioningDirection,
     discovery: DiscoveryData,
-    options?: AIExecutionOptions
+    options?: AIExecutionOptions,
+    context?: {
+      idea?: InitialIdea;
+      positioning?: PositioningData;
+    }
   ): Promise<ShapeData>;
 }
 
