@@ -52,7 +52,7 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
                                 │
                                 ▼
                     ┌────────────────────────┐
-                    │      5. VISUALIZE      │ [MOCK -> AI MIGRATION]
+                    │      5. VISUALIZE      │ [REAL GEMINI]
                     │ Visual Design System   │
                     └───────────┬────────────┘
                                 │
@@ -166,8 +166,8 @@ NEXUS transforms a rough initial concept into a launch-ready brand system via a 
   - `imagery`: Photography/render principles, art direction, lighting
   - `logoConcept`: Symbolic motif and lockup guidance
   - `visualDosAndDonts`: Clear guardrails for visual execution
-- **Human Interaction:** Interactive selection of color variants, typography pairings, and layout modes.
-- **Implementation Status:** **MOCK / SAMPLE** (`MockVisualService`). *Scheduled for real Gemini migration.*
+- **Human Interaction:** Interactive selection of color swatches, light/dark theme preview simulator, and live application preview.
+- **Implementation Status:** **REAL AI** via Google Gemini (`/api/ai/visualize`, `ApiVisualizeService`).
 
 ---
 
@@ -260,7 +260,8 @@ nexus-pre-hackathon/
 │   │   └── api/ai/                    # Server-side API endpoints
 │   │       ├── discover/route.ts      # [REAL AI] Gemini Discovery analysis endpoint
 │   │       ├── position/route.ts      # [REAL AI] Gemini Positioning directions endpoint
-│   │       └── shape/route.ts         # [REAL AI] Gemini Shape identity endpoint
+│   │       ├── shape/route.ts         # [REAL AI] Gemini Shape identity endpoint
+│   │       └── visualize/route.ts     # [REAL AI] Gemini Visual design brief endpoint
 │   │
 │   ├── types/                         # TypeScript interfaces
 │   │   ├── index.ts                   # Unified type exports
@@ -279,13 +280,15 @@ nexus-pre-hackathon/
 │   │   ├── api-discovery-service.ts   # [REAL] Discovery client service calling /api/ai/discover
 │   │   ├── api-positioning-service.ts # [REAL] Positioning client service calling /api/ai/position
 │   │   ├── api-shape-service.ts       # [REAL] Shape client service calling /api/ai/shape
+│   │   ├── api-visualize-service.ts   # [REAL] Visual client service calling /api/ai/visualize
 │   │   └── mock/
 │   │       └── mock-services.ts       # [MOCK] Aether OS mock services for remaining stages
 │   │
 │   ├── lib/validation/                # Runtime schema validation
 │   │   ├── discovery-validator.ts     # Validates and sanitizes DiscoveryData from Gemini
 │   │   ├── positioning-validator.ts   # Validates and sanitizes PositioningData (3 vectors)
-│   │   └── shape-validator.ts         # Validates and sanitizes ShapeData from Gemini
+│   │   ├── shape-validator.ts         # Validates and sanitizes ShapeData from Gemini
+│   │   └── visualize-validator.ts     # Validates and sanitizes VisualDirection from Gemini
 │   │
 │   ├── context/
 │   │   └── brand-project-context.tsx  # Central BrandProjectProvider & useBrandProject() hook

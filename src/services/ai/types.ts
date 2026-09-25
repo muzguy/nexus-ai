@@ -52,7 +52,13 @@ export interface IVisualService {
   synthesizeVisualBrief(
     selectedDirection: PositioningDirection,
     shape: ShapeData,
-    options?: AIExecutionOptions
+    options?: AIExecutionOptions,
+    context?: {
+      idea?: InitialIdea;
+      discovery?: DiscoveryData;
+      positioning?: PositioningData;
+      selectedName?: string;
+    }
   ): Promise<VisualDirection>;
 }
 

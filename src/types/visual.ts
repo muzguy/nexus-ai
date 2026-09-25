@@ -28,8 +28,24 @@ export interface TypographySpec {
   usageRule: string;
 }
 
+export interface LogoDirection {
+  concept: string;
+  symbolism: string;
+  construction: string;
+  usageGuidance: string;
+  avoids: string[];
+}
+
+export interface BrandApplicationPreview {
+  headline: string;
+  subheadline: string;
+  callToAction: string;
+  cardPreviewContext: string;
+}
+
 export interface VisualDirection {
   aestheticThesis: string;
+  rationale?: string; // Strategic relationship: Position -> Personality -> Visual System
   colorMood: ColorMood;
   typography: TypographySpec[];
   composition: {
@@ -49,4 +65,6 @@ export interface VisualDirection {
     lightingAndGrading: string;
   };
   visualAvoids: string[];
+  logoDirection?: LogoDirection;
+  applicationPreview?: BrandApplicationPreview;
 }

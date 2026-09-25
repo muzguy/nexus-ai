@@ -338,7 +338,13 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
           const visual = await aiServices.visual.synthesizeVisualBrief(
             project.selectedDirection,
             project.shapeData,
-            { onProgress: (p) => setExecutionProgress(p) }
+            { onProgress: (p) => setExecutionProgress(p) },
+            {
+              idea: project.idea,
+              discovery: project.discovery,
+              positioning: project.positioning,
+              selectedName: project.selectedName || project.name,
+            }
           );
 
           setProject((prev) => ({
@@ -401,6 +407,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
               ? Boolean(prev.positioning)
               : activeStage === 'shape'
               ? Boolean(prev.shapeData)
+              : activeStage === 'visualize'
+              ? Boolean(prev.visualDirection)
               : false;
           return {
             ...prev,
