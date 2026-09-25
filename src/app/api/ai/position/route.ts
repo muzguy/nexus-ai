@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI, Type } from '@google/genai';
+import { Type } from '@google/genai';
 import { validateAndSanitizePositioningData } from '@/lib/validation/positioning-validator';
-import { InitialIdea } from '@/types/discovery';
-import { DiscoveryData } from '@/types/discovery';
+import { InitialIdea, DiscoveryData } from '@/types/discovery';
+import { executeWithFailover, handleRouterError } from '@/lib/ai';
 
 const POSITIONING_RESPONSE_SCHEMA = {
   type: Type.OBJECT,
@@ -86,71 +86,10 @@ CRITICAL OPERATIONAL RULES:
 4. EXACTLY THREE DIRECTIONS: You must return exactly 3 positioning directions.
 5. NO MARKETING HYPE: Avoid empty buzzwords ("supercharge", "revolutionary", "all-in-one", "magic"). Speak with architectural clarity.`;
 
-async function callGeminiWithRetry(
-  ai: GoogleGenAI,
-  model: string,
-  userPrompt: string,
-  maxAttempts = 3
-) {
-  let attempt = 0;
-  let lastError: any = null;
-
-  while (attempt < maxAttempts) {
-    attempt++;
-    try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: userPrompt,
-        config: {
-          systemInstruction: SYSTEM_PROMPT,
-          responseMimeType: 'application/json',
-          responseSchema: POSITIONING_RESPONSE_SCHEMA,
-          temperature: 0.2,
-        },
-      });
-
-      return response;
-    } catch (err: any) {
-      lastError = err;
-      const status = err?.status;
-      const rawMsg = typeof err?.message === 'string' ? err.message : '';
-
-      const isTransient =
-        status === 503 ||
-        rawMsg.includes('high demand') ||
-        rawMsg.includes('UNAVAILABLE') ||
-        rawMsg.includes('temporarily exhausted') ||
-        err?.code === 'ETIMEDOUT' ||
-        rawMsg.includes('DEADLINE_EXCEEDED');
-
-      if (isTransient && attempt < maxAttempts) {
-        const delayMs = attempt * 1500;
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-        continue;
-      }
-
-      throw err;
-    }
-  }
-
-  throw lastError;
-}
 
 export async function POST(req: Request) {
   try {
-    // 1. Verify Gemini API Key (Server-side ONLY)
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'AI API key is missing. Please configure GEMINI_API_KEY in your .env.local file.',
-        },
-        { status: 500 }
-      );
-    }
-
-    // 2. Parse & Validate Client Inputs
+    // 1. Parse & Validate Client Inputs
     let body: any;
     try {
       body = await req.json();
@@ -179,12 +118,6 @@ export async function POST(req: Request) {
     const productTitle = idea?.title?.trim() || 'Product';
     const rawConcept = idea?.rawConcept?.trim() || '';
     const founderContext = idea?.founderContext?.trim() || '';
-
-    // 3. Resolve Model (Default to active Free tier Flash-Lite model: gemini-3.5-flash-lite)
-    const model = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
-
-    // 4. Initialize Google GenAI Client
-    const ai = new GoogleGenAI({ apiKey });
 
     const userPrompt = `Synthesize 3 divergent market positioning directions for the following validated brand:
 
@@ -220,155 +153,25 @@ ${discovery.constraints?.budgetOrResourceLimits ? `Resource Limits: ${discovery.
 
 Generate exactly 3 strategically distinct, mutually exclusive vectors with painful strategic sacrifices.`;
 
-    // 5. Generate Structured Content with Google Gemini (with safe retry/backoff)
-    const response = await callGeminiWithRetry(ai, model, userPrompt, 3);
+    // 2. Execute via AI Provider Router (Gemini primary with transient retries -> Groq backup)
+    const result = await executeWithFailover(
+      {
+        systemInstruction: SYSTEM_PROMPT,
+        userPrompt,
+        schema: POSITIONING_RESPONSE_SCHEMA,
+        signal: req.signal,
+      },
+      {
+        validate: validateAndSanitizePositioningData,
+      }
+    );
 
-    const rawJsonText = response.text;
-
-    if (!rawJsonText) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an empty response for positioning. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 6. Parse and Validate Structured JSON
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(rawJsonText);
-    } catch {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an unparseable response for positioning. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    const validation = validateAndSanitizePositioningData(parsed);
-    if (!validation.isValid || !validation.data) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: validation.error || 'The positioning output failed structural schema validation. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 7. Return Structured PositioningData
     return NextResponse.json({
       success: true,
-      data: validation.data,
+      data: result.data,
+      provider: result.provider,
     });
   } catch (err: any) {
-    // Safe error handling without exposing API keys or secrets
-    const rawMsg = typeof err?.message === 'string' ? err.message : '';
-    const status = err?.status;
-
-    // 401: Invalid API Key
-    if (
-      status === 401 ||
-      rawMsg.includes('API_KEY_INVALID') ||
-      rawMsg.includes('API key not valid') ||
-      (status === 400 && rawMsg.includes('API key'))
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'AI authentication failed. Please verify that your GEMINI_API_KEY in .env.local is valid.',
-        },
-        { status: 401 }
-      );
-    }
-
-    // 403: Access Denied
-    if (
-      status === 403 ||
-      rawMsg.includes('PERMISSION_DENIED') ||
-      rawMsg.toLowerCase().includes('permission')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Access denied by AI service. Please check your API key permissions and enabled services.',
-        },
-        { status: 403 }
-      );
-    }
-
-    // 429: Rate Limit / Quota Exceeded
-    if (
-      status === 429 ||
-      rawMsg.includes('RESOURCE_EXHAUSTED') ||
-      rawMsg.toLowerCase().includes('quota') ||
-      rawMsg.toLowerCase().includes('rate limit')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI rate limit or quota exceeded. Please wait a moment and click Retry.',
-        },
-        { status: 429 }
-      );
-    }
-
-    // 503: High Demand / Unavailable
-    if (
-      status === 503 ||
-      rawMsg.includes('high demand') ||
-      rawMsg.includes('UNAVAILABLE')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI is currently experiencing temporary high demand. Please click Retry in a moment.',
-        },
-        { status: 503 }
-      );
-    }
-
-    // 504: Timeout
-    if (
-      status === 504 ||
-      rawMsg.includes('timeout') ||
-      rawMsg.includes('DEADLINE_EXCEEDED') ||
-      err?.code === 'ETIMEDOUT'
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'The request to NEXUS AI timed out. Please check your network and click Retry.',
-        },
-        { status: 504 }
-      );
-    }
-
-    // 404: Model Not Found / Retired
-    if (
-      status === 404 ||
-      rawMsg.includes('no longer available') ||
-      rawMsg.includes('NOT_FOUND')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'The configured AI model is unavailable for this key. Please use gemini-3.5-flash-lite in .env.local.',
-        },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'An unexpected error occurred while communicating with NEXUS AI. Please retry.',
-      },
-      { status: 500 }
-    );
+    return handleRouterError(err);
   }
 }

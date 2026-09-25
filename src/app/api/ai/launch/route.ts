@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI, Type } from '@google/genai';
+import { Type } from '@google/genai';
 import { validateAndSanitizeLaunchData } from '@/lib/validation/launch-validator';
+import { executeWithFailover, handleRouterError } from '@/lib/ai';
 import { InitialIdea, DiscoveryData } from '@/types/discovery';
 import { PositioningData, PositioningDirection } from '@/types/positioning';
 import { ShapeData } from '@/types/shape';
@@ -238,83 +239,9 @@ CRITICAL INVARIANTS:
 4. COHESIVE MESSAGING: Landing page copy, pitch variations, and social threads must all reinforce the chosen positioning moat and strategic sacrifice.
 5. STRICT JSON OUTPUT: Return clean JSON conforming exactly to the responseSchema without markdown backticks.`;
 
-async function callGeminiWithRetry(
-  ai: GoogleGenAI,
-  model: string,
-  userPrompt: string,
-  maxRetries = 3
-) {
-  let attempt = 0;
-  let delayMs = 1500;
-
-  while (attempt < maxRetries) {
-    try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: userPrompt }],
-          },
-        ],
-        config: {
-          responseMimeType: 'application/json',
-          responseSchema: LAUNCH_RESPONSE_SCHEMA,
-          temperature: 0.2,
-          systemInstruction: {
-            parts: [
-              {
-                text: LAUNCH_SYSTEM_INSTRUCTION,
-              },
-            ],
-          },
-        },
-      });
-
-      return response;
-    } catch (err: unknown) {
-      attempt++;
-      const errorMessage = err instanceof Error ? err.message : String(err);
-      const isTransient =
-        errorMessage.includes('503') ||
-        errorMessage.includes('UNAVAILABLE') ||
-        errorMessage.includes('high demand') ||
-        errorMessage.includes('rateLimit') ||
-        errorMessage.includes('resource exhausted') ||
-        errorMessage.includes('429');
-
-      console.warn(
-        `[NEXUS Launch API] Gemini attempt ${attempt}/${maxRetries} failed. Transient: ${isTransient}. Error: ${errorMessage}`
-      );
-
-      if (attempt >= maxRetries || !isTransient) {
-        throw err;
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-      delayMs *= 2;
-    }
-  }
-
-  throw new Error('Exhausted retry attempts communicating with Google Gemini.');
-}
-
 export async function POST(req: Request) {
   try {
-    // 1. Verify Server-Side API Key
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey.trim().length === 0) {
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            'AI API key is not configured. Please set GEMINI_API_KEY in .env.local on the server.',
-        },
-        { status: 500 }
-      );
-    }
-
-    // 2. Parse Request Body
+    // 1. Parse Request Body
     let body: {
       selectedDirection?: PositioningDirection;
       shape?: ShapeData;
@@ -377,11 +304,7 @@ export async function POST(req: Request) {
 
     const brandName = selectedName || idea?.title?.trim() || selectedDirection.name;
 
-    // 3. Resolve Model
-    const model = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
-    const ai = new GoogleGenAI({ apiKey });
-
-    // 4. Construct Comprehensive Cumulative Context Prompt
+    // Construct Comprehensive Cumulative Context Prompt
     const userPrompt = `Compile a production-ready, launch-ready GTM Launch Kit for the active brand "${brandName}":
 
 === ACCUMULATED BRAND SYSTEM ARCHITECTURE ===
@@ -440,91 +363,25 @@ Ensure:
 5. A realistic Day 1 through Day 7 execution plan.
 6. Measurable early validation metrics.`;
 
-    // 5. Call Gemini with Retry
-    const response = await callGeminiWithRetry(ai, model, userPrompt, 3);
-    const rawJsonText = response.text;
-
-    if (!rawJsonText) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an empty Launch Kit response. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 6. Parse JSON
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(rawJsonText);
-    } catch {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an unparseable response for Launch Kit. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 7. Validate and Sanitize
-    const validation = validateAndSanitizeLaunchData(parsed);
-    if (!validation.isValid || !validation.data) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: validation.error || 'The Launch Kit output failed schema validation.',
-        },
-        { status: 502 }
-      );
-    }
+    // Execute via AI Provider Router (Gemini primary with transient retries -> Groq backup)
+    const result = await executeWithFailover(
+      {
+        systemInstruction: LAUNCH_SYSTEM_INSTRUCTION,
+        userPrompt,
+        schema: LAUNCH_RESPONSE_SCHEMA,
+        signal: req.signal,
+      },
+      {
+        validate: validateAndSanitizeLaunchData,
+      }
+    );
 
     return NextResponse.json({
       success: true,
-      data: validation.data,
+      data: result.data,
+      provider: result.provider,
     });
-  } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : String(err);
-    console.error('[NEXUS Launch API Route Error]:', errorMsg);
-
-    if (errorMsg.includes('401') || errorMsg.includes('API key')) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'AI authentication failed. Please check your GEMINI_API_KEY in .env.local.',
-        },
-        { status: 401 }
-      );
-    }
-
-    if (errorMsg.includes('429') || errorMsg.includes('quota')) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI rate limit exceeded. Please wait a moment before generating launch assets again.',
-        },
-        { status: 429 }
-      );
-    }
-
-    if (errorMsg.includes('503') || errorMsg.includes('UNAVAILABLE') || errorMsg.includes('high demand')) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI is currently experiencing high demand. Please retry your Launch Kit generation.',
-        },
-        { status: 503 }
-      );
-    }
-
-    const sanitizedMsg = errorMsg.replace(/google\s*gemini/gi, 'NEXUS AI').replace(/gemini/gi, 'AI');
-    return NextResponse.json(
-      {
-        success: false,
-        error: `Launch Kit generation failed: ${sanitizedMsg}. Please retry.`,
-      },
-      { status: 500 }
-    );
+  } catch (err: any) {
+    return handleRouterError(err);
   }
 }

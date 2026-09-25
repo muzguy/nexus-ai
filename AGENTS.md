@@ -28,23 +28,28 @@ This document defines the strict operating rules, architectural invariants, and 
 
 ---
 
-## 3. AI & Google Gemini Integration Rules
+## 3. AI Provider Architecture (Gemini Primary + Groq Backup)
 
-- **Primary Provider:** Google Gemini API using the official `@google/genai` SDK.
-- **Server-Side Only:**
-  - `GEMINI_API_KEY` must remain strictly server-side (inside Next.js API routes under `src/app/api/ai/`).
-  - **NEVER** expose, log, print, or commit `GEMINI_API_KEY` or any portion of it.
-  - Do not prefix keys with `NEXT_PUBLIC_`.
-- **Model Configuration:**
-  - Read `GEMINI_MODEL` from `process.env.GEMINI_MODEL` with fallback to `gemini-3.5-flash-lite`.
-  - Do not hardcode experimental or retired model names.
-- **Structured Output Required:**
-  - Every Gemini request must configure `responseMimeType: 'application/json'` and supply a strict `responseSchema` (using `@google/genai` `Type` definitions).
+- **AI Provider Router (`src/lib/ai/ai-provider-router.ts`):**
+  - Unified server-side router (`executeWithFailover`) managing primary synthesis and automatic failover.
+  - Client components **never** call AI providers directly; all execution happens in Next.js API routes (`src/app/api/ai/*`).
+- **Primary Provider (Gemini):**
+  - Google Gemini API via official `@google/genai` SDK.
+  - Read `GEMINI_MODEL` from `process.env.GEMINI_MODEL` (default: `gemini-3.5-flash-lite`).
+  - Structured output required: `responseMimeType: 'application/json'` with strict `responseSchema` (`Type` definitions).
+  - Transient errors (503 UNAVAILABLE, 429 rate limit, timeouts) retry up to 3 times with exponential backoff.
+- **Backup Provider (Groq):**
+  - Groq API via official `groq-sdk`.
+  - Read `GROQ_MODEL` from `process.env.GROQ_MODEL` (default: `openai/gpt-oss-120b`).
+  - Engaged automatically only if Gemini primary fails, exhausts transient retries, or is unavailable.
+  - Converts GenAI schema to JSON Schema for strict JSON object generation (`response_format: { type: 'json_object' }`).
+  - Server-side only; `GROQ_API_KEY` is strictly secret and never exposed to client bundles.
+- **Cancellation & Stale Generation Protection:**
+  - `AbortSignal` is propagated from the client UI request through the router to active provider calls (both Gemini `abortSignal` and Groq `{ signal }`).
+  - If a request is aborted or generation becomes stale (e.g., user starts a new project), in-flight calls are cancelled and late responses are discarded.
 - **Mandatory Validation:**
-  - Always validate raw AI JSON through a dedicated validator in `src/lib/validation/` before writing to `BrandProject` context.
-- **Error Handling & Retries:**
-  - Handle transient HTTP 503 / `UNAVAILABLE` errors with exponential backoff (e.g., max 3 attempts).
-  - Return standardized HTTP error responses (`{ success: false, error: string }`) mapped to human-readable error messages for authentication (401), rate limits (429), and service demand (503).
+  - Both providers MUST produce structured JSON compatible with existing NEXUS stage validators (`src/lib/validation/`).
+  - Output is validated before writing to `BrandProject` context. If both providers fail, a user-safe NEXUS error is returned. Never return mock/Aether data as a fallback.
 
 ---
 

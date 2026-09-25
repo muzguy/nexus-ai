@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI, Type } from '@google/genai';
+import { Type } from '@google/genai';
 import { validateAndSanitizeDiscoveryData } from '@/lib/validation/discovery-validator';
+import { executeWithFailover, handleRouterError } from '@/lib/ai';
 
 // Strict schema conforming to Google GenAI controlled generation format
 const DISCOVERY_RESPONSE_SCHEMA = {
@@ -145,72 +146,9 @@ CRITICAL OPERATIONAL PRINCIPLES:
  * Execute Gemini generateContent with safe transient retry & increasing backoff.
  * Retries only 503 / UNAVAILABLE / high demand or connection timeouts (maximum 3 attempts).
  */
-async function callGeminiWithRetry(
-  ai: GoogleGenAI,
-  model: string,
-  userPrompt: string,
-  maxAttempts = 3
-) {
-  let attempt = 0;
-  let lastError: any = null;
-
-  while (attempt < maxAttempts) {
-    attempt++;
-    try {
-      const response = await ai.models.generateContent({
-        model,
-        contents: userPrompt,
-        config: {
-          systemInstruction: SYSTEM_PROMPT,
-          responseMimeType: 'application/json',
-          responseSchema: DISCOVERY_RESPONSE_SCHEMA,
-          temperature: 0.2,
-        },
-      });
-
-      return response;
-    } catch (err: any) {
-      lastError = err;
-      const status = err?.status;
-      const rawMsg = typeof err?.message === 'string' ? err.message : '';
-
-      const isTransient =
-        status === 503 ||
-        rawMsg.includes('high demand') ||
-        rawMsg.includes('UNAVAILABLE') ||
-        rawMsg.includes('temporarily exhausted') ||
-        err?.code === 'ETIMEDOUT' ||
-        rawMsg.includes('DEADLINE_EXCEEDED');
-
-      // Only retry transient 503/high-demand/timeouts, never permanent errors (400, 401, 403, 404, 429)
-      if (isTransient && attempt < maxAttempts) {
-        const delayMs = attempt * 1500; // 1.5s, then 3s
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-        continue;
-      }
-
-      throw err;
-    }
-  }
-
-  throw lastError;
-}
-
 export async function POST(req: Request) {
   try {
-    // 1. Verify Gemini API Key (Server-side ONLY)
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'AI API key is missing. Please configure GEMINI_API_KEY in your .env.local file.',
-        },
-        { status: 500 }
-      );
-    }
-
-    // 2. Parse & Validate Client Inputs
+    // 1. Parse & Validate Client Inputs
     let body: any;
     try {
       body = await req.json();
@@ -239,12 +177,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3. Resolve Model (Default to fast, active Flash-Lite model: gemini-3.5-flash-lite)
-    const configuredModel = process.env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite';
-
-    // 4. Initialize Google GenAI Client
-    const ai = new GoogleGenAI({ apiKey });
-
     const userPrompt = `Analyze the following foundational product and founder inputs:
 
 Product / Concept Name:
@@ -259,156 +191,25 @@ ${trimmedConcept}
 Founder Context & Personal Conviction:
 ${typeof founderContext === 'string' && founderContext.trim() ? founderContext.trim() : 'None provided. Infer only from the product concept and explicitly note working assumptions.'}`;
 
-    // 5. Generate Structured Content with Google Gemini (with safe retry/backoff)
-    const response = await callGeminiWithRetry(ai, configuredModel, userPrompt, 3);
+    // 2. Execute via AI Provider Router (Gemini primary with transient retries -> Groq backup)
+    const result = await executeWithFailover(
+      {
+        systemInstruction: SYSTEM_PROMPT,
+        userPrompt,
+        schema: DISCOVERY_RESPONSE_SCHEMA,
+        signal: req.signal,
+      },
+      {
+        validate: validateAndSanitizeDiscoveryData,
+      }
+    );
 
-    const rawJsonText = response.text;
-
-    if (!rawJsonText) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an empty response. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 6. Parse and Validate Structured JSON
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(rawJsonText);
-    } catch {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI returned an unparseable response. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    const validation = validateAndSanitizeDiscoveryData(parsed);
-    if (!validation.isValid || !validation.data) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: validation.error || 'The AI output failed structural schema validation. Please retry.',
-        },
-        { status: 502 }
-      );
-    }
-
-    // 7. Return Structured DiscoveryData
     return NextResponse.json({
       success: true,
-      data: validation.data,
+      data: result.data,
+      provider: result.provider,
     });
   } catch (err: any) {
-    // Safe error handling without exposing API keys or secrets
-    const rawMsg = typeof err?.message === 'string' ? err.message : '';
-    const status = err?.status;
-
-    // 401: Invalid API Key
-    if (
-      status === 401 ||
-      rawMsg.includes('API_KEY_INVALID') ||
-      rawMsg.includes('API key not valid') ||
-      (status === 400 && rawMsg.includes('API key'))
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'AI authentication failed. Please verify that your GEMINI_API_KEY in .env.local is valid.',
-        },
-        { status: 401 }
-      );
-    }
-
-    // 403: Access Denied / Permission Denied
-    if (
-      status === 403 ||
-      rawMsg.includes('PERMISSION_DENIED') ||
-      rawMsg.toLowerCase().includes('permission')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Access denied by AI service. Please check your API key permissions and enabled services.',
-        },
-        { status: 403 }
-      );
-    }
-
-    // 429: Rate Limit / Quota Exceeded
-    if (
-      status === 429 ||
-      rawMsg.includes('RESOURCE_EXHAUSTED') ||
-      rawMsg.toLowerCase().includes('quota') ||
-      rawMsg.toLowerCase().includes('rate limit')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI rate limit or quota exceeded. Please wait a moment and click Retry.',
-        },
-        { status: 429 }
-      );
-    }
-
-    // 503: High Demand / Unavailable
-    if (
-      status === 503 ||
-      rawMsg.includes('high demand') ||
-      rawMsg.includes('UNAVAILABLE')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'NEXUS AI is currently experiencing temporary high demand. Please click Retry in a moment.',
-        },
-        { status: 503 }
-      );
-    }
-
-    // 504: Timeout / Deadline Exceeded
-    if (
-      status === 504 ||
-      rawMsg.includes('timeout') ||
-      rawMsg.includes('DEADLINE_EXCEEDED') ||
-      err?.code === 'ETIMEDOUT'
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'The request to NEXUS AI timed out. Please check your network and click Retry.',
-        },
-        { status: 504 }
-      );
-    }
-
-    // 404: Model Not Found / Retired
-    if (
-      status === 404 ||
-      rawMsg.includes('no longer available') ||
-      rawMsg.includes('NOT_FOUND')
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'The configured AI model is unavailable for this key. Please use gemini-3.5-flash-lite in .env.local.',
-        },
-        { status: 404 }
-      );
-    }
-
-    // Generic fallback
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'An unexpected error occurred while communicating with NEXUS AI. Please retry.',
-      },
-      { status: 500 }
-    );
+    return handleRouterError(err);
   }
 }
