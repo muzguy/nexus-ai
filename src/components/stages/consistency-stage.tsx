@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
+import { WhyThis } from '@/components/ui/why-this';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -458,6 +459,22 @@ export function ConsistencyStage() {
                   <span className="text-[11px] sm:text-xs font-mono text-nexus-400">
                     Format: {consistency.contentType || selectedContentType}
                   </span>
+
+                  <WhyThis
+                    stageBadge="Stage 06 · Guardian Verdict"
+                    title="Why this Integrity Score & Verdict?"
+                    decision={`Score: ${consistency.overallIntegrityScore}/100 (${consistency.verdict.replace('_', ' ').toUpperCase()})`}
+                    decisionSubtitle={consistency.executiveSummary}
+                    inputs={[
+                      { label: 'Audited Content Type', value: consistency.contentType || selectedContentType },
+                      { label: 'Enforced Positioning', value: selectedDirection?.name || 'Strategic Vector' },
+                      { label: 'Active Tone Rules', value: toneAttributes.slice(0, 3).join(', ') },
+                    ]}
+                    reasoning={`The Consistency Guardian cross-audited this copy across ${consistency.audits.length} dimensions. Verified core strengths: "${consistency.highImpactStrengths[0] || 'Verified strategic alignment'}".`}
+                    tradeoff={consistency.keyVulnerabilities[0] ? `Identified Vulnerability: ${consistency.keyVulnerabilities[0]}` : undefined}
+                    consideration={consistency.revisionRationale ? `Revision Rationale: ${consistency.revisionRationale}` : undefined}
+                    triggerVariant="compact"
+                  />
                 </div>
                 <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-nexus-100 dark:text-white tracking-tight break-words">
                   Brand Consistency Verdict
@@ -743,12 +760,27 @@ export function ConsistencyStage() {
                             </span>
                           </div>
 
-                          <Badge
-                            variant={isAligned ? 'emerald' : isWarning ? 'amber' : 'rose'}
-                            className="text-[10px] uppercase font-mono shrink-0"
-                          >
-                            {audit.alignmentScore}%
-                          </Badge>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <WhyThis
+                              stageBadge={`Stage 06 · Audit: ${audit.component}`}
+                              title={`Why this ${audit.title} Score?`}
+                              decision={`${audit.alignmentScore}% Alignment (${audit.status.toUpperCase()})`}
+                              decisionSubtitle={`Evaluated against: ${audit.evaluatedAgainst}`}
+                              inputs={[
+                                { label: 'Evaluated Against', value: audit.evaluatedAgainst },
+                                { label: 'Enforced Guardrails', value: `Audited against ${brandName} guidelines` },
+                              ]}
+                              reasoning={`Finding: ${audit.finding}`}
+                              tradeoff={`Actionable Recommendation: ${audit.recommendation}`}
+                              triggerVariant="compact"
+                            />
+                            <Badge
+                              variant={isAligned ? 'emerald' : isWarning ? 'amber' : 'rose'}
+                              className="text-[10px] uppercase font-mono shrink-0"
+                            >
+                              {audit.alignmentScore}%
+                            </Badge>
+                          </div>
                         </div>
 
                         <p className="text-xs text-nexus-300 leading-relaxed">

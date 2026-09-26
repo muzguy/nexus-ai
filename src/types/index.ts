@@ -6,3 +6,4 @@ export * from './visual';
 export * from './consistency';
 export * from './launch';
 export * from './brand';
+export * from './explainability';

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
+import { WhyThis } from '@/components/ui/why-this';
 import {
   Flame,
   Volume2,
@@ -150,9 +151,25 @@ export function ShapeStage() {
               Behavioral DNA and explicit negative traits to avoid.
             </CardDescription>
           </div>
-          <Badge variant="amber" className="text-[10px] font-mono">
-            {personality.primaryArchetype}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <WhyThis
+              stageBadge="Stage 04 · Brand Personality"
+              title="Why this Personality & Archetype?"
+              decision={`Primary: ${personality.primaryArchetype} (Secondary: ${personality.secondaryArchetype})`}
+              decisionSubtitle={`Core Behavioral DNA: ${personality.coreTraits.map((t) => t.name).join(', ')}`}
+              inputs={[
+                { label: 'Strategic Direction Anchor', value: selectedDirection.name },
+                { label: 'Strategic Value Proposition', value: selectedDirection.valueProposition },
+                { label: 'Target Audience Desires', value: project.discovery?.audience.desires.slice(0, 2).join('; ') || 'High-autonomy execution' },
+              ]}
+              reasoning={`The ${personality.primaryArchetype} archetype translates the strategic vector "${selectedDirection.name}" into concrete human behaviors. It anchors on "${personality.coreTraits[0]?.name}: ${personality.coreTraits[0]?.description}" to project authority while maintaining active accessibility.`}
+              tradeoff={`Explicitly rejects ${personality.traitsToAvoid.map((t) => t.name).join(', ')} to prevent category cliché, arrogance, or dilution.`}
+              triggerVariant="compact"
+            />
+            <Badge variant="amber" className="text-[10px] font-mono">
+              {personality.primaryArchetype}
+            </Badge>
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Core Traits Grid */}
@@ -258,9 +275,25 @@ export function ShapeStage() {
                           <span className="text-base font-bold text-nexus-100 dark:text-white tracking-wide">
                             {cand.name}
                           </span>
-                          <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 shrink-0">
-                            {cand.score} / 10
-                          </span>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <WhyThis
+                              stageBadge="Stage 04 · Naming Candidate"
+                              title={`Why "${cand.name}"?`}
+                              decision={`${cand.name} — "${cand.tagline}"`}
+                              decisionSubtitle={`Territory: ${territory.name}`}
+                              inputs={[
+                                { label: 'Naming Territory', value: `${territory.name} (${territory.premise})` },
+                                { label: 'Positioning Anchor', value: selectedDirection.name },
+                                { label: 'Linguistic Root', value: cand.linguisticRoot },
+                              ]}
+                              reasoning={cand.rationale}
+                              tradeoff={`Domain Feasibility: ${cand.domainFeasibility}. Scored ${cand.score}/10 on category memorability and distinctiveness.`}
+                              triggerVariant="compact"
+                            />
+                            <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                              {cand.score} / 10
+                            </span>
+                          </div>
                         </div>
                         <p className="text-xs font-medium text-nexus-200 italic">
                           &ldquo;{cand.tagline}&rdquo;
@@ -308,6 +341,20 @@ export function ShapeStage() {
               Tone attributes, allowed vocabulary, and concrete editorial rules.
             </CardDescription>
           </div>
+          <WhyThis
+            stageBadge="Stage 04 · Brand Voice"
+            title="Why this Voice & Deterministic Rules?"
+            decision={`Tone Signature: ${voice.toneAttributes.join(' · ')}`}
+            decisionSubtitle={voice.narrativeStyle}
+            inputs={[
+              { label: 'Brand Archetype', value: personality.primaryArchetype },
+              { label: 'Audience Urgency Driver', value: project.discovery?.audience.urgencyDriver || 'Rapid execution demand' },
+              { label: 'Positioning Tagline', value: selectedDirection.taglineConcept },
+            ]}
+            reasoning={`Calibrated to project rigorous category authority without sounding bureaucratic or hyperbolic. Emphasizes key vocabulary (${voice.keyVocabulary.slice(0, 4).join(', ')}) to maintain consistent cognitive clarity.`}
+            tradeoff={`Strictly bans empty buzzwords and taboo terms (${voice.tabooTerms.slice(0, 4).join(', ')}) to preserve high-signal brand credibility.`}
+            triggerVariant="compact"
+          />
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Tone Attributes & Vocabulary */}

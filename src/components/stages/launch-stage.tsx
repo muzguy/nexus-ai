@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
+import { WhyThis } from '@/components/ui/why-this';
 import {
   Rocket,
   Copy,
@@ -233,7 +234,23 @@ export function LaunchStage() {
             <div className="flex items-center gap-2.5">
               <Compass className="w-5 h-5 text-indigo-400" />
               <div>
-                <CardTitle className="text-base">GTM Positioning &amp; Brand Promise</CardTitle>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <CardTitle className="text-base">GTM Positioning &amp; Brand Promise</CardTitle>
+                  <WhyThis
+                    stageBadge="Stage 07 · GTM Strategy"
+                    title="Why this GTM Positioning?"
+                    decision={launchPositioning.positioningStatement}
+                    decisionSubtitle={`Core Promise: "${launchPositioning.corePromise}"`}
+                    inputs={[
+                      { label: 'Target Audience Profile', value: launchPositioning.targetAudienceSummary },
+                      { label: 'Strategic Vector Anchor', value: project.selectedDirection?.name || 'Positioning Vector' },
+                      { label: 'Beachhead Launch Goal', value: project.discovery?.goals.immediateLaunchGoal || 'Beachhead conversion' },
+                    ]}
+                    reasoning={`Differentiator Rationale: ${launchPositioning.differentiatorRationale}`}
+                    tradeoff="Concentrates all launch positioning on high-intent early adopters rather than generic mass-market messaging."
+                    triggerVariant="compact"
+                  />
+                </div>
                 <CardDescription className="text-xs">
                   The foundational strategic narrative that anchors all launch communications.
                 </CardDescription>
@@ -303,7 +320,23 @@ export function LaunchStage() {
           <div className="flex items-center gap-2.5">
             <Globe className="w-5 h-5 text-accent-cyan" />
             <div>
-              <CardTitle className="text-base">Landing Page Hero Architecture</CardTitle>
+              <div className="flex items-center gap-2 flex-wrap">
+                <CardTitle className="text-base">Landing Page Hero Architecture</CardTitle>
+                <WhyThis
+                  stageBadge="Stage 07 · Landing Page Hero"
+                  title="Why this Hero Architecture?"
+                  decision={`Headline: "${landingPage.headline}"`}
+                  decisionSubtitle={`CTA: "${landingPage.primaryCta}"`}
+                  inputs={[
+                    { label: 'Tagline Anchor', value: project.shapeData?.tagline || project.selectedDirection?.taglineConcept || 'Tagline' },
+                    { label: 'Core Value Proposition', value: project.selectedDirection?.valueProposition || 'Value proposition' },
+                    { label: 'Audience Urgency', value: project.discovery?.audience.urgencyDriver || 'Immediate time-to-value' },
+                  ]}
+                  reasoning={`Translates strategic value into a punchy, benefit-first hero section with supporting proof points (${landingPage.valuePillars.map((p) => p.badge).join(', ')}).`}
+                  tradeoff="Rejects passive descriptive copy in favor of decisive outcome-driven claims."
+                  triggerVariant="compact"
+                />
+              </div>
               <CardDescription className="text-xs">
                 Conversion-focused headline, value props, and call-to-actions.
               </CardDescription>
@@ -428,22 +461,38 @@ export function LaunchStage() {
                           : 'border-nexus-800 bg-nexus-950/60 hover:border-nexus-700'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-1 flex-wrap">
                         <span className="font-bold text-nexus-100 dark:text-white text-xs sm:text-sm">
                           {channel.name}
                         </span>
-                        <Badge
-                          variant={
-                            channel.priority === 'primary'
-                              ? 'emerald'
-                              : channel.priority === 'secondary'
-                              ? 'cyan'
-                              : 'amber'
-                          }
-                          className="text-[10px] font-mono uppercase"
-                        >
-                          {channel.priority}
-                        </Badge>
+                        <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                          <WhyThis
+                            stageBadge={`Stage 07 · Channel: ${channel.name}`}
+                            title={`Why ${channel.name}?`}
+                            decision={`${channel.name} (${channel.priority.toUpperCase()} Priority)`}
+                            decisionSubtitle={channel.purpose}
+                            inputs={[
+                              { label: 'Target Audience Profile', value: launchPositioning?.targetAudienceSummary || project.discovery?.audience.primarySegment || 'Primary Audience' },
+                              { label: 'Brand Voice Tone', value: project.shapeData?.voice.toneAttributes.slice(0, 2).join(', ') || 'Direct' },
+                              { label: 'Suggested Format', value: channel.suggestedFormat },
+                            ]}
+                            reasoning={`Fit Rationale: ${channel.fitRationale}`}
+                            tradeoff={`Recommended Action: ${channel.recommendedAction}. Prioritizing this channel focuses bandwidth where conversion probability is highest.`}
+                            triggerVariant="compact"
+                          />
+                          <Badge
+                            variant={
+                              channel.priority === 'primary'
+                                ? 'emerald'
+                                : channel.priority === 'secondary'
+                                ? 'cyan'
+                                : 'amber'
+                            }
+                            className="text-[10px] font-mono uppercase"
+                          >
+                            {channel.priority}
+                          </Badge>
+                        </div>
                       </div>
                       <p className="text-xs text-nexus-300 line-clamp-2">{channel.purpose}</p>
                     </div>

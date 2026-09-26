@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
+import { WhyThis } from '@/components/ui/why-this';
 import { Crosshair, ArrowRight, Scale, Zap, Compass } from 'lucide-react';
 
 export function PositionStage() {
@@ -63,9 +64,25 @@ export function PositionStage() {
             <Crosshair className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider mb-1">
-              Strategic Divergence Thesis
-            </h3>
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <h3 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider">
+                Strategic Divergence Thesis
+              </h3>
+              <WhyThis
+                stageBadge="Stage 02 · Positioning Thesis"
+                title="Why this Divergence Thesis?"
+                decision="3 Mutually Exclusive Market Vectors"
+                decisionSubtitle={positioning.rationale}
+                inputs={[
+                  { label: 'Beachhead Problem', value: project.discovery?.problem.coreProblem || 'Foundational market pain point' },
+                  { label: 'Category Incumbent Gap', value: project.discovery?.problem.marketFailure || 'Category status quo' },
+                  { label: 'Immediate Beachhead Goal', value: project.discovery?.goals.immediateLaunchGoal || 'Target beachhead adoption' },
+                ]}
+                reasoning="NEXUS deliberately engineers 3 divergent market vectors rather than minor variations. This forces strategic clarity on what value is delivered and what must be sacrificed, preventing the common trap of vague, one-size-fits-all positioning."
+                tradeoff="Each vector makes an explicit sacrifice in target buyer segment, narrative focus, or operational complexity to guarantee distinctiveness."
+                triggerVariant="compact"
+              />
+            </div>
             <p className="text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
               {positioning.rationale}
             </p>
@@ -107,10 +124,30 @@ export function PositionStage() {
             >
               <CardHeader className="bg-nexus-950/60 pb-4">
                 <div className="w-full min-w-0">
-                  <div className="flex items-center justify-between mb-2 gap-2">
-                    <span className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">
-                      Vector 0{idx + 1}
-                    </span>
+                  <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">
+                        Vector 0{idx + 1}
+                      </span>
+                      <WhyThis
+                        stageBadge={`Stage 02 · Vector 0${idx + 1}`}
+                        title={`Why ${direction.name}?`}
+                        decision={`${direction.name} (${direction.archetype})`}
+                        decisionSubtitle={`"${direction.taglineConcept}"`}
+                        inputs={[
+                          { label: 'Target Segment Focus', value: direction.targetSegment },
+                          { label: 'Core Problem Solved', value: project.discovery?.problem.coreProblem || 'Discovered market need' },
+                          { label: 'Incumbent Category Failure', value: project.discovery?.problem.marketFailure || 'Incumbent gap' },
+                          ...(project.discovery?.audience.painPoints?.length
+                            ? [{ label: 'Primary Audience Pain Point', value: project.discovery.audience.painPoints[0] }]
+                            : []),
+                        ]}
+                        reasoning={`Synthesized as a strategically defensible vector delivering "${direction.valueProposition}". Builds a structural competitive advantage via ${direction.competitiveMoat.toLowerCase()}, anchored on ${direction.keyDifferentiator.toLowerCase()}.`}
+                        tradeoff={direction.strategicTradeoff}
+                        consideration={direction.critique?.clicheNotes ? `Adversarial Note: ${direction.critique.clicheNotes}` : undefined}
+                        triggerVariant="compact"
+                      />
+                    </div>
                     {isSelected && (
                       <Badge variant="cyan" dot className="text-[10px] font-mono">
                         Selected

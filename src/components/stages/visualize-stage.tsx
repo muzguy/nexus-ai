@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
+import { WhyThis } from '@/components/ui/why-this';
 import {
   Palette,
   Type,
@@ -298,6 +299,20 @@ export function VisualizeStage() {
             <Badge variant="cyan" className="text-[10px] font-mono">
               {colorMood.themeName}
             </Badge>
+            <WhyThis
+              stageBadge="Stage 05 · Visual System"
+              title="Why this Visual Direction?"
+              decision={visual.aestheticThesis}
+              decisionSubtitle={`Visual Theme: ${colorMood.themeName} (${colorMood.lightingMood})`}
+              inputs={[
+                { label: 'Strategic Direction Anchor', value: project.selectedDirection?.name || 'Positioning Anchor' },
+                { label: 'Brand Archetype', value: project.shapeData?.personality.primaryArchetype || project.personality?.primaryArchetype || 'Archetype' },
+                { label: 'Composition Density', value: `${composition.density} (${composition.gridPrinciple})` },
+              ]}
+              reasoning={visual.rationale || `Visual design system engineered to project ${colorMood.lightingMood} precision. Primary token ${colorMood.palette.primary.name} anchors structural trust while ${colorMood.palette.accent.name} serves as high-signal visual emphasis.`}
+              tradeoff={`Deliberate Visual Guardrails: Rejects ${visualAvoids.slice(0, 3).join('; ')} to ensure elevated, proprietary aesthetics.`}
+              triggerVariant="compact"
+            />
           </div>
           <p className="text-xs sm:text-sm text-nexus-100 font-medium leading-relaxed">
             {visual.aestheticThesis}
@@ -339,10 +354,26 @@ export function VisualizeStage() {
       <Card>
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <CardTitle>
-              <Palette className="w-4 h-4 text-accent-cyan" />
-              Color Mood & Palette Tokens
-            </CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle>
+                <Palette className="w-4 h-4 text-accent-cyan" />
+                Color Mood & Palette Tokens
+              </CardTitle>
+              <WhyThis
+                stageBadge="Stage 05 · Color Palette"
+                title="Why this Color Palette?"
+                decision={`${colorMood.themeName} Palette`}
+                decisionSubtitle={colorMood.description}
+                inputs={[
+                  { label: 'Primary Brand Color', value: `${colorMood.palette.primary.name} (${colorMood.palette.primary.hex}) — ${colorMood.palette.primary.meaning}` },
+                  { label: 'Accent Color', value: `${colorMood.palette.accent.name} (${colorMood.palette.accent.hex}) — ${colorMood.palette.accent.meaning}` },
+                  { label: 'Surface & Canvas', value: `${colorMood.palette.surface.name} on ${colorMood.palette.background.name}` },
+                ]}
+                reasoning={`The palette establishes an immediate psychological tone: ${colorMood.palette.primary.name} projects structural authority (${colorMood.palette.primary.meaning}), while ${colorMood.palette.accent.name} guides user focus to interactive actions (${colorMood.palette.accent.meaning}).`}
+                tradeoff="Calibrated for WCAG AA contrast compliance across both dark and light modes, avoiding low-contrast grays or ambiguous hues."
+                triggerVariant="compact"
+              />
+            </div>
             <CardDescription>{colorMood.description}</CardDescription>
           </div>
           <span className="text-xs font-mono text-nexus-400">
