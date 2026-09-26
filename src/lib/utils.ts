@@ -20,17 +20,17 @@ export function getStatusBadgeVariant(status: string): {
     case 'launch_ready':
     case 'aligned':
       return {
-        color: 'text-emerald-400',
-        bg: 'bg-emerald-500/10',
-        border: 'border-emerald-500/20',
-        dot: 'bg-emerald-400',
+        color: 'text-rose-400',
+        bg: 'bg-rose-500/10',
+        border: 'border-rose-500/20',
+        dot: 'bg-rose-400',
       };
     case 'in_progress':
       return {
-        color: 'text-accent-cyan',
-        bg: 'bg-accent-cyan/10',
-        border: 'border-accent-cyan/20',
-        dot: 'bg-accent-cyan animate-pulse',
+        color: 'text-rose-300',
+        bg: 'bg-rose-500/15',
+        border: 'border-rose-500/30',
+        dot: 'bg-rose-400 animate-pulse',
       };
     case 'needs_review':
     case 'warning':

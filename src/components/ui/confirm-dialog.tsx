@@ -63,7 +63,7 @@ export function ConfirmDialog({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
+      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
       onClick={onCancel}
       role="presentation"
     >
@@ -72,11 +72,11 @@ export function ConfirmDialog({
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-message"
-        className="relative w-full max-w-sm sm:max-w-md rounded-2xl bg-nexus-900 border border-nexus-800 text-nexus-100 shadow-2xl p-5 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
+        className="relative w-full max-w-sm sm:max-w-md rounded-2xl bg-nexus-900/85 backdrop-blur-xl border border-white/[0.08] text-nexus-100 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)] p-5 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 shrink-0">
             <RotateCcw className="w-5 h-5" />
           </div>
 

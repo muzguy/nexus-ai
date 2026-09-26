@@ -98,7 +98,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
 
   const drawerContent = (
     <div
-      className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
       role="presentation"
     >
@@ -107,16 +107,16 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="brand-dna-title"
-        className={`w-full max-w-lg h-full bg-nexus-900 border-l border-nexus-800 text-nexus-100 shadow-2xl flex flex-col focus:outline-none animate-slideLeft overflow-hidden ${className}`}
+        className={`w-full max-w-lg h-full bg-nexus-900/95 backdrop-blur-2xl border-l border-white/[0.08] text-nexus-100 shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col focus:outline-none animate-slideLeft overflow-hidden ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ==================================================== */}
         {/* DRAWER HEADER */}
         {/* ==================================================== */}
-        <div className="p-4 sm:p-5 border-b border-nexus-800 bg-nexus-950/80 backdrop-blur-md shrink-0 space-y-3">
+        <div className="p-4 sm:p-5 border-b border-nexus-800/80 bg-nexus-950/85 backdrop-blur-md shrink-0 space-y-3">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-xs">
+              <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shadow-xs">
                 <Dna className="w-4 h-4" />
               </div>
               <div>
@@ -130,7 +130,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                   <Badge
                     variant={
                       dna.maturityLabel === 'Refined'
-                        ? 'emerald'
+                        ? 'ruby'
                         : dna.maturityLabel === 'Defined'
                         ? 'primary'
                         : 'amber'
@@ -168,7 +168,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
           {/* Brand Essence Snapshot */}
           <div className="p-3 rounded-xl bg-nexus-950/90 border border-nexus-850 flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block font-semibold">
+              <span className="text-[10px] font-mono text-rose-400 uppercase tracking-wider block font-semibold">
                 Brand Anchor
               </span>
               <h3 className="text-sm sm:text-base font-bold text-nexus-100 dark:text-white truncate">
@@ -190,7 +190,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                   className="p-1.5 rounded-md text-nexus-400 hover:text-nexus-100 hover:bg-nexus-800 border border-nexus-700 transition-colors cursor-pointer"
                 >
                   {copiedKey === 'tagline' ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <Check className="w-3.5 h-3.5 text-rose-400" />
                   ) : (
                     <Copy className="w-3.5 h-3.5" />
                   )}
@@ -204,7 +204,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                   onClick={() => setViewMode('compact')}
                   className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${
                     viewMode === 'compact'
-                      ? 'bg-emerald-600 text-white shadow-xs font-semibold'
+                      ? 'bg-gradient-to-r from-red-900 via-rose-700 to-rose-600 text-white shadow-xs font-semibold'
                       : 'text-nexus-400 hover:text-nexus-200'
                   }`}
                 >
@@ -215,7 +215,7 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                   onClick={() => setViewMode('detailed')}
                   className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${
                     viewMode === 'detailed'
-                      ? 'bg-emerald-600 text-white shadow-xs font-semibold'
+                      ? 'bg-gradient-to-r from-red-900 via-rose-700 to-rose-600 text-white shadow-xs font-semibold'
                       : 'text-nexus-400 hover:text-nexus-200'
                   }`}
                 >
@@ -248,14 +248,14 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
           {/* 1. STRATEGIC POSITIONING & PROMISE */}
           {/* ================================================== */}
           {dna.positioning && (
-            <div className="p-3.5 sm:p-4 rounded-xl bg-nexus-950/70 border border-emerald-500/30 space-y-2.5">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-nexus-950/70 border border-rose-500/30 space-y-2.5">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 font-semibold">
-                  <Crosshair className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+                <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+                  <Crosshair className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                   Positioning Direction
                 </span>
                 <div className="flex items-center gap-1.5">
-                  <Badge variant="cyan" className="text-[9px] font-mono">
+                  <Badge variant="ruby" className="text-[9px] font-mono">
                     {dna.positioning.isHumanSelected ? 'Selected Vector' : 'Direction'}
                   </Badge>
                   {project.positioning && (
@@ -456,8 +456,8 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
           {/* ================================================== */}
           {dna.differentiator && (
             <div className="p-3.5 sm:p-4 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 Strategic Moat &amp; Distinctiveness
               </span>
               <p className="text-xs text-nexus-200 leading-relaxed font-sans">
@@ -472,13 +472,13 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
           {/* 6. VISUAL SYSTEM & PALETTE */}
           {/* ================================================== */}
           {dna.visual && (
-            <div className="p-3.5 sm:p-4 rounded-xl bg-nexus-950/70 border border-accent-cyan/20 space-y-2.5">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-nexus-950/70 border border-rose-500/20 space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-accent-cyan flex items-center gap-1.5 font-semibold">
-                  <Palette className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+                <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+                  <Palette className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                   Visual Direction
                 </span>
-                <Badge variant="cyan" className="text-[9px] font-mono">
+                <Badge variant="ruby" className="text-[9px] font-mono">
                   {dna.visual.themeName}
                 </Badge>
               </div>
@@ -500,13 +500,13 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                           type="button"
                           onClick={(e) => copyToClipboard(swatch.hex, `swatch-${role}`, e)}
                           title={`${swatch.name} (${swatch.hex}) - Click to copy`}
-                          className="flex flex-col items-center p-1.5 rounded-lg bg-nexus-900 border border-nexus-800 hover:border-accent-cyan/40 transition-colors cursor-pointer group"
+                          className="flex flex-col items-center p-1.5 rounded-lg bg-nexus-900 border border-nexus-800 hover:border-rose-500/40 transition-colors cursor-pointer group"
                         >
                           <span
                             className="w-full h-5 rounded-md border border-white/10 shadow-xs mb-1"
                             style={{ backgroundColor: swatch.hex }}
                           />
-                          <span className="text-[9px] font-mono text-nexus-300 group-hover:text-accent-cyan truncate w-full text-center">
+                          <span className="text-[9px] font-mono text-nexus-300 group-hover:text-rose-400 truncate w-full text-center">
                             {isCopied ? 'Copied' : swatch.hex}
                           </span>
                         </button>
@@ -522,10 +522,10 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
           {/* 7. GUARDIAN CONSISTENCY FOUNDATION CALLOUT */}
           {/* ================================================== */}
           {dna.hasGuardianFoundation && (
-            <div className="p-3.5 rounded-xl bg-emerald-500/5 border border-emerald-500/25 flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-rose-500/5 border border-rose-500/25 flex items-start gap-2.5">
+              <CheckCircle2 className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
               <div className="space-y-0.5">
-                <span className="text-xs font-semibold text-emerald-400 block">
+                <span className="text-xs font-semibold text-rose-400 block">
                   Guardian Foundation Active
                 </span>
                 <p className="text-[11px] text-nexus-300 leading-relaxed font-sans">
@@ -533,10 +533,10 @@ export function BrandDna({ isOpen, onClose, className = '' }: BrandDnaProps) {
                 </p>
                 {dna.consistency?.integrityScore !== undefined && (
                   <div className="pt-1.5 flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-emerald-400 font-semibold">
+                    <span className="text-[10px] font-mono text-rose-400 font-semibold">
                       Verified Integrity: {dna.consistency.integrityScore}/100
                     </span>
-                    <Badge variant="emerald" className="text-[9px] font-mono uppercase">
+                    <Badge variant="ruby" className="text-[9px] font-mono uppercase">
                       {dna.consistency.verdict?.replace('_', ' ')}
                     </Badge>
                   </div>

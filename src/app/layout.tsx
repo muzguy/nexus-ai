@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="bg-nexus-950 text-nexus-100 antialiased selection:bg-emerald-500/30 selection:text-white transition-colors duration-150">
+      <body className="bg-nexus-950 text-nexus-100 antialiased selection:bg-rose-500/30 selection:text-white transition-colors duration-150">
         <script
           dangerouslySetInnerHTML={{
             __html: `

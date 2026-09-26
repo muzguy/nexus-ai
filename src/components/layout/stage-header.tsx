@@ -40,19 +40,19 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
   const label = actionLabel || defaultActionLabels[activeStage] || 'Run Stage Agent';
 
   return (
-    <div className="border-b border-nexus-800 bg-nexus-900 px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 w-full">
+    <div className="border-b border-nexus-800/80 bg-nexus-900/80 backdrop-blur-sm px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 w-full shadow-xs">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
         {/* Stage Masthead & Context */}
         <div className="space-y-1.5 max-w-2xl min-w-0">
           <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
-            <span className="text-[11px] font-mono text-emerald-400 font-semibold tracking-wider uppercase">
+            <span className="text-[11px] font-mono text-rose-400 font-semibold tracking-wider uppercase">
               Stage 0{currentStageConfig?.stepNumber} of 07
             </span>
             <div className="h-3 w-px bg-nexus-800 hidden xs:block" />
             <Badge
               variant={
                 isCompleted
-                  ? 'emerald'
+                  ? 'ruby'
                   : status === 'in_progress'
                   ? 'primary'
                   : status === 'needs_review'
@@ -78,7 +78,7 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
         {/* Stage Navigation & Dominant Action Toolbar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 pt-1 lg:pt-0">
           {/* Paired Prev / Next Segmented Control */}
-          <div className="inline-flex items-center rounded-lg border border-nexus-800 bg-nexus-850 p-0.5 self-start sm:self-auto">
+          <div className="inline-flex items-center rounded-lg border border-nexus-800/80 bg-nexus-850/80 backdrop-blur-xs p-0.5 self-start sm:self-auto">
             <button
               type="button"
               onClick={goToPreviousStage}
@@ -121,10 +121,10 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
       {isExecutingStage && (
         <div className="mt-4 pt-3 border-t border-nexus-800 flex items-center justify-between gap-3 text-xs font-mono text-nexus-300">
           <div className="flex items-center gap-2.5 min-w-0">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse shrink-0" />
             <span className="text-nexus-200 truncate">{executionProgress || 'NEXUS cognitive synthesis in progress...'}</span>
           </div>
-          <span className="text-[10px] text-emerald-400 font-mono shrink-0 uppercase tracking-widest animate-pulse">Running</span>
+          <span className="text-[10px] text-rose-400 font-mono shrink-0 uppercase tracking-widest animate-pulse">Running</span>
         </div>
       )}
     </div>

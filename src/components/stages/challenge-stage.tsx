@@ -66,9 +66,9 @@ export function ChallengeStage() {
       tagText: 'Vector 01',
     },
     {
-      badge: 'text-emerald-400',
-      border: 'border-emerald-500/30',
-      bgTag: 'bg-emerald-500/10',
+      badge: 'text-rose-400',
+      border: 'border-rose-500/30',
+      bgTag: 'bg-rose-500/10',
       tagText: 'Vector 02',
     },
     {
@@ -84,19 +84,19 @@ export function ChallengeStage() {
       {/* 1. BRAND BATTLE COMMAND HEADER */}
       <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-nexus-800 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 shadow-xs">
         <div className="flex items-start gap-3.5 sm:gap-4 min-w-0">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center shrink-0 text-rose-400 mt-0.5">
             <Swords className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
+              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-rose-400 uppercase">
                 BRAND BATTLE
               </span>
-              <Badge variant="primary" className="text-[10px] font-mono uppercase">
+              <Badge variant="ruby" className="text-[10px] font-mono uppercase">
                 Stage 03 · Strategic Decision Node
               </Badge>
               {selectedDirection && (
-                <Badge variant="emerald" dot className="text-[10px] font-mono">
+                <Badge variant="ruby" dot className="text-[10px] font-mono">
                   Anchor Locked
                 </Badge>
               )}
@@ -169,7 +169,7 @@ export function ChallengeStage() {
             2. Adversarial AI Critique
           </span>
           <span className="text-nexus-600">→</span>
-          <span className="text-emerald-400 font-semibold flex items-center gap-1">
+          <span className="text-rose-400 font-semibold flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5" />
             3. Human Decision Node
           </span>
@@ -181,14 +181,14 @@ export function ChallengeStage() {
 
       {/* 3. SELECTED DIRECTION CONFIRMATION & DOWNSTREAM CONTINUITY */}
       {selectedDirection && (
-        <div className="p-4 sm:p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-3 shadow-xs">
+        <div className="p-4 sm:p-5 rounded-xl bg-rose-500/10 border border-rose-500/30 space-y-3 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 shrink-0">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider block">
+                <span className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider block">
                   Active Strategic Anchor Locked
                 </span>
                 <p className="text-sm sm:text-base font-bold text-nexus-100 dark:text-white truncate">
@@ -196,21 +196,21 @@ export function ChallengeStage() {
                 </p>
               </div>
             </div>
-            <Badge variant="emerald" dot className="text-xs font-mono shrink-0 self-start sm:self-auto">
+            <Badge variant="ruby" dot className="text-xs font-mono shrink-0 self-start sm:self-auto">
               Strategic Anchor
             </Badge>
           </div>
 
           {/* Downstream continuity trail */}
-          <div className="pt-2 border-t border-emerald-500/20 text-xs">
+          <div className="pt-2 border-t border-rose-500/20 text-xs">
             <span className="text-[10px] font-mono uppercase text-nexus-400 block mb-1.5 font-semibold">
               Downstream Strategic Flow:
             </span>
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-[11px] font-mono">
-              <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-semibold border border-emerald-500/30">
+              <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/30">
                 {selectedDirection.name}
               </span>
-              <span className="text-emerald-500">↓</span>
+              <span className="text-rose-400">↓</span>
               <span className="px-2 py-0.5 rounded bg-nexus-900 border border-nexus-800 text-nexus-300">
                 Shape (Personality &amp; Naming)
               </span>
@@ -245,7 +245,7 @@ export function ChallengeStage() {
                 className={cn(
                   'flex flex-col h-full transition-all duration-150',
                   isSelected
-                    ? 'border-emerald-500/60 ring-1 ring-emerald-500/40 bg-emerald-950/10 dark:bg-emerald-950/20 shadow-xs'
+                    ? 'border-rose-600/50 ring-1 ring-rose-500/30 bg-rose-950/15 shadow-xs'
                     : 'border-nexus-800 hover:border-nexus-700'
                 )}
               >
@@ -416,7 +416,7 @@ export function ChallengeStage() {
                     className={cn(
                       'w-full text-xs min-h-[44px] transition-all font-semibold',
                       isSelected
-                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400/40 shadow-glow'
+                        ? 'bg-gradient-to-r from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white border-rose-400/40 shadow-sm'
                         : 'hover:border-nexus-700'
                     )}
                     onClick={() => selectPositioningDirection(direction)}
@@ -656,7 +656,7 @@ export function ChallengeStage() {
                         key={dir.id}
                         className={cn(
                           'p-3.5',
-                          isSelected && 'bg-emerald-500/10 border-x border-emerald-500/30'
+                          isSelected && 'bg-rose-500/10 border-x border-rose-500/30'
                         )}
                       >
                         <Button
@@ -665,7 +665,7 @@ export function ChallengeStage() {
                           className={cn(
                             'w-full text-xs min-h-[38px] font-semibold',
                             isSelected
-                              ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400/40 shadow-glow'
+                              ? 'bg-gradient-to-r from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white border-rose-400/40 shadow-sm'
                               : 'hover:border-nexus-700'
                           )}
                           onClick={() => selectPositioningDirection(dir)}

@@ -73,15 +73,15 @@ export function ListenButton({
         onClick={handleListen}
         className={`inline-flex items-center font-mono font-medium rounded-full border transition-all cursor-pointer select-none shrink-0 ${
           variant === 'compact'
-            ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/40 hover:text-white'
+            ? 'border-rose-500/25 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/40 hover:text-white'
             : variant === 'subtle'
             ? 'border-nexus-800 bg-nexus-850/80 text-nexus-300 hover:bg-nexus-800 hover:text-white'
-            : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/50 hover:text-white shadow-xs'
+            : 'border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/50 hover:text-white shadow-xs'
         } ${sizeClasses} ${className}`}
         aria-label={`Listen to ${label.toLowerCase()} aloud`}
         title={`Listen to ${label.toLowerCase()} aloud`}
       >
-        <Volume2 className={`${iconSizeClass} text-emerald-400 shrink-0`} />
+        <Volume2 className={`${iconSizeClass} text-rose-400 shrink-0`} />
         <span>{label}</span>
       </button>
     );
@@ -102,13 +102,13 @@ export function ListenButton({
         <button
           type="button"
           onClick={handlePause}
-          className={`inline-flex items-center font-mono font-medium rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 transition-all cursor-pointer ${sizeClasses}`}
+          className={`inline-flex items-center font-mono font-medium rounded-full border border-rose-500/40 bg-rose-500/15 text-rose-200 hover:bg-rose-500/25 transition-all cursor-pointer ${sizeClasses}`}
           aria-label="Pause voice playback"
           title="Pause voice playback"
         >
           <span className="relative flex h-2 w-2 mr-0.5">
-            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-400"></span>
           </span>
           <Pause className={`${iconSizeClass} shrink-0`} />
           <span>Pause</span>

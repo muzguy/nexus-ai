@@ -4,85 +4,85 @@
 
 /* Base theme tokens */
 :root {
-  /* Global semantics - Dark Mode is the Primary NEXUS Identity (#050706 canvas, #0C110E card, #111713 elevated) */
-  --background: 5 7 6;       /* #050706 - App canvas background */
-  --foreground: 242 245 243; /* #F2F5F3 - Primary text */
+  /* Global semantics - Dark Mode is the Primary NEXUS Identity (#080709 obsidian canvas, #121014 card, #1B181E elevated) */
+  --background: 8 7 9;         /* #080709 - App canvas background */
+  --foreground: 248 246 250;   /* #F8F6FA - Primary text */
 
-  /* Nexus scale - Dark Mode Default */
-  --nexus-950: 5 7 6;        /* #050706 - Canvas background */
-  --nexus-900: 12 17 14;     /* #0C110E - Card primary surface */
-  --nexus-850: 17 23 19;     /* #111713 - Elevated card / input surface */
-  --nexus-800: 27 39 33;     /* #1B2721 - Subtle borders / dividers */
-  --nexus-750: 35 48 41;     /* #233029 - Hover borders */
-  --nexus-700: 48 64 55;     /* #304037 */
-  --nexus-600: 70 90 79;     /* #465A4F */
-  --nexus-500: 113 128 120;  /* #718078 - Muted text */
-  --nexus-400: 167 181 174;  /* #A7B5AE - Secondary text */
-  --nexus-300: 195 207 201;  /* #C3CFC9 - Body content */
-  --nexus-200: 222 231 227;  /* #DEE7E3 - High-clarity body */
-  --nexus-100: 242 245 243;  /* #F2F5F3 - High-contrast titles & headings */
-  --nexus-50: 255 255 255;   /* #FFFFFF - Maximum white */
+  /* Nexus scale - Dark Mode Default (Neutral Charcoal Obsidian) */
+  --nexus-950: 8 7 9;          /* #080709 - Canvas background */
+  --nexus-900: 18 16 20;       /* #121014 - Card primary surface */
+  --nexus-850: 27 24 30;       /* #1B181E - Elevated card / input surface */
+  --nexus-800: 41 36 48;       /* #292430 - Subtle borders / dividers */
+  --nexus-750: 56 49 64;       /* #383140 - Hover borders */
+  --nexus-700: 72 64 82;       /* #484052 */
+  --nexus-600: 98 88 109;      /* #62586D */
+  --nexus-500: 140 130 150;    /* #8C8296 - Muted text */
+  --nexus-400: 180 172 188;    /* #B4ACB8 - Secondary text */
+  --nexus-300: 210 204 216;    /* #D2CCD8 - Body content */
+  --nexus-200: 232 228 236;    /* #E8E4EC - High-clarity body */
+  --nexus-100: 248 246 250;    /* #F8F6FA - High-contrast titles & headings */
+  --nexus-50: 255 255 255;     /* #FFFFFF - Maximum white */
 
-  /* Glow shadows - Dark Mode */
-  --shadow-glow: 0 0 20px -3px rgba(16, 185, 129, 0.22);
-  --shadow-glow-cyan: 0 0 20px -3px rgba(16, 185, 129, 0.22);
-  --shadow-glow-violet: 0 0 20px -3px rgba(52, 211, 153, 0.18);
+  /* Glow shadows - Ruby / Crimson System */
+  --shadow-glow: 0 0 20px -3px rgba(190, 18, 60, 0.28);
+  --shadow-glow-ruby: 0 0 20px -3px rgba(190, 18, 60, 0.28);
+  --shadow-glow-crimson: 0 0 20px -3px rgba(127, 29, 29, 0.38);
 
   /* Scrollbar - Dark Mode */
-  --scrollbar-track: #050706;
-  --scrollbar-thumb: #1B2721;
-  --scrollbar-thumb-hover: #233029;
+  --scrollbar-track: #080709;
+  --scrollbar-thumb: #292430;
+  --scrollbar-thumb-hover: #383140;
 }
 
 .dark,
 [data-theme="dark"] {
-  --background: 5 7 6;
-  --foreground: 242 245 243;
-  --nexus-950: 5 7 6;
-  --nexus-900: 12 17 14;
-  --nexus-850: 17 23 19;
-  --nexus-800: 27 39 33;
-  --nexus-750: 35 48 41;
-  --nexus-700: 48 64 55;
-  --nexus-600: 70 90 79;
-  --nexus-500: 113 128 120;
-  --nexus-400: 167 181 174;
-  --nexus-300: 195 207 201;
-  --nexus-200: 222 231 227;
-  --nexus-100: 242 245 243;
+  --background: 8 7 9;
+  --foreground: 248 246 250;
+  --nexus-950: 8 7 9;
+  --nexus-900: 18 16 20;
+  --nexus-850: 27 24 30;
+  --nexus-800: 41 36 48;
+  --nexus-750: 56 49 64;
+  --nexus-700: 72 64 82;
+  --nexus-600: 98 88 109;
+  --nexus-500: 140 130 150;
+  --nexus-400: 180 172 188;
+  --nexus-300: 210 204 216;
+  --nexus-200: 232 228 236;
+  --nexus-100: 248 246 250;
   --nexus-50: 255 255 255;
-  --shadow-glow: 0 0 20px -3px rgba(16, 185, 129, 0.22);
-  --shadow-glow-cyan: 0 0 20px -3px rgba(16, 185, 129, 0.22);
-  --shadow-glow-violet: 0 0 20px -3px rgba(52, 211, 153, 0.18);
-  --scrollbar-track: #050706;
-  --scrollbar-thumb: #1B2721;
-  --scrollbar-thumb-hover: #233029;
+  --shadow-glow: 0 0 20px -3px rgba(190, 18, 60, 0.28);
+  --shadow-glow-ruby: 0 0 20px -3px rgba(190, 18, 60, 0.28);
+  --shadow-glow-crimson: 0 0 20px -3px rgba(127, 29, 29, 0.38);
+  --scrollbar-track: #080709;
+  --scrollbar-thumb: #292430;
+  --scrollbar-thumb-hover: #383140;
 }
 
 .light,
 [data-theme="light"] {
-  /* Clean alternate Light Theme */
-  --background: 248 250 248;
-  --foreground: 13 20 16;
-  --nexus-950: 248 250 248;
+  /* Clean alternate Light Theme (warm-cool off-white with ruby accents) */
+  --background: 250 249 251;
+  --foreground: 16 13 22;
+  --nexus-950: 250 249 251;
   --nexus-900: 255 255 255;
-  --nexus-850: 241 245 242;
-  --nexus-800: 226 233 228;
-  --nexus-750: 205 216 209;
-  --nexus-700: 156 173 162;
-  --nexus-600: 112 130 119;
-  --nexus-500: 84 102 91;
-  --nexus-400: 64 82 71;
-  --nexus-300: 42 58 48;
-  --nexus-200: 26 38 31;
-  --nexus-100: 13 20 16;
-  --nexus-50: 5 10 7;
-  --shadow-glow: 0 4px 16px -2px rgba(16, 185, 129, 0.14), 0 2px 6px -1px rgba(16, 185, 129, 0.08);
-  --shadow-glow-cyan: 0 4px 16px -2px rgba(16, 185, 129, 0.14), 0 2px 6px -1px rgba(16, 185, 129, 0.08);
-  --shadow-glow-violet: 0 4px 16px -2px rgba(5, 150, 105, 0.12), 0 2px 6px -1px rgba(5, 150, 105, 0.06);
-  --scrollbar-track: #f1f5f2;
-  --scrollbar-thumb: #cdd8d1;
-  --scrollbar-thumb-hover: #9cad02;
+  --nexus-850: 245 243 247;
+  --nexus-800: 230 226 235;
+  --nexus-750: 212 206 220;
+  --nexus-700: 162 152 173;
+  --nexus-600: 120 110 132;
+  --nexus-500: 94 85 104;
+  --nexus-400: 72 63 82;
+  --nexus-300: 48 40 58;
+  --nexus-200: 30 24 38;
+  --nexus-100: 16 13 22;
+  --nexus-50: 5 4 8;
+  --shadow-glow: 0 4px 16px -2px rgba(190, 18, 60, 0.16), 0 2px 6px -1px rgba(190, 18, 60, 0.08);
+  --shadow-glow-ruby: 0 4px 16px -2px rgba(190, 18, 60, 0.16), 0 2px 6px -1px rgba(190, 18, 60, 0.08);
+  --shadow-glow-crimson: 0 4px 16px -2px rgba(127, 29, 29, 0.14), 0 2px 6px -1px rgba(127, 29, 29, 0.06);
+  --scrollbar-track: #f5f3f7;
+  --scrollbar-thumb: #d6d0dc;
+  --scrollbar-thumb-hover: #b4abbc;
 }
 
 body {
@@ -115,6 +115,38 @@ body {
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.35);
+  background: rgba(190, 18, 60, 0.35);
   color: #ffffff;
+}
+
+/* Frosted glass utility classes */
+@layer utilities {
+  .glass-obsidian {
+    background: rgba(18, 16, 20, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-floating {
+    background: rgba(18, 16, 20, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .glass-ruby-tint {
+    background: linear-gradient(180deg, rgba(127, 29, 29, 0.08) 0%, rgba(18, 16, 20, 0.8) 100%);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-obsidian,
+  .glass-floating {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgb(var(--nexus-900));
+  }
 }

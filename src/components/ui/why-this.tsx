@@ -93,24 +93,24 @@ export function WhyThis({
 
   if (triggerVariant === 'icon') {
     triggerClasses =
-      'inline-flex items-center justify-center w-6 h-6 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:text-white transition-all cursor-pointer shrink-0';
-    triggerButtonContent = <HelpCircle className="w-3.5 h-3.5" />;
+      'inline-flex items-center justify-center w-6 h-6 rounded-full border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:text-white transition-all cursor-pointer shrink-0';
+    triggerButtonContent = <HelpCircle className="w-3.5 h-3.5 text-rose-400" />;
   } else if (triggerVariant === 'compact') {
     triggerClasses =
-      'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-emerald-500/25 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/40 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
+      'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-rose-500/25 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/40 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
     triggerButtonContent = (
       <>
-        <HelpCircle className="w-3 h-3 text-emerald-400 shrink-0" />
+        <HelpCircle className="w-3 h-3 text-rose-400 shrink-0" />
         <span>{triggerLabel}</span>
       </>
     );
   } else {
     // Default 'button'
     triggerClasses =
-      'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/50 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
+      'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:border-rose-500/50 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
     triggerButtonContent = (
       <>
-        <HelpCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+        <HelpCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
         <span>{triggerLabel}</span>
       </>
     );
@@ -118,7 +118,7 @@ export function WhyThis({
 
   const modalContent = isOpen ? (
     <div
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-fadeIn"
+      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-fadeIn"
       onClick={handleClose}
       role="presentation"
     >
@@ -128,17 +128,17 @@ export function WhyThis({
         aria-modal="true"
         aria-labelledby="why-this-title"
         aria-describedby="why-this-decision"
-        className="relative w-full max-w-xl rounded-2xl bg-nexus-900 border border-nexus-800 text-nexus-100 shadow-2xl p-4 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
+        className="relative w-full max-w-xl rounded-2xl bg-nexus-900/85 backdrop-blur-xl border border-white/[0.08] text-nexus-100 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)] p-4 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-start justify-between gap-3 border-b border-nexus-800 pb-3">
+        <div className="flex items-start justify-between gap-3 border-b border-nexus-800/80 pb-3">
           <div className="space-y-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant="primary" className="text-[10px] font-mono uppercase">
+              <Badge variant="ruby" className="text-[10px] font-mono uppercase">
                 {stageBadge}
               </Badge>
-              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
+              <span className="text-[10px] font-mono text-rose-400 uppercase tracking-wider">
                 Explainability Layer
               </span>
             </div>
@@ -146,7 +146,7 @@ export function WhyThis({
               id="why-this-title"
               className="text-base sm:text-lg font-bold text-nexus-100 dark:text-white tracking-tight flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+              <Sparkles className="w-4 h-4 text-rose-400 shrink-0" />
               {title}
             </h3>
           </div>
@@ -163,7 +163,7 @@ export function WhyThis({
             <button
               type="button"
               onClick={handleClose}
-              className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-800 transition-colors shrink-0"
+              className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-800 transition-colors shrink-0 cursor-pointer"
               aria-label="Close explanation dialog"
             >
               <X className="w-4 h-4" />
@@ -174,9 +174,9 @@ export function WhyThis({
         {/* Modal Body */}
         <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
           {/* 1. Decision Section */}
-          <div className="p-3.5 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
-              <Target className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+          <div className="p-3.5 rounded-xl bg-nexus-950/70 border border-nexus-800/80 space-y-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+              <Target className="w-3.5 h-3.5 text-rose-400 shrink-0" />
               Generated Decision
             </span>
             <p
@@ -196,7 +196,7 @@ export function WhyThis({
           {inputs.length > 0 && (
             <div className="space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-wider text-nexus-400 flex items-center gap-1.5 font-semibold">
-                <Layers className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <Layers className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 Influenced By Upstream Context
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -219,11 +219,11 @@ export function WhyThis({
 
           {/* 3. Strategic Rationale */}
           <div className="space-y-1.5">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+              <ShieldCheck className="w-3.5 h-3.5 text-rose-400 shrink-0" />
               Strategic Reasoning
             </span>
-            <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/25 text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
+            <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-500/25 text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
               {reasoning}
             </div>
           </div>
@@ -252,7 +252,7 @@ export function WhyThis({
         {/* Modal Footer */}
         <div className="pt-3 border-t border-nexus-800 flex items-center justify-between text-xs text-nexus-400 flex-wrap gap-2">
           <span className="text-[11px] font-mono text-nexus-400 flex items-center gap-1">
-            <Check className="w-3 h-3 text-emerald-400" />
+            <Check className="w-3 h-3 text-rose-400" />
             Grounded in active project context
           </span>
           <Button

@@ -40,7 +40,7 @@ export function AppHeader() {
 
   return (
     <>
-      <header className="h-14 sm:h-15 border-b border-nexus-800 bg-nexus-950 sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between">
+      <header className="h-14 sm:h-15 border-b border-nexus-800/80 bg-nexus-950/85 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between shadow-xs">
         {/* Left: Brand Anchor & Project Context */}
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button
@@ -49,14 +49,14 @@ export function AppHeader() {
             onClick={() => setIsResetDialogOpen(true)}
             title="Start new project"
             aria-label="Start new project"
-            className="flex items-center gap-2.5 shrink-0 text-left rounded-lg p-1 -m-1 hover:bg-nexus-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all cursor-pointer group"
+            className="flex items-center gap-2.5 shrink-0 text-left rounded-lg p-1 -m-1 hover:bg-nexus-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500/70 transition-all cursor-pointer group"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-600 text-white border border-emerald-500/40 flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 group-active:scale-95 transition-transform">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white border border-rose-500/40 flex items-center justify-center shadow-[0_0_12px_rgba(190,18,60,0.25)] shrink-0 group-hover:scale-105 group-active:scale-95 transition-transform">
               <span className="text-white font-black text-xs sm:text-sm tracking-wider font-mono">NX</span>
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base group-hover:text-emerald-400 transition-colors">
+                <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base group-hover:text-rose-400 transition-colors">
                   NEXUS
                 </span>
                 <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-nexus-900 border border-nexus-800 text-nexus-400 uppercase tracking-widest hidden xs:inline-flex">
@@ -88,11 +88,11 @@ export function AppHeader() {
             onClick={() => setIsBrandDnaOpen(true)}
             title="View persistent Brand DNA"
             aria-label="Open Brand DNA panel"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 hover:text-white transition-all cursor-pointer font-mono text-xs font-medium shadow-xs shrink-0 active:scale-98"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-white transition-all cursor-pointer font-mono text-xs font-medium shadow-xs shrink-0 active:scale-98"
           >
-            <Dna className="w-3.5 h-3.5 text-emerald-400" />
+            <Dna className="w-3.5 h-3.5 text-rose-400" />
             <span className="font-semibold hidden xs:inline">Brand DNA</span>
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-nexus-950 border border-emerald-500/30 text-emerald-300 font-mono">
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-nexus-950 border border-rose-500/30 text-rose-300 font-mono">
               {dna.definedSignalsCount}/9
             </span>
           </button>

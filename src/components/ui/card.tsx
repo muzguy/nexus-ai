@@ -5,6 +5,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverEffect?: boolean;
   active?: boolean;
   glow?: boolean;
+  glass?: boolean;
 }
 
 export function Card({
@@ -12,16 +13,18 @@ export function Card({
   hoverEffect = false,
   active = false,
   glow = false,
+  glass = false,
   children,
   ...props
 }: CardProps) {
   return (
     <div
       className={cn(
-        'rounded-xl bg-nexus-900 border border-nexus-800 text-nexus-200 transition-all duration-150 shadow-xs relative overflow-hidden w-full',
+        'rounded-xl border border-nexus-800 text-nexus-200 transition-all duration-150 shadow-xs relative overflow-hidden w-full',
+        glass ? 'bg-nexus-900/80 backdrop-blur-md border-nexus-800/80 shadow-glass' : 'bg-nexus-900',
         hoverEffect && 'hover:border-nexus-750 hover:bg-nexus-850/60 cursor-pointer',
-        active && 'border-emerald-500/40 ring-1 ring-emerald-500/25 bg-emerald-950/10 dark:bg-emerald-950/20',
-        glow && 'shadow-glow border-emerald-500/30',
+        active && 'border-rose-600/50 ring-1 ring-rose-500/30 bg-rose-950/15',
+        glow && 'shadow-[0_0_20px_-3px_rgba(190,18,60,0.25)] border-rose-500/30',
         className
       )}
       {...props}

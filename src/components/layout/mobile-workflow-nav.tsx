@@ -51,16 +51,16 @@ export function MobileWorkflowNav() {
   const progressPercentage = Math.round((completedCount / WORKFLOW_STAGES.length) * 100);
 
   return (
-    <div className="md:hidden border-b border-nexus-800 bg-nexus-950 sticky top-14 z-30">
+    <div className="md:hidden border-b border-nexus-800/80 bg-nexus-950/90 backdrop-blur-md sticky top-14 z-30">
       {/* Streamlined Single-Bar Mobile Navigation */}
       <div className="h-11 px-3 flex items-center justify-between gap-2">
         {/* Stage Selector Dropdown Button */}
         <button
           type="button"
           onClick={() => setIsDropdownOpen((prev) => !prev)}
-          className="flex items-center gap-2 text-left min-w-0 flex-1 py-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 rounded cursor-pointer select-none"
+          className="flex items-center gap-2 text-left min-w-0 flex-1 py-1 focus:outline-none focus-visible:ring-1 focus-visible:ring-rose-500/70 rounded cursor-pointer select-none"
         >
-          <div className="w-5 h-5 rounded bg-emerald-600 text-white text-[10px] font-mono font-bold flex items-center justify-center shrink-0 shadow-xs">
+          <div className="w-5 h-5 rounded bg-gradient-to-br from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white text-[10px] font-mono font-bold flex items-center justify-center shrink-0 shadow-xs">
             0{currentStageConfig?.stepNumber}
           </div>
           <div className="flex items-center gap-1.5 min-w-0">
@@ -70,7 +70,7 @@ export function MobileWorkflowNav() {
             <ChevronDown
               className={cn(
                 'w-3.5 h-3.5 text-nexus-400 transition-transform duration-200 shrink-0',
-                isDropdownOpen && 'rotate-180 text-emerald-400'
+                isDropdownOpen && 'rotate-180 text-rose-400'
               )}
             />
           </div>
@@ -104,11 +104,11 @@ export function MobileWorkflowNav() {
           <button
             type="button"
             onClick={() => setIsBrandDnaOpen(true)}
-            className="flex items-center gap-1 px-2 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 text-xs font-mono font-semibold shrink-0 cursor-pointer active:scale-95 transition-transform"
+            className="flex items-center gap-1 px-2 py-1 rounded-md border border-rose-500/30 bg-rose-500/10 text-rose-300 text-xs font-mono font-semibold shrink-0 cursor-pointer active:scale-95 transition-transform"
             title="Open Brand DNA"
             aria-label="Open Brand DNA"
           >
-            <Dna className="w-3 h-3 text-emerald-400" />
+            <Dna className="w-3 h-3 text-rose-400" />
             <span>{dna.definedSignalsCount}/9</span>
           </button>
         </div>
@@ -117,14 +117,14 @@ export function MobileWorkflowNav() {
       {/* Progress track */}
       <div className="w-full h-[2px] bg-nexus-850 overflow-hidden">
         <div
-          className="h-full bg-emerald-500 transition-all duration-300"
+          className="h-full bg-gradient-to-r from-[#7F1D1D] via-[#BE123C] to-[#E11D48] transition-all duration-300"
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
 
       {/* Full Stage Dropdown Menu (Collapsible) */}
       {isDropdownOpen && (
-        <div className="p-3 bg-nexus-900 border-t border-nexus-800 shadow-xl max-h-80 overflow-y-auto space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="p-3 bg-nexus-900/95 backdrop-blur-xl border-t border-nexus-800/80 shadow-2xl max-h-80 overflow-y-auto space-y-1 animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="flex items-center justify-between pb-2 mb-1 border-b border-nexus-850 text-[11px] font-mono text-nexus-400">
             <span>PIPELINE WORKFLOW</span>
             <span className="text-nexus-300">{completedCount} of 7 Completed</span>
@@ -145,7 +145,7 @@ export function MobileWorkflowNav() {
                 className={cn(
                   'w-full text-left p-2.5 rounded-lg flex items-center justify-between gap-3 text-xs transition-colors cursor-pointer',
                   isActive
-                    ? 'bg-nexus-850 text-white border border-emerald-500/40'
+                    ? 'bg-nexus-850 text-white border border-rose-600/40'
                     : 'text-nexus-300 hover:bg-nexus-850/60'
                 )}
               >
@@ -154,10 +154,10 @@ export function MobileWorkflowNav() {
                     className={cn(
                       'w-6 h-6 rounded flex items-center justify-center text-xs shrink-0 font-mono',
                       isActive
-                        ? 'bg-emerald-600 text-white'
+                        ? 'bg-gradient-to-br from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white shadow-xs'
                         : isCompleted
-                        ? 'bg-emerald-500/15 text-emerald-400'
-                        : 'bg-nexus-800 text-nexus-400'
+                        ? 'bg-nexus-800 text-nexus-300'
+                        : 'bg-nexus-800 text-nexus-500'
                     )}
                   >
                     {isCompleted ? <Check className="w-3.5 h-3.5" /> : STAGE_ICONS[stage.id]}
@@ -169,7 +169,7 @@ export function MobileWorkflowNav() {
                 </div>
 
                 {isCompleted && (
-                  <span className="text-[10px] font-mono text-emerald-400 shrink-0">DONE</span>
+                  <span className="text-[10px] font-mono text-rose-400 shrink-0">DONE</span>
                 )}
               </button>
             );

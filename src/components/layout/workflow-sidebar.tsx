@@ -47,9 +47,9 @@ export function WorkflowSidebar() {
   const progressPercentage = Math.round((completedCount / WORKFLOW_STAGES.length) * 100);
 
   return (
-    <aside className="hidden md:flex w-64 lg:w-72 border-r border-nexus-800 bg-nexus-950 flex-col shrink-0">
+    <aside className="hidden md:flex w-64 lg:w-72 border-r border-nexus-800/80 bg-nexus-950/90 backdrop-blur-md flex-col shrink-0">
       {/* Workflow Progress Header */}
-      <div className="p-4 sm:p-5 border-b border-nexus-800 space-y-3">
+      <div className="p-4 sm:p-5 border-b border-nexus-800/80 space-y-3">
         <div>
           <div className="flex items-center justify-between text-[10px] font-mono text-nexus-500 tracking-wider mb-1.5 uppercase">
             <span>COGNITIVE PIPELINE</span>
@@ -57,7 +57,7 @@ export function WorkflowSidebar() {
           </div>
           <div className="w-full h-1 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
             <div
-              className="h-full bg-emerald-500 transition-all duration-500 rounded-full"
+              className="h-full bg-gradient-to-r from-[#7F1D1D] via-[#BE123C] to-[#E11D48] transition-all duration-500 rounded-full"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
@@ -68,13 +68,13 @@ export function WorkflowSidebar() {
           type="button"
           onClick={() => setIsBrandDnaOpen(true)}
           title="Open persistent Brand DNA panel"
-          className="w-full flex items-center justify-between p-2 rounded-lg bg-nexus-900 border border-nexus-850 hover:border-nexus-800 transition-colors text-left cursor-pointer group select-none"
+          className="w-full flex items-center justify-between p-2 rounded-lg bg-nexus-900/80 border border-nexus-850 hover:border-nexus-800 transition-colors text-left cursor-pointer group select-none"
         >
           <div className="flex items-center gap-2 min-w-0">
-            <Dna className="w-3.5 h-3.5 text-emerald-400/80 group-hover:text-emerald-400 transition-colors shrink-0" />
+            <Dna className="w-3.5 h-3.5 text-rose-400/80 group-hover:text-rose-400 transition-colors shrink-0" />
             <span className="text-xs text-nexus-300 font-medium truncate">Brand DNA</span>
           </div>
-          <span className="text-[10px] font-mono text-emerald-400 shrink-0">
+          <span className="text-[10px] font-mono text-rose-400 shrink-0">
             {dna.definedSignalsCount}/9 · {dna.maturityLabel}
           </span>
         </button>
@@ -95,7 +95,7 @@ export function WorkflowSidebar() {
               className={cn(
                 'w-full text-left p-2.5 rounded-xl transition-all duration-150 flex items-start gap-2.5 group relative select-none cursor-pointer',
                 isActive
-                  ? 'bg-nexus-900 border border-emerald-500/40 shadow-xs text-nexus-100'
+                  ? 'bg-nexus-900/90 border border-rose-600/40 shadow-xs text-nexus-100'
                   : 'hover:bg-nexus-900/60 text-nexus-400 hover:text-nexus-200 border border-transparent'
               )}
             >
@@ -104,11 +104,11 @@ export function WorkflowSidebar() {
                 className={cn(
                   'w-6 h-6 rounded-md flex items-center justify-center shrink-0 text-xs transition-colors mt-0.5 font-mono',
                   isActive
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-gradient-to-br from-[#7F1D1D] via-[#BE123C] to-[#E11D48] text-white shadow-xs'
                     : isCompleted
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                    ? 'bg-nexus-850 text-nexus-300 border border-nexus-800'
                     : isInProgress
-                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 animate-pulse'
+                    ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30 animate-pulse'
                     : 'bg-nexus-850 text-nexus-500 border border-nexus-800'
                 )}
               >
@@ -131,16 +131,16 @@ export function WorkflowSidebar() {
                     {stage.shortLabel}
                   </span>
                   {isActive && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" />
                   )}
                   {isInProgress && !isActive && (
-                    <span className="text-[10px] text-emerald-400 font-mono animate-pulse">RUN</span>
+                    <span className="text-[10px] text-rose-400 font-mono animate-pulse">RUN</span>
                   )}
                 </div>
                 <p
                   className={cn(
                     'text-[11px] truncate font-sans',
-                    isActive ? 'text-emerald-400/90' : 'text-nexus-500'
+                    isActive ? 'text-rose-400/90' : 'text-nexus-500'
                   )}
                 >
                   {stage.tagline}
@@ -152,10 +152,10 @@ export function WorkflowSidebar() {
       </nav>
 
       {/* Sidebar Footer / System Status */}
-      <div className="p-3 border-t border-nexus-800 bg-nexus-950">
+      <div className="p-3 border-t border-nexus-800/80 bg-nexus-950">
         <div className="px-3 py-2 rounded-lg bg-nexus-900 border border-nexus-850 flex items-center justify-between text-[11px] font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
             <span className="text-nexus-300">Cognitive Pipeline</span>
           </div>
           <span className="text-nexus-500">v1.0</span>
