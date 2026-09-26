@@ -40,102 +40,90 @@ export function AppHeader() {
 
   return (
     <>
-      <header className="h-14 sm:h-16 border-b border-nexus-800 bg-nexus-950 sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between">
-        {/* Brand Identity / Logo Action */}
-        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+      <header className="h-14 sm:h-15 border-b border-nexus-800 bg-nexus-950 sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between">
+        {/* Left: Brand Anchor & Project Context */}
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button
             ref={logoButtonRef}
             type="button"
             onClick={() => setIsResetDialogOpen(true)}
             title="Start new project"
             aria-label="Start new project"
-            className="flex items-center gap-2 sm:gap-2.5 shrink-0 text-left rounded-xl p-1 -m-1 hover:bg-nexus-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all cursor-pointer group"
+            className="flex items-center gap-2.5 shrink-0 text-left rounded-lg p-1 -m-1 hover:bg-nexus-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all cursor-pointer group"
           >
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-600 text-white border border-emerald-500/40 flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 group-active:scale-95 transition-transform">
               <span className="text-white font-black text-xs sm:text-sm tracking-wider font-mono">NX</span>
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-2">
                 <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base group-hover:text-emerald-400 transition-colors">
                   NEXUS
                 </span>
-                <Badge variant="primary" className="text-[9px] sm:text-[10px] py-0 px-1 sm:px-1.5 uppercase font-mono hidden xs:inline-flex">
-                  Brand Intelligence
-                </Badge>
+                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-nexus-900 border border-nexus-800 text-nexus-400 uppercase tracking-widest hidden xs:inline-flex">
+                  Studio
+                </span>
               </div>
-              <p className="text-[10px] sm:text-[11px] text-nexus-400 font-mono tracking-tight -mt-0.5 hidden md:block group-hover:text-nexus-300 transition-colors">
-                Multi-Stage Autonomous Brand Architecture
-              </p>
             </div>
           </button>
 
-          <div className="h-5 w-[1px] bg-nexus-800 hidden lg:block" />
+          <div className="h-4 w-px bg-nexus-800 hidden md:block" />
 
-          {/* Active Project Pill */}
-          <div className="hidden lg:flex items-center gap-2">
-            <span className="text-xs text-nexus-400 font-mono">PROJECT:</span>
-            <span className="text-xs font-semibold text-nexus-100 dark:text-white px-2 py-0.5 rounded bg-nexus-850 border border-nexus-800 max-w-[160px] truncate">
+          {/* Active Project Breadcrumb */}
+          <div className="hidden md:flex items-center gap-2 min-w-0">
+            <span className="text-[10px] font-mono text-nexus-500 uppercase tracking-wider">PROJECT</span>
+            <span className="text-xs font-semibold text-nexus-200 max-w-[180px] lg:max-w-[240px] truncate">
               {project.idea.title || project.name || 'Untitled Brand System'}
             </span>
-            {completedStagesCount === 7 ? (
-              <Badge variant="emerald" dot className="text-[11px]">
-                Ready
-              </Badge>
-            ) : (
-              <Badge variant="primary" className="text-[11px]">
-                {completedStagesCount}/7 Done
-              </Badge>
-            )}
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-nexus-900 border border-nexus-800 text-nexus-400">
+              {completedStagesCount}/7 Locked
+            </span>
           </div>
         </div>
 
-        {/* Header Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {/* Brand DNA Quick Access Button */}
+        {/* Right: Primary Intelligence Anchor & Grouped Utilities */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          {/* Primary Intelligence Anchor: Brand DNA */}
           <button
             type="button"
             onClick={() => setIsBrandDnaOpen(true)}
             title="View persistent Brand DNA"
             aria-label="Open Brand DNA panel"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 dark:text-emerald-200 hover:text-white transition-all cursor-pointer font-mono text-xs shadow-xs shrink-0"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 hover:text-white transition-all cursor-pointer font-mono text-xs font-medium shadow-xs shrink-0 active:scale-98"
           >
             <Dna className="w-3.5 h-3.5 text-emerald-400" />
             <span className="font-semibold hidden xs:inline">Brand DNA</span>
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 font-mono">
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-nexus-950 border border-emerald-500/30 text-emerald-300 font-mono">
               {dna.definedSignalsCount}/9
             </span>
           </button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={loadSampleProject}
-            leftIcon={<BookOpen className="w-3.5 h-3.5 text-nexus-400" />}
-            title="Load pre-synthesized Aether OS brand system"
-            className="h-8 px-2 sm:px-3 text-xs"
-          >
-            <span className="hidden sm:inline">Sample: </span>Aether OS
-          </Button>
+          <div className="h-4 w-px bg-nexus-800" />
 
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setIsResetDialogOpen(true)}
-            leftIcon={<RotateCcw className="w-3.5 h-3.5 text-nexus-400" />}
-            title="Start fresh with a clean slate"
-            className="h-8 px-2 sm:px-3 text-xs"
-          >
-            <span className="hidden sm:inline">New Project</span>
-          </Button>
+          {/* Utility Controls Group */}
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={loadSampleProject}
+              leftIcon={<BookOpen className="w-3.5 h-3.5 text-nexus-400" />}
+              title="Load pre-synthesized Aether OS brand system"
+              className="h-8 px-2.5 text-xs text-nexus-300 hover:text-nexus-100 hidden sm:inline-flex"
+            >
+              <span>Sample</span>
+            </Button>
 
-          {/* Light / Dark Mode Toggle */}
-          <ThemeToggle />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsResetDialogOpen(true)}
+              leftIcon={<RotateCcw className="w-3.5 h-3.5 text-nexus-400" />}
+              title="Start fresh with a clean slate"
+              className="h-8 px-2.5 text-xs text-nexus-300 hover:text-nexus-100 hidden sm:inline-flex"
+            >
+              <span>New</span>
+            </Button>
 
-          <div className="h-5 w-[1px] bg-nexus-800 hidden xl:block" />
-
-          <div className="hidden xl:flex items-center gap-1.5 text-xs text-nexus-400 font-mono">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Cognitive Graph v1.0</span>
+            <ThemeToggle />
           </div>
         </div>
       </header>

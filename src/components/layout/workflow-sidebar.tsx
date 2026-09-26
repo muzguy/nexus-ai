@@ -47,70 +47,66 @@ export function WorkflowSidebar() {
   const progressPercentage = Math.round((completedCount / WORKFLOW_STAGES.length) * 100);
 
   return (
-    <aside className="hidden md:flex w-72 border-r border-nexus-800 bg-nexus-950 flex-col shrink-0">
+    <aside className="hidden md:flex w-64 lg:w-72 border-r border-nexus-800 bg-nexus-950 flex-col shrink-0">
       {/* Workflow Progress Header */}
-      <div className="p-5 border-b border-nexus-800 space-y-3">
+      <div className="p-4 sm:p-5 border-b border-nexus-800 space-y-3">
         <div>
-          <div className="flex items-center justify-between text-xs font-mono text-nexus-400 mb-2">
-            <span>PIPELINE PROGRESS</span>
-            <span className="text-nexus-100 font-semibold">{progressPercentage}%</span>
+          <div className="flex items-center justify-between text-[10px] font-mono text-nexus-500 tracking-wider mb-1.5 uppercase">
+            <span>COGNITIVE PIPELINE</span>
+            <span className="text-nexus-300 font-semibold">{completedCount} of 7 Locked</span>
           </div>
-          <div className="w-full h-1.5 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
+          <div className="w-full h-1 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
             <div
               className="h-full bg-emerald-500 transition-all duration-500 rounded-full"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
-          <p className="text-[11px] text-nexus-500 mt-2 font-mono">
-            {completedCount} of 7 cognitive stages locked
-          </p>
         </div>
 
-        {/* Brand DNA Quick Access Trigger */}
+        {/* Brand DNA Depth Indicator (Calm intelligence meter, not a duplicate primary CTA) */}
         <button
           type="button"
           onClick={() => setIsBrandDnaOpen(true)}
           title="Open persistent Brand DNA panel"
-          className="w-full flex items-center justify-between p-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-nexus-100 transition-all font-mono text-xs cursor-pointer group shadow-xs select-none"
+          className="w-full flex items-center justify-between p-2 rounded-lg bg-nexus-900 border border-nexus-850 hover:border-nexus-800 transition-colors text-left cursor-pointer group select-none"
         >
-          <div className="flex items-center gap-2">
-            <Dna className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold text-emerald-400">Brand DNA</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <Dna className="w-3.5 h-3.5 text-emerald-400/80 group-hover:text-emerald-400 transition-colors shrink-0" />
+            <span className="text-xs text-nexus-300 font-medium truncate">Brand DNA</span>
           </div>
-          <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-nexus-850 border border-nexus-800 text-nexus-300">
+          <span className="text-[10px] font-mono text-emerald-400 shrink-0">
             {dna.definedSignalsCount}/9 · {dna.maturityLabel}
           </span>
         </button>
       </div>
 
-      {/* Navigation List */}
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+      {/* Deliberate Cognitive Stage Workflow */}
+      <nav className="flex-1 p-2.5 sm:p-3 space-y-1 overflow-y-auto">
         {WORKFLOW_STAGES.map((stage) => {
           const isActive = activeStage === stage.id;
           const status = project.stageStatus[stage.id];
           const isCompleted = status === 'completed';
           const isInProgress = status === 'in_progress';
-          const isAccessible = canAdvanceToStage(stage.id);
 
           return (
             <button
               key={stage.id}
               onClick={() => setActiveStage(stage.id)}
               className={cn(
-                'w-full text-left p-3 rounded-xl transition-all duration-150 flex items-start gap-3 group relative select-none cursor-pointer',
+                'w-full text-left p-2.5 rounded-xl transition-all duration-150 flex items-start gap-2.5 group relative select-none cursor-pointer',
                 isActive
                   ? 'bg-nexus-900 border border-emerald-500/40 shadow-xs text-nexus-100'
-                  : 'hover:bg-nexus-900 text-nexus-400 hover:text-nexus-100 border border-transparent'
+                  : 'hover:bg-nexus-900/60 text-nexus-400 hover:text-nexus-200 border border-transparent'
               )}
             >
-              {/* Step indicator circle */}
+              {/* Step indicator node */}
               <div
                 className={cn(
-                  'w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs transition-colors mt-0.5 font-mono',
+                  'w-6 h-6 rounded-md flex items-center justify-center shrink-0 text-xs transition-colors mt-0.5 font-mono',
                   isActive
                     ? 'bg-emerald-600 text-white shadow-xs'
                     : isCompleted
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25'
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                     : isInProgress
                     ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 animate-pulse'
                     : 'bg-nexus-850 text-nexus-500 border border-nexus-800'
@@ -128,46 +124,41 @@ export function WorkflowSidebar() {
                 <div className="flex items-center justify-between">
                   <span
                     className={cn(
-                      'text-xs font-semibold tracking-tight truncate',
-                      isActive ? 'text-nexus-100 dark:text-white font-bold' : 'text-nexus-300'
+                      'text-xs tracking-tight truncate',
+                      isActive ? 'font-bold text-nexus-100' : 'font-medium text-nexus-300'
                     )}
                   >
                     {stage.shortLabel}
                   </span>
-                  {isCompleted && (
-                    <span className="text-[10px] text-emerald-400 font-mono font-medium">
-                      DONE
-                    </span>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
                   )}
-                  {isInProgress && (
-                    <span className="text-[10px] text-emerald-400 font-mono animate-pulse">
-                      ACTIVE
-                    </span>
+                  {isInProgress && !isActive && (
+                    <span className="text-[10px] text-emerald-400 font-mono animate-pulse">RUN</span>
                   )}
                 </div>
-                <p className="text-[11px] text-nexus-400 truncate mt-0.5 font-sans">
+                <p
+                  className={cn(
+                    'text-[11px] truncate font-sans',
+                    isActive ? 'text-emerald-400/90' : 'text-nexus-500'
+                  )}
+                >
                   {stage.tagline}
                 </p>
               </div>
-
-              {isActive && (
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-400">
-                  <ChevronRight className="w-4 h-4" />
-                </div>
-              )}
             </button>
           );
         })}
       </nav>
 
       {/* Sidebar Footer / System Status */}
-      <div className="p-4 border-t border-nexus-800 bg-nexus-950">
-        <div className="p-3 rounded-lg bg-nexus-900 border border-nexus-800 flex items-center justify-between text-[11px] font-mono">
+      <div className="p-3 border-t border-nexus-800 bg-nexus-950">
+        <div className="px-3 py-2 rounded-lg bg-nexus-900 border border-nexus-850 flex items-center justify-between text-[11px] font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-nexus-300">Nexus Pipeline</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="text-nexus-300">Cognitive Pipeline</span>
           </div>
-          <span className="text-nexus-500">v1.0 Engine</span>
+          <span className="text-nexus-500">v1.0</span>
         </div>
       </div>
     </aside>
