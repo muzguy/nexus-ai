@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
 import { WhyThis } from '@/components/ui/why-this';
+import { ListenButton } from '@/components/ui/listen-button';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -474,6 +475,13 @@ export function ConsistencyStage() {
                     tradeoff={consistency.keyVulnerabilities[0] ? `Identified Vulnerability: ${consistency.keyVulnerabilities[0]}` : undefined}
                     consideration={consistency.revisionRationale ? `Revision Rationale: ${consistency.revisionRationale}` : undefined}
                     triggerVariant="compact"
+                  />
+                  <ListenButton
+                    id="guardian-verdict"
+                    text={`Brand Consistency Verdict: ${consistency.verdict.replace('_', ' ')}. Overall integrity score: ${consistency.overallIntegrityScore} out of 100. ${consistency.executiveSummary}. ${consistency.keyVulnerabilities[0] ? `Identified Vulnerability: ${consistency.keyVulnerabilities[0]}.` : ''} ${consistency.revisionRationale ? `Revision Rationale: ${consistency.revisionRationale}.` : ''}`}
+                    label="Listen"
+                    size="xs"
+                    variant="compact"
                   />
                 </div>
                 <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-nexus-100 dark:text-white tracking-tight break-words">

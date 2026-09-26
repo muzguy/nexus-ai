@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
 import { WhyThis } from '@/components/ui/why-this';
+import { ListenButton } from '@/components/ui/listen-button';
 import { Crosshair, ArrowRight, Scale, Zap, Compass } from 'lucide-react';
 
 export function PositionStage() {
@@ -81,6 +82,13 @@ export function PositionStage() {
                 reasoning="NEXUS deliberately engineers 3 divergent market vectors rather than minor variations. This forces strategic clarity on what value is delivered and what must be sacrificed, preventing the common trap of vague, one-size-fits-all positioning."
                 tradeoff="Each vector makes an explicit sacrifice in target buyer segment, narrative focus, or operational complexity to guarantee distinctiveness."
                 triggerVariant="compact"
+              />
+              <ListenButton
+                id="positioning-divergence-thesis"
+                text={`Strategic Divergence Thesis: ${positioning.rationale}`}
+                label="Listen"
+                size="xs"
+                variant="compact"
               />
             </div>
             <p className="text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
 import { WhyThis } from '@/components/ui/why-this';
+import { ListenButton } from '@/components/ui/listen-button';
 import {
   Palette,
   Type,
@@ -312,6 +313,13 @@ export function VisualizeStage() {
               reasoning={visual.rationale || `Visual design system engineered to project ${colorMood.lightingMood} precision. Primary token ${colorMood.palette.primary.name} anchors structural trust while ${colorMood.palette.accent.name} serves as high-signal visual emphasis.`}
               tradeoff={`Deliberate Visual Guardrails: Rejects ${visualAvoids.slice(0, 3).join('; ')} to ensure elevated, proprietary aesthetics.`}
               triggerVariant="compact"
+            />
+            <ListenButton
+              id="visual-aesthetic-thesis"
+              text={`Visual Aesthetic Thesis: ${visual.aestheticThesis}. Theme: ${colorMood.themeName}, ${colorMood.lightingMood}. ${rationale ? `Strategic Alignment: ${rationale}.` : ''}`}
+              label="Listen"
+              size="xs"
+              variant="compact"
             />
           </div>
           <p className="text-xs sm:text-sm text-nexus-100 font-medium leading-relaxed">

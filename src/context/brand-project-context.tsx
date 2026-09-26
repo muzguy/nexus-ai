@@ -16,6 +16,7 @@ import {
 } from '@/types';
 import { SAMPLE_PROJECT, INITIAL_EMPTY_PROJECT } from '@/lib/sample-project';
 import { aiServices } from '@/services/ai';
+import { speechManager } from '@/lib/speech/speech-manager';
 
 interface BrandProjectContextValue {
   project: BrandProject;
@@ -51,7 +52,13 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
     return SAMPLE_PROJECT;
   });
 
-  const [activeStage, setActiveStage] = useState<WorkflowStage>('discover');
+  const [activeStage, setActiveStageInternal] = useState<WorkflowStage>('discover');
+
+  const setActiveStage = useCallback((stage: WorkflowStage) => {
+    speechManager.stop();
+    setActiveStageInternal(stage);
+  }, []);
+
   const [isExecutingStage, setIsExecutingStage] = useState<boolean>(false);
   const [executionProgress, setExecutionProgress] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -160,9 +167,10 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
     setExecutionProgress('');
   }, []);
 
-  // Cancel any running request on component unmount
+  // Cancel any running request and speech on component unmount
   useEffect(() => {
     return () => {
+      speechManager.stop();
       if (activeAbortControllerRef.current) {
         activeAbortControllerRef.current.abort();
       }
@@ -170,18 +178,20 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
   }, []);
 
   const resetToEmptyProject = useCallback(() => {
+    speechManager.stop();
     cancelActiveGeneration();
     setProject(INITIAL_EMPTY_PROJECT);
     setActiveStage('discover');
     setError(null);
-  }, [cancelActiveGeneration]);
+  }, [cancelActiveGeneration, setActiveStage]);
 
   const loadSampleProject = useCallback(() => {
+    speechManager.stop();
     cancelActiveGeneration();
     setProject(SAMPLE_PROJECT);
     setActiveStage('discover');
     setError(null);
-  }, [cancelActiveGeneration]);
+  }, [cancelActiveGeneration, setActiveStage]);
 
   const canAdvanceToStage = useCallback(
     (stage: WorkflowStage): boolean => {

@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { WhyThisProps } from '@/types/explainability';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ListenButton } from '@/components/ui/listen-button';
+import { speechManager } from '@/lib/speech/speech-manager';
 import {
   HelpCircle,
   X,
@@ -33,17 +35,37 @@ export function WhyThis({
   const [mounted, setMounted] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const listenId = useRef(`why-this-${Math.random().toString(36).slice(2, 9)}`).current;
+
+  // Format clean strategic explanation text for voice playback
+  const speechContent = useMemo(() => {
+    const parts: string[] = [];
+    if (decision) parts.push(`Decision: ${decision}`);
+    if (decisionSubtitle) parts.push(decisionSubtitle);
+    if (reasoning) parts.push(`Strategic reasoning: ${reasoning}`);
+    if (tradeoff) parts.push(`Trade-offs and guardrails: ${tradeoff}`);
+    if (consideration) parts.push(`Considerations: ${consideration}`);
+    return parts.join('. ');
+  }, [decision, decisionSubtitle, reasoning, tradeoff, consideration]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Keyboard navigation & scroll locking
+  // Cleanup speech when component unmounts
+  useEffect(() => {
+    return () => {
+      speechManager.stopIfActive(listenId);
+    };
+  }, [listenId]);
+
+  // Keyboard navigation, scroll locking & speech cleanup
   useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        speechManager.stopIfActive(listenId);
         setIsOpen(false);
         triggerRef.current?.focus();
       }
@@ -57,9 +79,10 @@ export function WhyThis({
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, listenId]);
 
   const handleClose = () => {
+    speechManager.stopIfActive(listenId);
     setIsOpen(false);
     triggerRef.current?.focus();
   };
@@ -128,14 +151,24 @@ export function WhyThis({
             </h3>
           </div>
 
-          <button
-            type="button"
-            onClick={handleClose}
-            className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-800 transition-colors shrink-0"
-            aria-label="Close explanation dialog"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <ListenButton
+              id={listenId}
+              text={speechContent}
+              label="Listen"
+              size="xs"
+              variant="compact"
+              stopOnUnmount={true}
+            />
+            <button
+              type="button"
+              onClick={handleClose}
+              className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-800 transition-colors shrink-0"
+              aria-label="Close explanation dialog"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Modal Body */}

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
 import { WhyThis } from '@/components/ui/why-this';
+import { ListenButton } from '@/components/ui/listen-button';
 import {
   Flame,
   Volume2,
@@ -151,7 +152,7 @@ export function ShapeStage() {
               Behavioral DNA and explicit negative traits to avoid.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <WhyThis
               stageBadge="Stage 04 · Brand Personality"
               title="Why this Personality & Archetype?"
@@ -165,6 +166,13 @@ export function ShapeStage() {
               reasoning={`The ${personality.primaryArchetype} archetype translates the strategic vector "${selectedDirection.name}" into concrete human behaviors. It anchors on "${personality.coreTraits[0]?.name}: ${personality.coreTraits[0]?.description}" to project authority while maintaining active accessibility.`}
               tradeoff={`Explicitly rejects ${personality.traitsToAvoid.map((t) => t.name).join(', ')} to prevent category cliché, arrogance, or dilution.`}
               triggerVariant="compact"
+            />
+            <ListenButton
+              id="personality-rationale"
+              text={`Brand Personality: Primary archetype is ${personality.primaryArchetype}, secondary archetype is ${personality.secondaryArchetype}. Core traits: ${personality.coreTraits.map((t) => `${t.name}: ${t.description}`).join('. ')}. Strict boundaries to avoid: ${personality.traitsToAvoid.map((t) => t.name).join(', ')}.`}
+              label="Listen"
+              size="xs"
+              variant="compact"
             />
             <Badge variant="amber" className="text-[10px] font-mono">
               {personality.primaryArchetype}
@@ -241,9 +249,27 @@ export function ShapeStage() {
               Linguistically engineered name candidates with etymology and domain feasibility.
             </CardDescription>
           </div>
-          <Badge variant="emerald" className="text-[10px] font-mono">
-            {naming.territories.length} Territories
-          </Badge>
+          <div className="flex items-center gap-2 flex-wrap">
+            <ListenButton
+              id="naming-rationale"
+              text={
+                (() => {
+                  const sel =
+                    naming.territories.flatMap((t) => t.candidates).find((c) => c.id === naming.selectedCandidateId) ||
+                    naming.territories[0]?.candidates[0];
+                  return sel
+                    ? `Naming Rationale for ${sel.name}: Tagline is "${sel.tagline}". Linguistic root: ${sel.linguisticRoot}. Strategic rationale: ${sel.rationale}. Domain feasibility: ${sel.domainFeasibility}.`
+                    : `Naming Territories: ${naming.territories.map((t) => `${t.name}: ${t.premise}`).join('. ')}.`;
+                })()
+              }
+              label="Listen"
+              size="xs"
+              variant="compact"
+            />
+            <Badge variant="emerald" className="text-[10px] font-mono">
+              {naming.territories.length} Territories
+            </Badge>
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {naming.territories.map((territory) => (
@@ -341,20 +367,29 @@ export function ShapeStage() {
               Tone attributes, allowed vocabulary, and concrete editorial rules.
             </CardDescription>
           </div>
-          <WhyThis
-            stageBadge="Stage 04 · Brand Voice"
-            title="Why this Voice & Deterministic Rules?"
-            decision={`Tone Signature: ${voice.toneAttributes.join(' · ')}`}
-            decisionSubtitle={voice.narrativeStyle}
-            inputs={[
-              { label: 'Brand Archetype', value: personality.primaryArchetype },
-              { label: 'Audience Urgency Driver', value: project.discovery?.audience.urgencyDriver || 'Rapid execution demand' },
-              { label: 'Positioning Tagline', value: selectedDirection.taglineConcept },
-            ]}
-            reasoning={`Calibrated to project rigorous category authority without sounding bureaucratic or hyperbolic. Emphasizes key vocabulary (${voice.keyVocabulary.slice(0, 4).join(', ')}) to maintain consistent cognitive clarity.`}
-            tradeoff={`Strictly bans empty buzzwords and taboo terms (${voice.tabooTerms.slice(0, 4).join(', ')}) to preserve high-signal brand credibility.`}
-            triggerVariant="compact"
-          />
+          <div className="flex items-center gap-2 flex-wrap">
+            <WhyThis
+              stageBadge="Stage 04 · Brand Voice"
+              title="Why this Voice & Deterministic Rules?"
+              decision={`Tone Signature: ${voice.toneAttributes.join(' · ')}`}
+              decisionSubtitle={voice.narrativeStyle}
+              inputs={[
+                { label: 'Brand Archetype', value: personality.primaryArchetype },
+                { label: 'Audience Urgency Driver', value: project.discovery?.audience.urgencyDriver || 'Rapid execution demand' },
+                { label: 'Positioning Tagline', value: selectedDirection.taglineConcept },
+              ]}
+              reasoning={`Calibrated to project rigorous category authority without sounding bureaucratic or hyperbolic. Emphasizes key vocabulary (${voice.keyVocabulary.slice(0, 4).join(', ')}) to maintain consistent cognitive clarity.`}
+              tradeoff={`Strictly bans empty buzzwords and taboo terms (${voice.tabooTerms.slice(0, 4).join(', ')}) to preserve high-signal brand credibility.`}
+              triggerVariant="compact"
+            />
+            <ListenButton
+              id="voice-rationale"
+              text={`Brand Voice: Tone signature is ${voice.toneAttributes.join(', ')}. Narrative style: ${voice.narrativeStyle}. Key vocabulary includes ${voice.keyVocabulary.slice(0, 5).join(', ')}. Taboo terms forbidden: ${voice.tabooTerms.slice(0, 5).join(', ')}.`}
+              label="Listen"
+              size="xs"
+              variant="compact"
+            />
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Tone Attributes & Vocabulary */}

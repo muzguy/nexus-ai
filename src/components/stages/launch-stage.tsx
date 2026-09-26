@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { AlertBanner } from '@/components/ui/alert-banner';
 import { WhyThis } from '@/components/ui/why-this';
+import { ListenButton } from '@/components/ui/listen-button';
 import {
   Rocket,
   Copy,
@@ -249,6 +250,13 @@ export function LaunchStage() {
                     reasoning={`Differentiator Rationale: ${launchPositioning.differentiatorRationale}`}
                     tradeoff="Concentrates all launch positioning on high-intent early adopters rather than generic mass-market messaging."
                     triggerVariant="compact"
+                  />
+                  <ListenButton
+                    id="launch-gtm-positioning"
+                    text={`Go-To-Market Positioning: ${launchPositioning.positioningStatement}. Core Promise: ${launchPositioning.corePromise}. Target Audience: ${launchPositioning.targetAudienceSummary}. Strategic Differentiator Rationale: ${launchPositioning.differentiatorRationale}.`}
+                    label="Listen"
+                    size="xs"
+                    variant="compact"
                   />
                 </div>
                 <CardDescription className="text-xs">
