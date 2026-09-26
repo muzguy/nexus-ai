@@ -15,6 +15,7 @@ import {
   Check,
   ChevronDown,
   Layers,
+  Dna,
 } from 'lucide-react';
 
 const STAGE_ICONS: Record<WorkflowStage, React.ReactNode> = {
@@ -28,7 +29,13 @@ const STAGE_ICONS: Record<WorkflowStage, React.ReactNode> = {
 };
 
 export function MobileWorkflowNav() {
-  const { project, activeStage, setActiveStage, canAdvanceToStage } = useBrandProject();
+  const {
+    project,
+    activeStage,
+    setActiveStage,
+    canAdvanceToStage,
+    setIsBrandDnaOpen,
+  } = useBrandProject();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -82,6 +89,18 @@ export function MobileWorkflowNav() {
               )}
             />
           </div>
+        </button>
+
+        {/* Mobile Brand DNA Trigger */}
+        <button
+          type="button"
+          onClick={() => setIsBrandDnaOpen(true)}
+          className="flex items-center gap-1 px-2.5 py-1 rounded-lg border border-indigo-500/35 bg-indigo-500/10 text-accent-cyan text-xs font-mono font-semibold shrink-0 cursor-pointer active:scale-95 transition-transform"
+          title="Open Brand DNA"
+          aria-label="Open Brand DNA"
+        >
+          <Dna className="w-3.5 h-3.5 text-accent-cyan" />
+          <span>DNA</span>
         </button>
       </div>
 

@@ -1,17 +1,27 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useBrandProject } from '@/context/brand-project-context';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { BrandDna } from '@/components/ui/brand-dna';
+import { deriveBrandDna } from '@/lib/brand-dna';
 import { ThemeToggle } from './theme-toggle';
-import { RotateCcw, BookOpen, CheckCircle2 } from 'lucide-react';
+import { Dna, RotateCcw, BookOpen, CheckCircle2 } from 'lucide-react';
 
 export function AppHeader() {
-  const { project, resetToEmptyProject, loadSampleProject } = useBrandProject();
+  const {
+    project,
+    resetToEmptyProject,
+    loadSampleProject,
+    isBrandDnaOpen,
+    setIsBrandDnaOpen,
+  } = useBrandProject();
   const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const logoButtonRef = useRef<HTMLButtonElement>(null);
+
+  const dna = useMemo(() => deriveBrandDna(project), [project]);
 
   const completedStagesCount = Object.values(project.stageStatus).filter(
     (status) => status === 'completed'
@@ -81,6 +91,21 @@ export function AppHeader() {
 
         {/* Header Actions */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* Brand DNA Quick Access Button */}
+          <button
+            type="button"
+            onClick={() => setIsBrandDnaOpen(true)}
+            title="View persistent Brand DNA"
+            aria-label="Open Brand DNA panel"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-indigo-500/35 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 dark:text-indigo-200 hover:text-white transition-all cursor-pointer font-mono text-xs shadow-xs shrink-0"
+          >
+            <Dna className="w-3.5 h-3.5 text-accent-cyan" />
+            <span className="font-semibold hidden xs:inline">Brand DNA</span>
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-500/25 text-accent-cyan border border-indigo-500/40 font-mono">
+              {dna.definedSignalsCount}/9
+            </span>
+          </button>
+
           <Button
             variant="outline"
             size="sm"
@@ -114,6 +139,12 @@ export function AppHeader() {
           </div>
         </div>
       </header>
+
+      {/* Persistent Brand DNA Slide-over Panel */}
+      <BrandDna
+        isOpen={isBrandDnaOpen}
+        onClose={() => setIsBrandDnaOpen(false)}
+      />
 
       {/* Start New Project Confirmation Dialog */}
       <ConfirmDialog

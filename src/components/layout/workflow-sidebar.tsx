@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useBrandProject } from '@/context/brand-project-context';
 import { WORKFLOW_STAGES, WorkflowStage } from '@/types';
+import { deriveBrandDna } from '@/lib/brand-dna';
 import { cn } from '@/lib/utils';
 import {
   Compass,
@@ -15,6 +16,7 @@ import {
   Check,
   Lock,
   ChevronRight,
+  Dna,
 } from 'lucide-react';
 
 const STAGE_ICONS: Record<WorkflowStage, React.ReactNode> = {
@@ -28,7 +30,15 @@ const STAGE_ICONS: Record<WorkflowStage, React.ReactNode> = {
 };
 
 export function WorkflowSidebar() {
-  const { project, activeStage, setActiveStage, canAdvanceToStage } = useBrandProject();
+  const {
+    project,
+    activeStage,
+    setActiveStage,
+    canAdvanceToStage,
+    setIsBrandDnaOpen,
+  } = useBrandProject();
+
+  const dna = useMemo(() => deriveBrandDna(project), [project]);
 
   const completedCount = Object.values(project.stageStatus).filter(
     (s) => s === 'completed'
@@ -39,20 +49,38 @@ export function WorkflowSidebar() {
   return (
     <aside className="hidden md:flex w-72 border-r border-nexus-800 bg-nexus-950/60 flex-col shrink-0">
       {/* Workflow Progress Header */}
-      <div className="p-5 border-b border-nexus-800/80">
-        <div className="flex items-center justify-between text-xs font-mono text-nexus-400 mb-2">
-          <span>PIPELINE PROGRESS</span>
-          <span className="text-nexus-100 dark:text-white font-semibold">{progressPercentage}%</span>
+      <div className="p-5 border-b border-nexus-800/80 space-y-3">
+        <div>
+          <div className="flex items-center justify-between text-xs font-mono text-nexus-400 mb-2">
+            <span>PIPELINE PROGRESS</span>
+            <span className="text-nexus-100 dark:text-white font-semibold">{progressPercentage}%</span>
+          </div>
+          <div className="w-full h-1.5 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
+            <div
+              className="h-full bg-gradient-to-r from-indigo-500 via-accent-violet to-accent-cyan transition-all duration-500 rounded-full shadow-glow"
+              style={{ width: `${progressPercentage}%` }}
+            />
+          </div>
+          <p className="text-[11px] text-nexus-500 mt-2 font-mono">
+            {completedCount} of 7 cognitive stages locked
+          </p>
         </div>
-        <div className="w-full h-1.5 bg-nexus-850 rounded-full overflow-hidden border border-nexus-800">
-          <div
-            className="h-full bg-gradient-to-r from-indigo-500 via-accent-violet to-accent-cyan transition-all duration-500 rounded-full shadow-glow"
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </div>
-        <p className="text-[11px] text-nexus-500 mt-2 font-mono">
-          {completedCount} of 7 cognitive stages locked
-        </p>
+
+        {/* Brand DNA Quick Access Trigger */}
+        <button
+          type="button"
+          onClick={() => setIsBrandDnaOpen(true)}
+          title="Open persistent Brand DNA panel"
+          className="w-full flex items-center justify-between p-2 rounded-xl border border-indigo-500/35 bg-indigo-500/10 hover:bg-indigo-500/20 text-nexus-100 transition-all font-mono text-xs cursor-pointer group shadow-xs select-none"
+        >
+          <div className="flex items-center gap-2">
+            <Dna className="w-3.5 h-3.5 text-accent-cyan group-hover:scale-110 transition-transform" />
+            <span className="font-semibold text-accent-cyan">Brand DNA</span>
+          </div>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-nexus-900 border border-nexus-700 text-nexus-300">
+            {dna.definedSignalsCount}/9 · {dna.maturityLabel}
+          </span>
+        </button>
       </div>
 
       {/* Navigation List */}

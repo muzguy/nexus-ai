@@ -39,6 +39,10 @@ interface BrandProjectContextValue {
   canAdvanceToStage: (stage: WorkflowStage) => boolean;
   goToNextStage: () => void;
   goToPreviousStage: () => void;
+
+  // Brand DNA Panel
+  isBrandDnaOpen: boolean;
+  setIsBrandDnaOpen: (open: boolean) => void;
 }
 
 const BrandProjectContext = createContext<BrandProjectContextValue | undefined>(undefined);
@@ -62,6 +66,7 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
   const [isExecutingStage, setIsExecutingStage] = useState<boolean>(false);
   const [executionProgress, setExecutionProgress] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [isBrandDnaOpen, setIsBrandDnaOpen] = useState<boolean>(false);
 
   // Load from localStorage if present
   useEffect(() => {
@@ -694,6 +699,8 @@ export function BrandProjectProvider({ children }: { children: React.ReactNode }
         canAdvanceToStage,
         goToNextStage,
         goToPreviousStage,
+        isBrandDnaOpen,
+        setIsBrandDnaOpen,
       }}
     >
       {children}
