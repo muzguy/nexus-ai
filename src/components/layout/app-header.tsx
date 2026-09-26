@@ -121,9 +121,10 @@ export function AppHeader() {
               onClick={() => setIsResetDialogOpen(true)}
               leftIcon={<RotateCcw className="w-3.5 h-3.5 text-nexus-400" />}
               title="Start fresh with a clean slate"
-              className="h-8 px-2.5 text-xs text-nexus-300 hover:text-nexus-100 hidden sm:inline-flex"
+              aria-label="Start fresh with a clean slate"
+              className="h-8.5 sm:h-8 w-8.5 sm:w-auto p-0 sm:px-2.5 text-xs text-nexus-300 hover:text-nexus-100 inline-flex items-center justify-center min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0 gap-0 sm:gap-1.5"
             >
-              <span>New</span>
+              <span className="hidden sm:inline">New</span>
             </Button>
 
             <ThemeToggle />
