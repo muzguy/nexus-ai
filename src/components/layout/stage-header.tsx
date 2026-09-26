@@ -40,12 +40,12 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
   const label = actionLabel || defaultActionLabels[activeStage] || 'Run Stage Agent';
 
   return (
-    <div className="border-b border-nexus-800/80 bg-nexus-900/40 backdrop-blur-sm p-4 sm:p-6 lg:p-8 w-full">
+    <div className="border-b border-nexus-800 bg-nexus-900 p-4 sm:p-6 lg:p-8 w-full">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
         {/* Stage Title and Context */}
         <div className="space-y-1.5 max-w-2xl min-w-0">
           <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
-            <span className="text-xs font-mono text-indigo-400 font-semibold tracking-wider uppercase">
+            <span className="text-xs font-mono text-emerald-400 font-semibold tracking-wider uppercase">
               Stage 0{currentStageConfig?.stepNumber} / 07
             </span>
             <div className="h-3 w-[1px] bg-nexus-800 hidden xs:block" />
@@ -54,7 +54,7 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
                 isCompleted
                   ? 'emerald'
                   : status === 'in_progress'
-                  ? 'cyan'
+                  ? 'primary'
                   : status === 'needs_review'
                   ? 'amber'
                   : 'default'
@@ -118,9 +118,9 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
 
       {/* Real-time execution progress indicator */}
       {isExecutingStage && (
-        <div className="mt-4 p-3 rounded-lg bg-indigo-950/40 border border-indigo-500/30 flex items-center gap-3 text-xs text-indigo-200 font-mono animate-pulse">
-          <div className="w-2 h-2 rounded-full bg-accent-cyan shadow-glow-cyan animate-ping shrink-0" />
-          <span className="break-words min-w-0">{executionProgress || 'Processing stage intelligence...'}</span>
+        <div className="mt-4 p-3 rounded-xl bg-nexus-900 border border-emerald-500/30 flex items-center gap-3 text-xs text-nexus-200 font-mono shadow-sm">
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+          <span className="break-words min-w-0">{executionProgress || 'NEXUS cognitive synthesis in progress...'}</span>
         </div>
       )}
     </div>

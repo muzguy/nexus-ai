@@ -29,7 +29,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={textareaId}
           rows={rows}
           className={cn(
-            'w-full max-w-full box-border px-3.5 py-2.5 text-sm bg-nexus-900 dark:bg-nexus-950/70 text-nexus-100 placeholder:text-nexus-400 rounded-lg border border-nexus-800 transition-all focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 disabled:bg-nexus-850 leading-relaxed resize-y',
+            'w-full max-w-full box-border px-3.5 py-2.5 text-sm bg-nexus-850 text-nexus-100 placeholder:text-nexus-500 rounded-lg border border-nexus-800 transition-all focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 disabled:opacity-40 disabled:bg-nexus-900 leading-relaxed resize-y',
             error && 'border-rose-500 focus:border-rose-500 focus:ring-rose-500',
             className
           )}

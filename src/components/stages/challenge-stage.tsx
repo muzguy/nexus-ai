@@ -57,24 +57,24 @@ export function ChallengeStage() {
     );
   }
 
-  // Vector color accents for visual distinction
+  // Vector accents for visual distinction
   const vectorAccents = [
     {
-      badge: 'text-indigo-400',
-      border: 'border-indigo-500/30',
-      bgTag: 'bg-indigo-500/10',
+      badge: 'text-nexus-300',
+      border: 'border-nexus-700',
+      bgTag: 'bg-nexus-850',
       tagText: 'Vector 01',
     },
     {
-      badge: 'text-accent-cyan',
-      border: 'border-accent-cyan/30',
-      bgTag: 'bg-accent-cyan/10',
+      badge: 'text-emerald-400',
+      border: 'border-emerald-500/30',
+      bgTag: 'bg-emerald-500/10',
       tagText: 'Vector 02',
     },
     {
-      badge: 'text-accent-violet',
-      border: 'border-accent-violet/30',
-      bgTag: 'bg-accent-violet/10',
+      badge: 'text-nexus-300',
+      border: 'border-nexus-700',
+      bgTag: 'bg-nexus-850',
       tagText: 'Vector 03',
     },
   ];
@@ -82,14 +82,14 @@ export function ChallengeStage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border animate-fadeIn">
       {/* 1. BRAND BATTLE COMMAND HEADER */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-indigo-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 shadow-glow">
+      <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-nexus-800 flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 shadow-xs">
         <div className="flex items-start gap-3.5 sm:gap-4 min-w-0">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-indigo-500/20 via-accent-violet/20 to-accent-cyan/20 border border-indigo-500/30 flex items-center justify-center shrink-0 text-accent-cyan mt-0.5">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5">
             <Swords className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div className="min-w-0 space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-accent-cyan uppercase">
+              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
                 BRAND BATTLE
               </span>
               <Badge variant="primary" className="text-[10px] font-mono uppercase">
@@ -113,14 +113,14 @@ export function ChallengeStage() {
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0 w-full md:w-auto">
           {/* View mode toggle: Detailed Cards vs Comparison Matrix */}
-          <div className="inline-flex rounded-lg bg-nexus-950/80 p-0.5 border border-nexus-850 self-start sm:self-auto">
+          <div className="inline-flex rounded-lg bg-nexus-950/80 p-0.5 border border-nexus-800 self-start sm:self-auto">
             <button
               type="button"
               onClick={() => setViewMode('cards')}
               className={cn(
                 'px-2.5 py-1.5 text-xs font-mono rounded-md transition-all flex items-center gap-1.5 cursor-pointer',
                 viewMode === 'cards'
-                  ? 'bg-nexus-850 text-nexus-100 dark:text-white font-semibold shadow-sm'
+                  ? 'bg-nexus-850 text-nexus-100 dark:text-white font-semibold shadow-xs'
                   : 'text-nexus-400 hover:text-nexus-200'
               )}
             >
@@ -133,7 +133,7 @@ export function ChallengeStage() {
               className={cn(
                 'px-2.5 py-1.5 text-xs font-mono rounded-md transition-all flex items-center gap-1.5 cursor-pointer',
                 viewMode === 'matrix'
-                  ? 'bg-nexus-850 text-nexus-100 dark:text-white font-semibold shadow-sm'
+                  ? 'bg-nexus-850 text-nexus-100 dark:text-white font-semibold shadow-xs'
                   : 'text-nexus-400 hover:text-nexus-200'
               )}
             >
@@ -157,9 +157,9 @@ export function ChallengeStage() {
       </div>
 
       {/* 2. COGNITIVE PIPELINE TRAIL (Positioning -> AI Critique -> Human Decision) */}
-      <div className="p-3 sm:p-3.5 rounded-xl bg-nexus-950/60 border border-nexus-850 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-nexus-400">
+      <div className="p-3 sm:p-3.5 rounded-xl bg-nexus-950/60 border border-nexus-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-nexus-400">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-indigo-400 font-semibold flex items-center gap-1">
+          <span className="text-nexus-300 font-semibold flex items-center gap-1">
             <Crosshair className="w-3.5 h-3.5" />
             1. Positioning Divergence
           </span>
@@ -181,7 +181,7 @@ export function ChallengeStage() {
 
       {/* 3. SELECTED DIRECTION CONFIRMATION & DOWNSTREAM CONTINUITY */}
       {selectedDirection && (
-        <div className="p-4 sm:p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-3 shadow-glow">
+        <div className="p-4 sm:p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 space-y-3 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
@@ -243,9 +243,9 @@ export function ChallengeStage() {
               <Card
                 key={direction.id}
                 className={cn(
-                  'flex flex-col h-full transition-all duration-200',
+                  'flex flex-col h-full transition-all duration-150',
                   isSelected
-                    ? 'border-emerald-500 ring-2 ring-emerald-500/50 shadow-glow bg-nexus-900'
+                    ? 'border-emerald-500/60 ring-1 ring-emerald-500/40 bg-emerald-950/10 dark:bg-emerald-950/20 shadow-xs'
                     : 'border-nexus-800 hover:border-nexus-700'
                 )}
               >
@@ -440,7 +440,7 @@ export function ChallengeStage() {
 
       {/* 4B. VIEW MODE: COMPARISON MATRIX */}
       {viewMode === 'matrix' && (
-        <Card className="border-indigo-500/30 overflow-hidden">
+        <Card className="border-nexus-800 overflow-hidden">
           <CardHeader className="bg-nexus-950/80 border-b border-nexus-800 pb-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div>

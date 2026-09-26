@@ -40,7 +40,7 @@ export function AppHeader() {
 
   return (
     <>
-      <header className="h-14 sm:h-16 border-b border-nexus-800 bg-nexus-950/80 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between">
+      <header className="h-14 sm:h-16 border-b border-nexus-800 bg-nexus-950 sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between">
         {/* Brand Identity / Logo Action */}
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <button
@@ -49,17 +49,17 @@ export function AppHeader() {
             onClick={() => setIsResetDialogOpen(true)}
             title="Start new project"
             aria-label="Start new project"
-            className="flex items-center gap-2 sm:gap-2.5 shrink-0 text-left rounded-xl p-1 -m-1 hover:bg-nexus-850/60 dark:hover:bg-nexus-900/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-all cursor-pointer group"
+            className="flex items-center gap-2 sm:gap-2.5 shrink-0 text-left rounded-xl p-1 -m-1 hover:bg-nexus-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-all cursor-pointer group"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-tr from-indigo-600 via-accent-violet to-accent-cyan flex items-center justify-center shadow-glow shrink-0 group-hover:scale-105 group-active:scale-95 transition-transform">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-600 text-white border border-emerald-500/40 flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 group-active:scale-95 transition-transform">
               <span className="text-white font-black text-xs sm:text-sm tracking-wider font-mono">NX</span>
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="font-bold text-nexus-100 dark:text-white tracking-wider text-sm sm:text-base group-hover:text-accent-cyan transition-colors">
+                <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base group-hover:text-emerald-400 transition-colors">
                   NEXUS
                 </span>
-                <Badge variant="cyan" className="text-[9px] sm:text-[10px] py-0 px-1 sm:px-1.5 uppercase font-mono hidden xs:inline-flex">
+                <Badge variant="primary" className="text-[9px] sm:text-[10px] py-0 px-1 sm:px-1.5 uppercase font-mono hidden xs:inline-flex">
                   Brand Intelligence
                 </Badge>
               </div>
@@ -97,11 +97,11 @@ export function AppHeader() {
             onClick={() => setIsBrandDnaOpen(true)}
             title="View persistent Brand DNA"
             aria-label="Open Brand DNA panel"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-indigo-500/35 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 dark:text-indigo-200 hover:text-white transition-all cursor-pointer font-mono text-xs shadow-xs shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 dark:text-emerald-200 hover:text-white transition-all cursor-pointer font-mono text-xs shadow-xs shrink-0"
           >
-            <Dna className="w-3.5 h-3.5 text-accent-cyan" />
+            <Dna className="w-3.5 h-3.5 text-emerald-400" />
             <span className="font-semibold hidden xs:inline">Brand DNA</span>
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-500/25 text-accent-cyan border border-indigo-500/40 font-mono">
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 font-mono">
               {dna.definedSignalsCount}/9
             </span>
           </button>
@@ -110,7 +110,7 @@ export function AppHeader() {
             variant="outline"
             size="sm"
             onClick={loadSampleProject}
-            leftIcon={<BookOpen className="w-3.5 h-3.5 text-accent-cyan" />}
+            leftIcon={<BookOpen className="w-3.5 h-3.5 text-nexus-400" />}
             title="Load pre-synthesized Aether OS brand system"
             className="h-8 px-2 sm:px-3 text-xs"
           >
@@ -134,7 +134,7 @@ export function AppHeader() {
           <div className="h-5 w-[1px] bg-nexus-800 hidden xl:block" />
 
           <div className="hidden xl:flex items-center gap-1.5 text-xs text-nexus-400 font-mono">
-            <CheckCircle2 className="w-3.5 h-3.5 text-accent-cyan" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
             <span>Cognitive Graph v1.0</span>
           </div>
         </div>

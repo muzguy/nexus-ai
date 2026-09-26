@@ -179,17 +179,17 @@ export function LaunchStage() {
       )}
 
       {/* Launch Control Header */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-indigo-500/40 shadow-glow flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="p-4 sm:p-6 rounded-2xl bg-nexus-900 border border-nexus-800 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 shadow-glow shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-xs shrink-0" />
             <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
               Launch Kit Compiled &amp; Verified
             </span>
             <Badge variant="primary" className="text-[10px] font-mono uppercase">
               {project.selectedName || project.name}
             </Badge>
-            <Badge variant="cyan" className="text-[10px] font-mono">
+            <Badge variant="primary" className="text-[10px] font-mono">
               {project.selectedDirection?.name}
             </Badge>
           </div>
@@ -227,13 +227,13 @@ export function LaunchStage() {
 
       {/* 1. GTM POSITIONING & CORE MESSAGING */}
       {launchPositioning && (
-        <Card className="border-indigo-500/30 bg-nexus-900/60 shadow-lg">
+        <Card className="border-nexus-800 bg-nexus-900 shadow-xs">
           <div
             className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
             onClick={() => toggleSection('positioning')}
           >
             <div className="flex items-center gap-2.5">
-              <Compass className="w-5 h-5 text-indigo-400" />
+              <Compass className="w-5 h-5 text-emerald-400" />
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <CardTitle className="text-base">GTM Positioning &amp; Brand Promise</CardTitle>
@@ -320,13 +320,13 @@ export function LaunchStage() {
       )}
 
       {/* 2. LANDING PAGE HERO ARCHITECTURE */}
-      <Card className="border-indigo-500/30">
+      <Card className="border-nexus-800">
         <div
           className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
           onClick={() => toggleSection('hero')}
         >
           <div className="flex items-center gap-2.5">
-            <Globe className="w-5 h-5 text-accent-cyan" />
+            <Globe className="w-5 h-5 text-emerald-400" />
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <CardTitle className="text-base">Landing Page Hero Architecture</CardTitle>
@@ -382,8 +382,8 @@ export function LaunchStage() {
           <CardContent className="p-4 sm:p-6 space-y-6">
             {/* Simulated Hero Box */}
             <div className="p-4 sm:p-8 md:p-12 rounded-xl bg-nexus-950/80 border border-nexus-800 text-center space-y-4 relative overflow-hidden">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono text-indigo-400 max-w-full">
-                <Sparkles className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 max-w-full">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span className="truncate">{landingPage.announcementPill}</span>
               </div>
 
@@ -435,13 +435,13 @@ export function LaunchStage() {
 
       {/* 3. TAILORED LAUNCH CHANNELS & EXPLORER */}
       {activeChannels.length > 0 && (
-        <Card className="border-indigo-500/30">
+        <Card className="border-nexus-800">
           <div
             className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
             onClick={() => toggleSection('channels')}
           >
             <div className="flex items-center gap-2.5">
-              <Layers className="w-5 h-5 text-indigo-400" />
+              <Layers className="w-5 h-5 text-emerald-400" />
               <div>
                 <CardTitle className="text-base">Recommended Launch Channels ({activeChannels.length})</CardTitle>
                 <CardDescription className="text-xs">
@@ -465,7 +465,7 @@ export function LaunchStage() {
                       onClick={() => setSelectedChannelId(channel.id)}
                       className={`p-4 rounded-xl border cursor-pointer transition-all space-y-2 ${
                         isSelected
-                          ? 'border-accent-cyan bg-accent-cyan/10 shadow-glow'
+                          ? 'border-emerald-500/60 bg-emerald-950/20 shadow-xs'
                           : 'border-nexus-800 bg-nexus-950/60 hover:border-nexus-700'
                       }`}
                     >
@@ -542,13 +542,13 @@ export function LaunchStage() {
       )}
 
       {/* 4. SOCIAL LAUNCH CAMPAIGNS */}
-      <Card className="border-indigo-500/30">
+      <Card className="border-nexus-800">
         <div
           className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
           onClick={() => toggleSection('social')}
         >
           <div className="flex items-center gap-2.5">
-            <Share2 className="w-5 h-5 text-accent-cyan" />
+            <Share2 className="w-5 h-5 text-emerald-400" />
             <div>
               <CardTitle className="text-base">Multichannel Social Launch Assets</CardTitle>
               <CardDescription className="text-xs">
@@ -724,13 +724,13 @@ export function LaunchStage() {
 
       {/* 6. LAUNCH SEQUENCE (PRE-LAUNCH -> LAUNCH DAY -> POST-LAUNCH) */}
       {launchSequence && launchSequence.length > 0 && (
-        <Card className="border-indigo-500/30">
+        <Card className="border-nexus-800">
           <div
             className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
             onClick={() => toggleSection('sequence')}
           >
             <div className="flex items-center gap-2.5">
-              <Clock className="w-5 h-5 text-indigo-400" />
+              <Clock className="w-5 h-5 text-emerald-400" />
               <div>
                 <CardTitle className="text-base">Three-Phase Launch Sequence</CardTitle>
                 <CardDescription className="text-xs">
@@ -791,13 +791,13 @@ export function LaunchStage() {
 
       {/* 7. FIRST-WEEK EXECUTION PLAN */}
       {firstWeekPlan && firstWeekPlan.length > 0 && (
-        <Card className="border-indigo-500/30">
+        <Card className="border-nexus-800">
           <div
             className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800"
             onClick={() => toggleSection('firstWeek')}
           >
             <div className="flex items-center gap-2.5">
-              <Calendar className="w-5 h-5 text-accent-cyan" />
+              <Calendar className="w-5 h-5 text-emerald-400" />
               <div>
                 <CardTitle className="text-base">First-Week Day-by-Day Launch Plan</CardTitle>
                 <CardDescription className="text-xs">

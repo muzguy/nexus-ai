@@ -30,14 +30,14 @@ export function DiscoverStage() {
         <CardHeader>
           <div>
             <CardTitle>
-              <Compass className="w-4 h-4 text-indigo-400" />
-              Foundational Idea & Parameters
+              <Compass className="w-4 h-4 text-emerald-400" />
+              Foundational Idea &amp; Parameters
             </CardTitle>
             <CardDescription>
               Provide the raw essence of your startup, product, or creator project. NEXUS will deconstruct it into structured strategic intelligence.
             </CardDescription>
           </div>
-          <Badge variant="cyan" dot className="font-mono text-[11px]">
+          <Badge variant="primary" dot className="font-mono text-[11px]">
             Input Layer
           </Badge>
         </CardHeader>
@@ -80,7 +80,7 @@ export function DiscoverStage() {
       {/* Step 2: Structured Discovery Output */}
       {!discovery ? (
         <EmptyState
-          icon={<Compass className="w-8 h-8 text-indigo-400" />}
+          icon={<Compass className="w-8 h-8 text-emerald-400" />}
           title="Discovery Intelligence Uninitialized"
           description="Click 'Synthesize Discovery Intelligence' above or below to deconstruct your raw concept into target audience profiles, problem space dynamics, and strategic constraints."
           actionLabel="Synthesize Discovery Intelligence"
@@ -90,10 +90,10 @@ export function DiscoverStage() {
       ) : (
         <div className="space-y-6">
           {/* Executive Discovery Summary */}
-          <div className="p-5 rounded-xl bg-nexus-900/90 border border-indigo-500/30 shadow-glow relative overflow-hidden">
+          <div className="p-5 rounded-xl bg-nexus-900 border border-emerald-500/25 shadow-xs relative overflow-hidden">
             <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-accent-cyan shadow-glow-cyan" />
-              <h4 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <h4 className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
                 Discovery Synthesis Summary
               </h4>
             </div>

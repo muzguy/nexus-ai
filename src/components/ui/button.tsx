@@ -26,24 +26,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const sizeClasses = {
-      sm: 'h-8 px-3 text-xs gap-1.5 rounded-md min-h-[32px]',
-      md: 'h-9 px-4 text-sm gap-2 rounded-lg min-h-[36px]',
-      lg: 'h-11 px-6 text-sm font-medium gap-2.5 rounded-xl min-h-[44px]',
+      sm: 'h-8 px-3 text-xs gap-1.5 rounded-lg min-h-[32px]',
+      md: 'h-9 px-4 text-xs sm:text-sm gap-2 rounded-lg min-h-[36px]',
+      lg: 'h-11 px-5 sm:px-6 text-sm font-semibold gap-2.5 rounded-xl min-h-[44px]',
     };
 
     const variantClasses = {
       primary:
-        'bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm hover:shadow-glow transition-all duration-200 border border-indigo-500/30',
+        'bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-medium shadow-xs hover:shadow-glow transition-all duration-150 border border-emerald-500/40',
       secondary:
-        'bg-nexus-850 hover:bg-nexus-800 text-nexus-100 dark:text-nexus-100 hover:text-nexus-50 dark:hover:text-white border border-nexus-800 hover:border-nexus-700 transition-all duration-150',
+        'bg-nexus-850 hover:bg-nexus-800 text-nexus-200 dark:text-nexus-200 hover:text-white dark:hover:text-white border border-nexus-800 hover:border-nexus-750 transition-all duration-150 shadow-xs',
       outline:
-        'bg-transparent hover:bg-nexus-850 text-nexus-300 hover:text-nexus-100 dark:hover:text-white border border-nexus-800 hover:border-nexus-700 transition-all duration-150',
+        'bg-transparent hover:bg-nexus-850/80 text-nexus-300 hover:text-white dark:hover:text-white border border-nexus-800 hover:border-nexus-750 transition-all duration-150',
       ghost:
-        'bg-transparent hover:bg-nexus-850 text-nexus-400 hover:text-nexus-100 dark:hover:text-white transition-colors duration-150',
+        'bg-transparent hover:bg-nexus-850 text-nexus-400 hover:text-white dark:hover:text-white transition-colors duration-150',
       danger:
-        'bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 dark:text-rose-300 border border-rose-500/30 transition-all duration-150',
+        'bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 dark:text-rose-400 border border-rose-500/30 transition-all duration-150',
       glow:
-        'bg-gradient-to-r from-indigo-500 via-accent-violet to-accent-cyan text-white font-medium shadow-glow hover:shadow-glow-cyan hover:opacity-95 transition-all duration-200 border border-white/20',
+        'bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-semibold shadow-xs hover:shadow-glow transition-all duration-150 border border-emerald-400/30',
     };
 
     return (
@@ -51,7 +51,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          'inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-nexus-950 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.99] select-none touch-manipulation',
+          'inline-flex items-center justify-center font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-nexus-950 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none active:scale-[0.99] select-none touch-manipulation cursor-pointer',
           sizeClasses[size],
           variantClasses[variant],
           className

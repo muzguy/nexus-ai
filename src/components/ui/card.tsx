@@ -18,10 +18,10 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-xl bg-nexus-900 border border-nexus-800 text-nexus-200 transition-all duration-200 shadow-sm relative overflow-hidden w-full',
-        hoverEffect && 'hover:border-nexus-700 hover:bg-nexus-850/90 hover:shadow-md cursor-pointer',
-        active && 'border-indigo-500/60 ring-1 ring-indigo-500/40 bg-nexus-850/90',
-        glow && 'shadow-glow border-indigo-500/40',
+        'rounded-xl bg-nexus-900 border border-nexus-800 text-nexus-200 transition-all duration-150 shadow-xs relative overflow-hidden w-full',
+        hoverEffect && 'hover:border-nexus-750 hover:bg-nexus-850/60 cursor-pointer',
+        active && 'border-emerald-500/40 ring-1 ring-emerald-500/25 bg-emerald-950/10 dark:bg-emerald-950/20',
+        glow && 'shadow-glow border-emerald-500/30',
         className
       )}
       {...props}

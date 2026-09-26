@@ -25,8 +25,8 @@ export function AlertBanner({
 }: AlertBannerProps) {
   const variantConfig = {
     info: {
-      bg: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-900 dark:text-indigo-200',
-      icon: <Info className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />,
+      bg: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-900 dark:text-emerald-200',
+      icon: <Info className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />,
     },
     warning: {
       bg: 'bg-amber-500/10 border-amber-500/30 text-amber-900 dark:text-amber-200',

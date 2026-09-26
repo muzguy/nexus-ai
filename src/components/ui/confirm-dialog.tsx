@@ -72,18 +72,18 @@ export function ConfirmDialog({
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
         aria-describedby="confirm-dialog-message"
-        className="relative w-full max-w-sm sm:max-w-md rounded-2xl bg-nexus-900 border border-nexus-800 dark:border-indigo-500/30 text-nexus-100 shadow-2xl shadow-indigo-950/40 p-5 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
+        className="relative w-full max-w-sm sm:max-w-md rounded-2xl bg-nexus-900 border border-nexus-800 text-nexus-100 shadow-2xl p-5 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-accent-cyan shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 shrink-0">
             <RotateCcw className="w-5 h-5" />
           </div>
 
           <button
             type="button"
             onClick={onCancel}
-            className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-850 transition-colors shrink-0"
+            className="p-1.5 rounded-lg text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:bg-nexus-850 transition-colors shrink-0 cursor-pointer"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />

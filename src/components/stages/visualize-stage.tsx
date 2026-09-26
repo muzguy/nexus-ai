@@ -291,13 +291,13 @@ export function VisualizeStage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Aesthetic Thesis Header */}
-      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-nexus-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="space-y-1.5 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[10px] font-mono text-accent-cyan uppercase tracking-wider">
-              Aesthetic Thesis & Creative Direction
+            <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
+              Aesthetic Thesis &amp; Creative Direction
             </span>
-            <Badge variant="cyan" className="text-[10px] font-mono">
+            <Badge variant="primary" className="text-[10px] font-mono">
               {colorMood.themeName}
             </Badge>
             <WhyThis
@@ -480,12 +480,12 @@ export function VisualizeStage() {
       </Card>
 
       {/* Interactive Theme Preview & Real Brand Application */}
-      <Card className="border-indigo-500/30 overflow-hidden">
+      <Card className="border-nexus-800 overflow-hidden">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-nexus-800 bg-nexus-950/50">
           <div>
             <CardTitle>
-              <Sparkles className="w-4 h-4 text-indigo-400" />
-              Live Brand Application & Theme Simulator
+              <Sparkles className="w-4 h-4 text-emerald-400" />
+              Live Brand Application &amp; Theme Simulator
             </CardTitle>
             <CardDescription>
               Interactive interface preview rendered dynamically using the generated color tokens.

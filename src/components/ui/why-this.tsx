@@ -93,24 +93,24 @@ export function WhyThis({
 
   if (triggerVariant === 'icon') {
     triggerClasses =
-      'inline-flex items-center justify-center w-6 h-6 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 dark:text-indigo-300 hover:bg-indigo-500/20 hover:text-white transition-all cursor-pointer shrink-0';
+      'inline-flex items-center justify-center w-6 h-6 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:text-white transition-all cursor-pointer shrink-0';
     triggerButtonContent = <HelpCircle className="w-3.5 h-3.5" />;
   } else if (triggerVariant === 'compact') {
     triggerClasses =
-      'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 dark:text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/50 hover:text-white transition-all cursor-pointer shrink-0 shadow-sm';
+      'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-emerald-500/25 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/40 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
     triggerButtonContent = (
       <>
-        <HelpCircle className="w-3 h-3 text-accent-cyan shrink-0" />
+        <HelpCircle className="w-3 h-3 text-emerald-400 shrink-0" />
         <span>{triggerLabel}</span>
       </>
     );
   } else {
     // Default 'button'
     triggerClasses =
-      'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium border border-indigo-500/35 bg-indigo-500/10 text-indigo-400 dark:text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/60 hover:text-white transition-all cursor-pointer shrink-0 shadow-sm';
+      'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/50 hover:text-white transition-all cursor-pointer shrink-0 shadow-xs';
     triggerButtonContent = (
       <>
-        <HelpCircle className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+        <HelpCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
         <span>{triggerLabel}</span>
       </>
     );
@@ -128,7 +128,7 @@ export function WhyThis({
         aria-modal="true"
         aria-labelledby="why-this-title"
         aria-describedby="why-this-decision"
-        className="relative w-full max-w-xl rounded-2xl bg-nexus-900 border border-nexus-800 dark:border-indigo-500/30 text-nexus-100 shadow-2xl shadow-indigo-950/40 p-4 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
+        className="relative w-full max-w-xl rounded-2xl bg-nexus-900 border border-nexus-800 text-nexus-100 shadow-2xl p-4 sm:p-6 space-y-4 my-auto text-left focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -138,7 +138,7 @@ export function WhyThis({
               <Badge variant="primary" className="text-[10px] font-mono uppercase">
                 {stageBadge}
               </Badge>
-              <span className="text-[10px] font-mono text-accent-cyan uppercase tracking-wider">
+              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
                 Explainability Layer
               </span>
             </div>
@@ -146,7 +146,7 @@ export function WhyThis({
               id="why-this-title"
               className="text-base sm:text-lg font-bold text-nexus-100 dark:text-white tracking-tight flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4 text-accent-cyan shrink-0" />
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
               {title}
             </h3>
           </div>
@@ -175,8 +175,8 @@ export function WhyThis({
         <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
           {/* 1. Decision Section */}
           <div className="p-3.5 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-accent-cyan flex items-center gap-1.5">
-              <Target className="w-3.5 h-3.5 text-accent-cyan shrink-0" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
+              <Target className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Generated Decision
             </span>
             <p
@@ -195,15 +195,15 @@ export function WhyThis({
           {/* 2. Key Influencing Context & Inputs */}
           {inputs.length > 0 && (
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400 dark:text-indigo-300 flex items-center gap-1.5">
-                <Layers className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-nexus-400 flex items-center gap-1.5 font-semibold">
+                <Layers className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 Influenced By Upstream Context
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {inputs.map((inp, idx) => (
                   <div
                     key={idx}
-                    className="p-2.5 rounded-lg bg-nexus-950/40 border border-nexus-850 space-y-0.5"
+                    className="p-2.5 rounded-lg bg-nexus-950/50 border border-nexus-850 space-y-0.5"
                   >
                     <span className="text-[10px] font-mono text-nexus-400 uppercase block font-semibold">
                       {inp.label}
@@ -219,24 +219,24 @@ export function WhyThis({
 
           {/* 3. Strategic Rationale */}
           <div className="space-y-1.5">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-500 dark:text-emerald-400 flex items-center gap-1.5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 flex items-center gap-1.5 font-semibold">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               Strategic Reasoning
             </span>
-            <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
+            <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/25 text-xs sm:text-sm text-nexus-200 leading-relaxed font-sans">
               {reasoning}
             </div>
           </div>
 
           {/* 4. Tradeoffs & Guardrails */}
           {(tradeoff || consideration) && (
-            <div className="p-3.5 rounded-xl bg-rose-500/5 border border-rose-500/20 space-y-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-rose-500 dark:text-rose-400 flex items-center gap-1.5">
-                <Scale className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400 shrink-0" />
+            <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/25 space-y-1.5">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-rose-400 flex items-center gap-1.5 font-semibold">
+                <Scale className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 Strategic Sacrifice &amp; Guardrails
               </span>
               {tradeoff && (
-                <p className="text-xs text-rose-700 dark:text-rose-200/90 leading-relaxed">
+                <p className="text-xs text-rose-300 leading-relaxed">
                   {tradeoff}
                 </p>
               )}

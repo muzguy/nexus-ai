@@ -4,65 +4,85 @@
 
 /* Base theme tokens */
 :root {
-  /* Global semantics */
-  --background: 248 250 252; /* #f8fafc */
-  --foreground: 15 23 42;    /* #0f172a */
+  /* Global semantics - Dark Mode is the Primary NEXUS Identity (#050706 canvas, #0C110E card, #111713 elevated) */
+  --background: 5 7 6;       /* #050706 - App canvas background */
+  --foreground: 242 245 243; /* #F2F5F3 - Primary text */
 
-  /* Nexus scale - Light Mode */
-  --nexus-950: 248 250 252; /* #f8fafc - Canvas background */
-  --nexus-900: 255 255 255; /* #ffffff - Card / module surface */
-  --nexus-850: 241 245 249; /* #f1f5f9 - Elevated inner panel / light input */
-  --nexus-800: 226 232 240; /* #e2e8f0 - Borders / dividers */
-  --nexus-750: 203 213 225; /* #cbd5e1 - Hover borders / subtle controls */
-  --nexus-700: 148 163 184; /* #94a3b8 */
-  --nexus-600: 100 116 139; /* #64748b */
-  --nexus-500: 100 116 139; /* #64748b - Meta / labels */
-  --nexus-400: 71 85 105;   /* #475569 - Secondary text */
-  --nexus-300: 51 65 85;    /* #334155 - Body content */
-  --nexus-200: 30 41 59;    /* #1e293b - Dark body content */
-  --nexus-100: 15 23 42;    /* #0f172a - High-contrast titles / headings */
-  --nexus-50: 2 6 23;       /* #020617 - Deepest black */
-
-  /* Glow shadows - Light Mode */
-  --shadow-glow: 0 4px 20px -2px rgba(99, 102, 241, 0.15), 0 2px 6px -1px rgba(99, 102, 241, 0.1);
-  --shadow-glow-cyan: 0 4px 20px -2px rgba(6, 182, 212, 0.15), 0 2px 6px -1px rgba(6, 182, 212, 0.1);
-  --shadow-glow-violet: 0 4px 20px -2px rgba(139, 92, 246, 0.15), 0 2px 6px -1px rgba(139, 92, 246, 0.1);
-
-  /* Scrollbar */
-  --scrollbar-track: #f1f5f9;
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-thumb-hover: #94a3b8;
-}
-
-.dark {
-  /* Global semantics */
-  --background: 6 8 14;     /* #06080e */
-  --foreground: 231 237 248;/* #e7edf8 */
-
-  /* Nexus scale - Dark Mode */
-  --nexus-950: 6 8 14;      /* #06080e - Canvas background */
-  --nexus-900: 11 15 25;    /* #0b0f19 - Card / module surface */
-  --nexus-850: 16 22 37;    /* #101625 - Elevated inner panel */
-  --nexus-800: 22 30 49;    /* #161e31 - Borders / dividers */
-  --nexus-750: 29 39 62;    /* #1d273e - Hover borders */
-  --nexus-700: 37 49 77;    /* #25314d */
-  --nexus-600: 54 69 104;   /* #364568 */
-  --nexus-500: 78 96 136;   /* #4e6088 - Muted tokens */
-  --nexus-400: 116 135 173; /* #7487ad - Secondary labels */
-  --nexus-300: 159 176 208; /* #9fb0d0 - Secondary content */
-  --nexus-200: 203 214 235; /* #cbd5e1 - Body content */
-  --nexus-100: 231 237 248; /* #e7edf8 - High-contrast titles */
-  --nexus-50: 244 247 252;  /* #f4f7fc - Maximum brightness white */
+  /* Nexus scale - Dark Mode Default */
+  --nexus-950: 5 7 6;        /* #050706 - Canvas background */
+  --nexus-900: 12 17 14;     /* #0C110E - Card primary surface */
+  --nexus-850: 17 23 19;     /* #111713 - Elevated card / input surface */
+  --nexus-800: 27 39 33;     /* #1B2721 - Subtle borders / dividers */
+  --nexus-750: 35 48 41;     /* #233029 - Hover borders */
+  --nexus-700: 48 64 55;     /* #304037 */
+  --nexus-600: 70 90 79;     /* #465A4F */
+  --nexus-500: 113 128 120;  /* #718078 - Muted text */
+  --nexus-400: 167 181 174;  /* #A7B5AE - Secondary text */
+  --nexus-300: 195 207 201;  /* #C3CFC9 - Body content */
+  --nexus-200: 222 231 227;  /* #DEE7E3 - High-clarity body */
+  --nexus-100: 242 245 243;  /* #F2F5F3 - High-contrast titles & headings */
+  --nexus-50: 255 255 255;   /* #FFFFFF - Maximum white */
 
   /* Glow shadows - Dark Mode */
-  --shadow-glow: 0 0 24px -4px rgba(99, 102, 241, 0.28);
-  --shadow-glow-cyan: 0 0 24px -4px rgba(6, 182, 212, 0.28);
-  --shadow-glow-violet: 0 0 24px -4px rgba(139, 92, 246, 0.28);
+  --shadow-glow: 0 0 20px -3px rgba(16, 185, 129, 0.22);
+  --shadow-glow-cyan: 0 0 20px -3px rgba(16, 185, 129, 0.22);
+  --shadow-glow-violet: 0 0 20px -3px rgba(52, 211, 153, 0.18);
 
-  /* Scrollbar */
-  --scrollbar-track: #090d16;
-  --scrollbar-thumb: #1c273e;
-  --scrollbar-thumb-hover: #2b3b5c;
+  /* Scrollbar - Dark Mode */
+  --scrollbar-track: #050706;
+  --scrollbar-thumb: #1B2721;
+  --scrollbar-thumb-hover: #233029;
+}
+
+.dark,
+[data-theme="dark"] {
+  --background: 5 7 6;
+  --foreground: 242 245 243;
+  --nexus-950: 5 7 6;
+  --nexus-900: 12 17 14;
+  --nexus-850: 17 23 19;
+  --nexus-800: 27 39 33;
+  --nexus-750: 35 48 41;
+  --nexus-700: 48 64 55;
+  --nexus-600: 70 90 79;
+  --nexus-500: 113 128 120;
+  --nexus-400: 167 181 174;
+  --nexus-300: 195 207 201;
+  --nexus-200: 222 231 227;
+  --nexus-100: 242 245 243;
+  --nexus-50: 255 255 255;
+  --shadow-glow: 0 0 20px -3px rgba(16, 185, 129, 0.22);
+  --shadow-glow-cyan: 0 0 20px -3px rgba(16, 185, 129, 0.22);
+  --shadow-glow-violet: 0 0 20px -3px rgba(52, 211, 153, 0.18);
+  --scrollbar-track: #050706;
+  --scrollbar-thumb: #1B2721;
+  --scrollbar-thumb-hover: #233029;
+}
+
+.light,
+[data-theme="light"] {
+  /* Clean alternate Light Theme */
+  --background: 248 250 248;
+  --foreground: 13 20 16;
+  --nexus-950: 248 250 248;
+  --nexus-900: 255 255 255;
+  --nexus-850: 241 245 242;
+  --nexus-800: 226 233 228;
+  --nexus-750: 205 216 209;
+  --nexus-700: 156 173 162;
+  --nexus-600: 112 130 119;
+  --nexus-500: 84 102 91;
+  --nexus-400: 64 82 71;
+  --nexus-300: 42 58 48;
+  --nexus-200: 26 38 31;
+  --nexus-100: 13 20 16;
+  --nexus-50: 5 10 7;
+  --shadow-glow: 0 4px 16px -2px rgba(16, 185, 129, 0.14), 0 2px 6px -1px rgba(16, 185, 129, 0.08);
+  --shadow-glow-cyan: 0 4px 16px -2px rgba(16, 185, 129, 0.14), 0 2px 6px -1px rgba(16, 185, 129, 0.08);
+  --shadow-glow-violet: 0 4px 16px -2px rgba(5, 150, 105, 0.12), 0 2px 6px -1px rgba(5, 150, 105, 0.06);
+  --scrollbar-track: #f1f5f2;
+  --scrollbar-thumb: #cdd8d1;
+  --scrollbar-thumb-hover: #9cad02;
 }
 
 body {
@@ -95,6 +115,6 @@ body {
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.35);
+  background: rgba(16, 185, 129, 0.35);
   color: #ffffff;
 }

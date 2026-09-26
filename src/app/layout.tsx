@@ -29,21 +29,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`dark ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="bg-nexus-950 text-nexus-100 antialiased selection:bg-indigo-500/30 selection:text-white transition-colors duration-200">
+      <body className="bg-nexus-950 text-nexus-100 antialiased selection:bg-emerald-500/30 selection:text-white transition-colors duration-150">
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
                   var saved = localStorage.getItem('nexus_theme_v1');
-                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  var theme = saved || (prefersDark ? 'dark' : 'light');
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.classList.remove('light');
-                  } else {
+                  var theme = saved === 'light' ? 'light' : 'dark';
+                  if (theme === 'light') {
                     document.documentElement.classList.add('light');
                     document.documentElement.classList.remove('dark');
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  } else {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
                 } catch(e) {}
               })();

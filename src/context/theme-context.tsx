@@ -23,17 +23,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setIsMounted(true);
     try {
       const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null;
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        setThemeState(savedTheme);
-        applyThemeClass(savedTheme);
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const initialTheme: Theme = prefersDark ? 'dark' : 'light';
-        setThemeState(initialTheme);
-        applyThemeClass(initialTheme);
-      }
+      const initialTheme: Theme = savedTheme === 'light' ? 'light' : 'dark';
+      setThemeState(initialTheme);
+      applyThemeClass(initialTheme);
     } catch {
-      // Fallback if localStorage or matchMedia fails
+      // Fallback if localStorage fails
       applyThemeClass('dark');
     }
   }, []);

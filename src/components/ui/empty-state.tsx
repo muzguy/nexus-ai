@@ -15,7 +15,7 @@ export interface EmptyStateProps {
 }
 
 export function EmptyState({
-  icon = <Sparkles className="w-8 h-8 text-indigo-400" />,
+  icon = <Sparkles className="w-6 h-6 text-emerald-400" />,
   title,
   description,
   actionLabel,
@@ -27,14 +27,17 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center p-6 sm:p-12 text-center rounded-2xl border border-dashed border-nexus-800 bg-nexus-900/40 dark:bg-nexus-950/40 max-w-2xl mx-auto my-4 sm:my-6 w-full box-border',
+        'flex flex-col items-center justify-center p-8 sm:p-14 text-center rounded-2xl border border-nexus-800 bg-nexus-900 shadow-md max-w-2xl mx-auto my-6 sm:my-8 w-full box-border relative overflow-hidden',
         className
       )}
     >
-      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4 shadow-glow shrink-0">
+      {/* Subtle top indicator bar */}
+      <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
+
+      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-nexus-850 border border-nexus-800 flex items-center justify-center mb-4 shadow-xs shrink-0 text-emerald-400 ring-1 ring-emerald-500/20">
         {icon}
       </div>
-      <h3 className="text-base sm:text-lg font-semibold text-nexus-100 dark:text-white tracking-tight">{title}</h3>
+      <h3 className="text-base sm:text-lg font-bold text-nexus-100 tracking-tight">{title}</h3>
       <p className="text-xs sm:text-sm text-nexus-400 max-w-md mt-2 leading-relaxed">
         {description}
       </p>
@@ -48,7 +51,7 @@ export function EmptyState({
               onClick={onAction}
               isLoading={isLoading}
               leftIcon={<Sparkles className="w-4 h-4" />}
-              className="w-full sm:w-auto min-h-[44px] sm:min-h-[36px]"
+              className="w-full sm:w-auto min-h-[44px] sm:min-h-[38px] px-5"
             >
               {actionLabel}
             </Button>

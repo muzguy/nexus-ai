@@ -155,13 +155,13 @@ export function ConsistencyStage() {
       )}
 
       {/* ACTIVE GUARDRAILS SECTION */}
-      <Card className="border-indigo-500/20 bg-nexus-900/60 shadow-lg overflow-hidden">
+      <Card className="border-nexus-800 bg-nexus-900/60 shadow-xs overflow-hidden">
         <div
           className="p-4 sm:p-5 flex items-center justify-between cursor-pointer border-b border-nexus-800/60 hover:bg-nexus-800/30 transition-colors"
           onClick={() => setShowGuardrails(!showGuardrails)}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400">
               <Sliders className="w-4 h-4" />
             </div>
             <div>
@@ -288,12 +288,12 @@ export function ConsistencyStage() {
       </Card>
 
       {/* CONTENT AUDIT WORKBENCH */}
-      <Card className="border-nexus-700 bg-nexus-900/80 shadow-glow">
+      <Card className="border-nexus-800 bg-nexus-900 shadow-xs">
         <CardHeader className="pb-3 border-b border-nexus-800/80">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="space-y-1">
               <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                <FileText className="w-5 h-5 text-accent-cyan" />
+                <FileText className="w-5 h-5 text-emerald-400" />
                 Content Consistency Auditor
               </CardTitle>
               <p className="text-xs text-nexus-300">
@@ -347,10 +347,10 @@ export function ConsistencyStage() {
                   key={type}
                   type="button"
                   onClick={() => setSelectedContentType(type)}
-                  className={`text-xs px-3 py-1.5 rounded-lg border transition-all ${
+                  className={`text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                     selectedContentType === type
-                      ? 'border-accent-cyan bg-accent-cyan/10 text-nexus-100 dark:text-white font-medium shadow-sm'
-                      : 'border-nexus-800 bg-nexus-950/40 text-nexus-400 hover:text-nexus-200 hover:border-nexus-700'
+                      ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300 font-medium shadow-xs'
+                      : 'border-nexus-800 bg-nexus-950/40 text-nexus-400 hover:text-nexus-200 hover:border-nexus-750'
                   }`}
                 >
                   {type}
@@ -375,7 +375,7 @@ export function ConsistencyStage() {
               placeholder="Paste or write the copy you want to evaluate (e.g. landing page hero copy, tweet thread, product pitch, or CTA)..."
               rows={4}
               disabled={isExecutingStage}
-              className="w-full p-3.5 rounded-xl bg-nexus-950/80 border border-nexus-700 text-nexus-100 text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-accent-cyan placeholder:text-nexus-500 disabled:opacity-50"
+              className="w-full p-3.5 rounded-xl bg-nexus-950/80 border border-nexus-800 text-nexus-100 text-sm leading-relaxed focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 placeholder:text-nexus-500 disabled:opacity-50"
             />
           </div>
 

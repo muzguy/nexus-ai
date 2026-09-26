@@ -73,15 +73,15 @@ export function ListenButton({
         onClick={handleListen}
         className={`inline-flex items-center font-mono font-medium rounded-full border transition-all cursor-pointer select-none shrink-0 ${
           variant === 'compact'
-            ? 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/50 hover:text-white'
+            ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/40 hover:text-white'
             : variant === 'subtle'
-            ? 'border-transparent bg-nexus-800/60 text-nexus-300 hover:bg-nexus-800 hover:text-white'
-            : 'border-indigo-500/35 bg-indigo-500/10 text-indigo-300 dark:text-indigo-200 hover:bg-indigo-500/20 hover:border-indigo-500/60 hover:text-white shadow-sm'
+            ? 'border-nexus-800 bg-nexus-850/80 text-nexus-300 hover:bg-nexus-800 hover:text-white'
+            : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400 dark:text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-500/50 hover:text-white shadow-xs'
         } ${sizeClasses} ${className}`}
         aria-label={`Listen to ${label.toLowerCase()} aloud`}
         title={`Listen to ${label.toLowerCase()} aloud`}
       >
-        <Volume2 className={`${iconSizeClass} text-accent-cyan shrink-0`} />
+        <Volume2 className={`${iconSizeClass} text-emerald-400 shrink-0`} />
         <span>{label}</span>
       </button>
     );
@@ -90,7 +90,7 @@ export function ListenButton({
   // ACTIVE PLAYBACK STATE: [ ⏸ Pause ] [ ■ Stop ] or [ ▶ Resume ] [ ■ Stop ]
   return (
     <div
-      className={`inline-flex items-center gap-1 p-0.5 rounded-full border bg-nexus-950/80 border-accent-cyan/40 shadow-sm transition-all select-none shrink-0 ${className}`}
+      className={`inline-flex items-center gap-1 p-0.5 rounded-full border bg-nexus-900 border-nexus-750 shadow-sm transition-all select-none shrink-0 ${className}`}
       role="group"
       aria-label="Speech playback controls"
     >
@@ -102,13 +102,13 @@ export function ListenButton({
         <button
           type="button"
           onClick={handlePause}
-          className={`inline-flex items-center font-mono font-medium rounded-full border border-accent-cyan/40 bg-accent-cyan/15 text-accent-cyan hover:bg-accent-cyan/25 transition-all cursor-pointer ${sizeClasses}`}
+          className={`inline-flex items-center font-mono font-medium rounded-full border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25 transition-all cursor-pointer ${sizeClasses}`}
           aria-label="Pause voice playback"
           title="Pause voice playback"
         >
           <span className="relative flex h-2 w-2 mr-0.5">
-            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-cyan opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-cyan"></span>
+            <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
           </span>
           <Pause className={`${iconSizeClass} shrink-0`} />
           <span>Pause</span>
@@ -117,7 +117,7 @@ export function ListenButton({
         <button
           type="button"
           onClick={handleResume}
-          className={`inline-flex items-center font-mono font-medium rounded-full border border-amber-500/40 bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-all cursor-pointer ${sizeClasses}`}
+          className={`inline-flex items-center font-mono font-medium rounded-full border border-amber-500/40 bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-all cursor-pointer ${sizeClasses}`}
           aria-label="Resume voice playback"
           title="Resume voice playback"
         >
@@ -129,7 +129,7 @@ export function ListenButton({
       <button
         type="button"
         onClick={handleStop}
-        className={`inline-flex items-center justify-center rounded-full text-nexus-400 hover:text-rose-400 hover:bg-rose-500/15 transition-all cursor-pointer p-1`}
+        className="inline-flex items-center justify-center rounded-full text-nexus-400 hover:text-rose-400 hover:bg-rose-500/15 transition-all cursor-pointer p-1"
         aria-label="Stop voice playback"
         title="Stop voice playback"
       >

@@ -26,9 +26,9 @@ const config: Config = {
           50: "rgb(var(--nexus-50) / <alpha-value>)",
         },
         accent: {
-          indigo: "#6366f1",
-          violet: "#8b5cf6",
-          cyan: "#06b6d4",
+          indigo: "#10b981",
+          violet: "#059669",
+          cyan: "#10b981",
           emerald: "#10b981",
           amber: "#f59e0b",
           rose: "#f43f5e",
@@ -42,6 +42,7 @@ const config: Config = {
         glow: "var(--shadow-glow)",
         "glow-cyan": "var(--shadow-glow-cyan)",
         "glow-violet": "var(--shadow-glow-violet)",
+        subtle: "0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3)",
       },
       backgroundImage: {
         "radial-gradient": "radial-gradient(circle at center, var(--tw-gradient-stops))",

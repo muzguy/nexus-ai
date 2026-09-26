@@ -72,9 +72,9 @@ export function ShapeStage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Strategic Anchor Callout */}
-      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-nexus-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="min-w-0">
-          <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block">
+          <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block">
             Grounded in Strategic Direction
           </span>
           <h2 className="text-xs sm:text-sm font-bold text-nexus-100 dark:text-white mt-0.5 break-words">
@@ -105,10 +105,10 @@ export function ShapeStage() {
 
       {/* Tagline & Pitch Snapshot */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        <Card className="border-indigo-500/40">
+        <Card>
           <CardHeader>
             <CardTitle>
-              <Sparkles className="w-4 h-4 text-indigo-400" />
+              <Sparkles className="w-4 h-4 text-emerald-400" />
               Core Tagline
             </CardTitle>
             <Badge variant="primary" className="text-[10px] font-mono">
@@ -122,13 +122,13 @@ export function ShapeStage() {
           </CardContent>
         </Card>
 
-        <Card className="border-indigo-500/40">
+        <Card>
           <CardHeader>
             <CardTitle>
-              <Volume2 className="w-4 h-4 text-accent-cyan" />
+              <Volume2 className="w-4 h-4 text-emerald-400" />
               One-Line Pitch
             </CardTitle>
-            <Badge variant="cyan" className="text-[10px] font-mono">
+            <Badge variant="primary" className="text-[10px] font-mono">
               Elevator
             </Badge>
           </CardHeader>

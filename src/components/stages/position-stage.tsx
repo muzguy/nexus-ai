@@ -45,7 +45,7 @@ export function PositionStage() {
     return (
       <div className="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 w-full box-border">
         <EmptyState
-          icon={<Crosshair className="w-8 h-8 text-indigo-400" />}
+          icon={<Crosshair className="w-8 h-8 text-emerald-400" />}
           title="Positioning Directions Uninitialized"
           description="NEXUS will generate 3 strategically divergent market vectors based on your discovery findings, with distinct value propositions, competitive moats, and explicit trade-offs."
           actionLabel="Generate 3 Positioning Directions"
@@ -59,14 +59,14 @@ export function PositionStage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full box-border">
       {/* Strategic Rationale Banner */}
-      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-glow">
+      <div className="p-4 sm:p-5 rounded-xl bg-nexus-900 border border-nexus-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="flex items-start gap-3.5">
-          <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0 text-accent-cyan mt-0.5 sm:mt-0">
+          <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center shrink-0 text-emerald-400 mt-0.5 sm:mt-0">
             <Crosshair className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <h3 className="text-xs font-mono font-semibold text-accent-cyan uppercase tracking-wider">
+              <h3 className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-wider">
                 Strategic Divergence Thesis
               </h3>
               <WhyThis
@@ -127,14 +127,14 @@ export function PositionStage() {
             <Card
               key={direction.id}
               className={`flex flex-col h-full border ${
-                isSelected ? 'border-accent-cyan ring-1 ring-accent-cyan shadow-glow-cyan' : 'border-nexus-800'
+                isSelected ? 'border-emerald-500/50 ring-1 ring-emerald-500/30 bg-emerald-950/10 shadow-xs' : 'border-nexus-800'
               }`}
             >
               <CardHeader className="bg-nexus-950/60 pb-4">
                 <div className="w-full min-w-0">
                   <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
                     <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-mono text-indigo-400 font-semibold uppercase">
+                      <span className="text-[11px] font-mono text-emerald-400 font-semibold uppercase">
                         Vector 0{idx + 1}
                       </span>
                       <WhyThis
