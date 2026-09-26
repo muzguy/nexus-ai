@@ -40,7 +40,7 @@ export default function NexusWorkspacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-nexus-950 flex flex-col w-full overflow-x-hidden">
+    <div className="min-h-screen bg-transparent relative z-10 flex flex-col w-full overflow-x-hidden">
       {/* Top Application Header */}
       <AppHeader />
 
@@ -53,7 +53,7 @@ export default function NexusWorkspacePage() {
         <WorkflowSidebar />
 
         {/* Central Workspace Area */}
-        <main className="flex-1 overflow-y-auto flex flex-col bg-nexus-950/40 w-full min-w-0">
+        <main className="flex-1 overflow-y-auto flex flex-col bg-transparent w-full min-w-0">
           <StageHeader />
 
           {error && (

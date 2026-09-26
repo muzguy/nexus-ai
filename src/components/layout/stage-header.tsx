@@ -40,7 +40,7 @@ export function StageHeader({ actionLabel, actionDisabled = false }: StageHeader
   const label = actionLabel || defaultActionLabels[activeStage] || 'Run Stage Agent';
 
   return (
-    <div className="border-b border-nexus-800/80 bg-nexus-900/80 backdrop-blur-sm px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 w-full shadow-xs">
+    <div className="border-b border-nexus-800/80 bg-nexus-900/70 backdrop-blur-md px-4 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6 w-full shadow-xs">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
         {/* Stage Masthead & Context */}
         <div className="space-y-1.5 max-w-2xl min-w-0">

@@ -40,7 +40,7 @@ export function AppHeader() {
 
   return (
     <>
-      <header className="h-14 sm:h-15 border-b border-nexus-800/80 bg-nexus-950/85 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between shadow-xs">
+      <header className="h-14 sm:h-15 border-b border-nexus-800/80 bg-nexus-950/80 backdrop-blur-md sticky top-0 z-40 px-3 sm:px-6 flex items-center justify-between shadow-xs">
         {/* Left: Brand Anchor & Project Context */}
         <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button

@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { BrandProjectProvider } from '@/context/brand-project-context';
 import { ThemeProvider } from '@/context/theme-context';
+import { AtmosphericBackground } from '@/components/ui/atmospheric-background';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -52,6 +53,7 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
+          <AtmosphericBackground />
           <BrandProjectProvider>{children}</BrandProjectProvider>
         </ThemeProvider>
       </body>

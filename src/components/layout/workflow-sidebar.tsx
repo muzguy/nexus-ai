@@ -47,7 +47,7 @@ export function WorkflowSidebar() {
   const progressPercentage = Math.round((completedCount / WORKFLOW_STAGES.length) * 100);
 
   return (
-    <aside className="hidden md:flex w-64 lg:w-72 border-r border-nexus-800/80 bg-nexus-950/90 backdrop-blur-md flex-col shrink-0">
+    <aside className="hidden md:flex w-64 lg:w-72 border-r border-nexus-800/80 bg-nexus-950/80 backdrop-blur-md flex-col shrink-0">
       {/* Workflow Progress Header */}
       <div className="p-4 sm:p-5 border-b border-nexus-800/80 space-y-3">
         <div>
@@ -152,7 +152,7 @@ export function WorkflowSidebar() {
       </nav>
 
       {/* Sidebar Footer / System Status */}
-      <div className="p-3 border-t border-nexus-800/80 bg-nexus-950">
+      <div className="p-3 border-t border-nexus-800/80 bg-nexus-950/80">
         <div className="px-3 py-2 rounded-lg bg-nexus-900 border border-nexus-850 flex items-center justify-between text-[11px] font-mono">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />

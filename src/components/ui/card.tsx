@@ -21,7 +21,7 @@ export function Card({
     <div
       className={cn(
         'rounded-xl border border-nexus-800 text-nexus-200 transition-all duration-150 shadow-xs relative overflow-hidden w-full',
-        glass ? 'bg-nexus-900/80 backdrop-blur-md border-nexus-800/80 shadow-glass' : 'bg-nexus-900',
+        glass ? 'bg-nexus-900/80 backdrop-blur-md border-nexus-800/80 shadow-glass' : 'bg-nexus-900/70 backdrop-blur-md border-nexus-800/80',
         hoverEffect && 'hover:border-nexus-750 hover:bg-nexus-850/60 cursor-pointer',
         active && 'border-rose-600/50 ring-1 ring-rose-500/30 bg-rose-950/15',
         glow && 'shadow-[0_0_20px_-3px_rgba(190,18,60,0.25)] border-rose-500/30',
