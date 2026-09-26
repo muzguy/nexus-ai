@@ -56,8 +56,11 @@ export function AppHeader() {
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base group-hover:text-rose-400 transition-colors">
-                  NEXUS
+                <span className="font-bold text-nexus-100 tracking-wider text-sm sm:text-base inline-flex items-baseline group-hover:text-rose-400 transition-colors">
+                  <span>NEXUS</span>
+                  <span className="text-[0.68em] font-semibold text-rose-600 dark:text-rose-400/90 tracking-normal lowercase ml-0.5 group-hover:text-rose-500 dark:group-hover:text-rose-300 transition-colors select-none">
+                    .ai
+                  </span>
                 </span>
                 <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-nexus-900 border border-nexus-800 text-nexus-400 uppercase tracking-widest hidden xs:inline-flex">
                   Studio

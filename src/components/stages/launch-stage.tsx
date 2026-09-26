@@ -303,7 +303,7 @@ export function LaunchStage() {
                   </span>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {audienceAngles.map((angle, i) => (
-                      <div key={i} className="p-3 rounded-lg bg-nexus-950/40 border border-nexus-850 space-y-1 text-xs">
+                      <div key={i} className="p-3 rounded-lg bg-nexus-950/40 border border-nexus-850 space-y-1 text-xs transition-all duration-200 hover:-translate-y-px hover:border-nexus-750 hover:bg-nexus-900/70 hover:shadow-subtle">
                         <Badge variant="default" className="text-[10px] font-mono mb-1">
                           {angle.segment}
                         </Badge>
@@ -410,20 +410,22 @@ export function LaunchStage() {
               {landingPage.valuePillars.map((pillar, i) => (
                 <div
                   key={i}
-                  className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs"
+                  className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs transition-all duration-200 hover:-translate-y-px hover:border-nexus-750 hover:bg-nexus-900/80 hover:shadow-subtle flex flex-col justify-between"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-semibold text-nexus-100 dark:text-white text-sm">
-                      {pillar.title}
-                    </span>
-                    <Badge variant="cyan" className="text-[10px] font-mono">
-                      {pillar.badge}
-                    </Badge>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-semibold text-nexus-100 dark:text-white text-sm">
+                        {pillar.title}
+                      </span>
+                      <Badge variant="cyan" className="text-[10px] font-mono">
+                        {pillar.badge}
+                      </Badge>
+                    </div>
+                    <p className="text-nexus-300 leading-relaxed">
+                      {pillar.description}
+                    </p>
                   </div>
-                  <p className="text-nexus-300 leading-relaxed">
-                    {pillar.description}
-                  </p>
-                  <div className="pt-2 border-t border-nexus-850 text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">
+                  <div className="pt-2 border-t border-nexus-850/80 text-emerald-800 dark:text-emerald-400 font-mono text-[11px] font-semibold">
                     Proof: {pillar.proofPoint}
                   </div>
                 </div>
@@ -463,10 +465,10 @@ export function LaunchStage() {
                     <div
                       key={channel.id}
                       onClick={() => setSelectedChannelId(channel.id)}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all space-y-2 ${
+                      className={`p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:-translate-y-px space-y-2 ${
                         isSelected
-                          ? 'border-emerald-500/60 bg-emerald-950/20 shadow-xs'
-                          : 'border-nexus-800 bg-nexus-950/60 hover:border-nexus-700'
+                          ? 'border-emerald-600/50 bg-emerald-600/10 dark:border-emerald-500/60 dark:bg-emerald-950/20 shadow-subtle'
+                          : 'border-nexus-800 bg-nexus-950/60 hover:border-nexus-750 hover:bg-nexus-900/80'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1 flex-wrap">
@@ -530,7 +532,7 @@ export function LaunchStage() {
                       <p className="text-nexus-200 leading-relaxed">{selectedChannel.suggestedFormat}</p>
                     </div>
                     <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-emerald-400 block uppercase">Recommended Immediate Action</span>
+                      <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 block uppercase font-semibold">Recommended Immediate Action</span>
                       <p className="text-nexus-200 leading-relaxed font-medium">{selectedChannel.recommendedAction}</p>
                     </div>
                   </div>
@@ -749,7 +751,7 @@ export function LaunchStage() {
                 {launchSequence.map((seq, i) => (
                   <div
                     key={i}
-                    className="p-4 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-3 text-xs flex flex-col justify-between"
+                    className="p-4 rounded-xl bg-nexus-950/70 border border-nexus-800 space-y-3 text-xs flex flex-col justify-between transition-all duration-200 hover:-translate-y-px hover:border-nexus-750 hover:bg-nexus-900/80 hover:shadow-subtle"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -777,7 +779,7 @@ export function LaunchStage() {
                         <p className="text-nexus-300 text-[11px]">{seq.purpose}</p>
                       </div>
                       <div>
-                        <span className="text-[10px] font-mono text-emerald-400 block uppercase">Success Signal</span>
+                        <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 block uppercase font-semibold">Success Signal</span>
                         <p className="text-nexus-200 text-[11px] font-medium">{seq.successSignal}</p>
                       </div>
                     </div>
@@ -814,16 +816,23 @@ export function LaunchStage() {
             <CardContent className="p-4 sm:p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {firstWeekPlan.map((plan, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <Badge variant="primary" className="text-[10px] font-mono">
-                        {plan.day}
-                      </Badge>
-                      <span className="text-[10px] font-mono text-nexus-400">{plan.focus}</span>
+                  <div
+                    key={i}
+                    className="p-3.5 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs transition-all duration-200 hover:-translate-y-px hover:border-nexus-750 hover:bg-nexus-900/80 hover:shadow-subtle flex flex-col justify-between"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Badge variant="primary" className="text-[10px] font-mono">
+                          {plan.day}
+                        </Badge>
+                        <span className="text-[10px] font-mono text-nexus-400">{plan.focus}</span>
+                      </div>
+                      <p className="text-nexus-200 font-medium leading-relaxed">{plan.action}</p>
                     </div>
-                    <p className="text-nexus-200 font-medium leading-relaxed">{plan.action}</p>
-                    <div className="pt-2 border-t border-nexus-850 text-accent-cyan text-[11px] font-mono">
-                      Target: {plan.targetOutcome}
+                    <div className="pt-2 border-t border-nexus-850/80">
+                      <div className="text-[11px] font-mono font-semibold text-emerald-900 dark:text-emerald-400 bg-emerald-600/10 dark:bg-emerald-950/25 px-2 py-1.5 rounded border border-emerald-600/25 dark:border-emerald-500/20">
+                        Target: {plan.targetOutcome}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -858,15 +867,18 @@ export function LaunchStage() {
             <CardContent className="p-4 sm:p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                 {successSignals.map((sig, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2 text-xs">
+                  <div
+                    key={i}
+                    className="p-4 rounded-xl bg-nexus-950/60 border border-nexus-850 space-y-2.5 text-xs transition-all duration-200 hover:-translate-y-px hover:border-nexus-750 hover:bg-nexus-900/80 hover:shadow-subtle"
+                  >
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-nexus-100 dark:text-white text-sm">{sig.metric}</span>
-                      <Target className="w-4 h-4 text-emerald-400" />
+                      <Target className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                     </div>
-                    <div className="text-xs font-mono font-semibold text-emerald-400 bg-emerald-950/20 p-2 rounded border border-emerald-500/20">
+                    <div className="text-xs font-mono font-semibold text-emerald-900 dark:text-emerald-400 bg-emerald-600/10 dark:bg-emerald-950/25 p-2 rounded-lg border border-emerald-600/25 dark:border-emerald-500/20">
                       Target: {sig.target}
                     </div>
-                    <p className="text-nexus-300 leading-relaxed text-[11px] pt-1">{sig.whyItMatters}</p>
+                    <p className="text-nexus-400 dark:text-nexus-300 leading-relaxed text-[11px] pt-0.5">{sig.whyItMatters}</p>
                   </div>
                 ))}
               </div>
@@ -907,10 +919,10 @@ export function LaunchStage() {
                 <div
                   key={i}
                   onClick={() => toggleChecklist(i)}
-                  className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between gap-3 text-xs min-h-[44px] ${
+                  className={`p-3 rounded-lg border cursor-pointer transition-all duration-200 hover:-translate-y-px flex items-center justify-between gap-3 text-xs min-h-[44px] ${
                     item.done
-                      ? 'bg-nexus-900/60 border-emerald-500/30 text-nexus-100 dark:text-white'
-                      : 'bg-nexus-950/60 border-nexus-800 text-nexus-400 hover:text-nexus-100 dark:hover:text-white'
+                      ? 'bg-nexus-900/60 border-emerald-500/30 text-nexus-100 dark:text-white hover:border-emerald-500/50'
+                      : 'bg-nexus-950/60 border-nexus-800 text-nexus-400 hover:text-nexus-100 dark:hover:text-white hover:border-nexus-750'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
